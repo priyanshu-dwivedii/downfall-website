@@ -1,0 +1,421 @@
+.heroContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+  overflow: hidden;
+}
+
+.heroSceneSection {
+  width: 100%;
+  height: calc(100dvh + 32px);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.backgroundContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100dvh;
+  min-height: 100vh;
+  z-index: 0;
+}
+
+.aspectRatioWrapper {
+  width: 100%;
+  max-width: 1440px; /* Limit width on very large screens */
+  position: relative;
+  color: #fff;
+  z-index: 1;
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  
+  /* Shared responsive anchors for models, labels, and separators */
+  --pos-1: 9%;
+  --pos-2: 25%;
+  --pos-3: 40%;
+  --pos-4: 58%;
+  --pos-5: 76%;
+  --pos-6: 91%;
+}
+
+/* Portrait Reference for smaller screens / reference comparison */
+.portraitReference {
+  aspect-ratio: 735 / 798;
+}
+
+/* Base styling (Portrait / Mobile) */
+@media (max-width: 1023px) {
+  .aspectRatioWrapper {
+    aspect-ratio: 735 / 798;
+  }
+}
+@media (max-aspect-ratio: 735/798) and (max-width: 1023px) {
+  .aspectRatioWrapper {
+    height: 100vh;
+    width: auto;
+    aspect-ratio: 735 / 798;
+  }
+}
+
+.scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Shifter for the lower elements */
+.lowerSceneShift {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateY(32px);
+  pointer-events: none;
+}
+.lowerSceneShift > * {
+  pointer-events: auto;
+}
+
+/* Architecture */
+.wall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(73% + 32px); /* Floor transition + offset */
+  /* Distinct vertical architectural planes (approx 6 columns) */
+  background: repeating-linear-gradient(
+    90deg,
+    #0a0a0a 0%,
+    #0a0a0a 16.66%,
+    #050505 16.66%,
+    #050505 33.33%
+  );
+}
+
+.lighting {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  /* Controlled red/charcoal lighting with upper-right diagonal shadow direction */
+  background: linear-gradient(225deg, rgba(220, 20, 20, 0.25) 0%, rgba(80, 10, 10, 0.1) 35%, rgba(0, 0, 0, 0.6) 70%, #000 100%);
+  pointer-events: none;
+}
+
+.floor {
+  position: absolute;
+  top: 73%;
+  left: 0;
+  width: 100%;
+  height: 27%;
+  /* One continuous surface */
+  background: linear-gradient(180deg, #110202 0%, #000000 80%);
+  perspective: 1000px;
+}
+
+.floorReflection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
+  filter: blur(4px);
+}
+
+/* Typography Shared */
+.scene > * {
+  position: absolute;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+
+/* Top Branding */
+.topLeftBrand {
+  top: 3.1%;
+  left: 2.7%;
+  font-size: 1vw;
+  opacity: 0.8;
+}
+
+.topRightCredit {
+  top: 3.1%;
+  right: 2.7%;
+  font-size: 1vw;
+  opacity: 0.8;
+}
+
+/* Typography Group */
+.typographyGroup {
+  position: absolute;
+  top: 8%; /* Move group upward to maintain clearance */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  z-index: 10;
+}
+
+/* Center Emblem */
+.centerEmblem {
+  width: 4vw;
+  height: 4vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.emblemImage {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Main Titles */
+.mainTitle {
+  font-size: 5vw;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  margin: 0 0 16px 0;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.tagline {
+  font-size: 1.2vw;
+  letter-spacing: 0.3em;
+  margin: 0;
+  line-height: 1;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+
+/* Categories */
+.categories {
+  position: absolute;
+  top: 87%;
+  left: 0;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.categoryLabel {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 1vw;
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+  opacity: 0.9;
+}
+
+.lbl1 { left: var(--pos-1); }
+.lbl2 { left: var(--pos-2); }
+.lbl3 { left: var(--pos-3); }
+.lbl4 { left: var(--pos-4); }
+.lbl5 { left: var(--pos-5); }
+.lbl6 { left: calc(var(--pos-6) + 15px); } /* Offset right to align with torso/legs instead of bag */
+
+/* Bottom Strapline */
+.bottomStrapline {
+  top: 94%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.9vw;
+  letter-spacing: 0.25em;
+  opacity: 0.6;
+  white-space: nowrap;
+}
+
+/* Figures (Placeholders) */
+/* 
+ * The architectural floor transition is near 73%, 
+ * while figure contact points vary around 77% (approx bottom: 23%).
+ * Final values must be calibrated using the actual cutouts.
+ */
+.figure {
+  position: absolute;
+}
+
+.figureImage {
+  object-fit: contain;
+  object-position: bottom center;
+}
+
+/* Subtle floor shadows beneath the figures/props */
+.figure::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 12px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Base figure dimensions and positions - to be calibrated with actual cutouts */
+/* Increased width to ~18% to allow object-fit: contain to scale up the visible subject */
+.fig1 { left: var(--pos-1); bottom: 23%; width: 18%; height: 50%; transform: translateX(-50%); }
+.fig2 { left: var(--pos-2); bottom: 23%; width: 18%; height: 50%; transform: translateX(-50%); }
+.fig3 { left: var(--pos-3); bottom: 23%; width: 18%; height: 50%; transform: translateX(-50%); }
+.fig4 { left: var(--pos-4); bottom: 23%; width: 18%; height: 50%; transform: translateX(-50%); }
+.fig5 { left: var(--pos-5); bottom: 23%; width: 18%; height: 50%; transform: translateX(-50%); }
+.fig6 { left: var(--pos-6); bottom: 23%; width: 18%; height: 50%; transform: translateX(-50%); }
+
+/* Responsive Adjustments */
+@media (min-width: 1024px) {
+  .heroSceneSection {
+    max-height: calc(1080px + 32px);
+  }
+  
+  .backgroundContainer {
+    max-height: 1080px;
+  }
+  
+  /* Desktop Layout: Recalculate anchors for 100vh rather than stretching a portrait aspect ratio */
+  .aspectRatioWrapper {
+    height: 100vh;
+    max-height: 1080px;
+  }
+  
+  .wall { height: calc(68% + 32px); }
+  .floor { top: 68%; height: 32%; }
+  
+  .topLeftBrand, .topRightCredit { top: 5%; }
+  
+  .typographyGroup { top: 2%; } /* Shifted upward approx 70px overall compared to 6% on 768px height */
+  .centerEmblem { margin-bottom: 16px; width: 58px; height: 58px; }
+  .mainTitle { margin-bottom: 20px; font-size: 72px; line-height: 1; }
+  .tagline { font-size: 17px; line-height: 1; margin: 0; }
+  
+  /* Figures placed relative to the new floor height */
+  /* Width restored to ~18% so container width no longer drastically constrains the height */
+  .fig1 { bottom: 28%; width: 18%; height: 45%; }
+  .fig2 { bottom: 28%; width: 18%; height: 45%; }
+  .fig3 { bottom: 28%; width: 18%; height: 45%; }
+  .fig4 { bottom: 28%; width: 18%; height: 45%; }
+  .fig5 { bottom: 28%; width: 18%; height: 45%; }
+  .fig6 { bottom: 28%; width: 18%; height: 45%; }
+  
+  .categories { top: 82%; }
+  .bottomStrapline { top: 92%; }
+}
+
+@media (min-width: 1440px) {
+  .topLeftBrand, .topRightCredit, .categoryLabel, .bottomStrapline { font-size: 14px; }
+  .tagline { font-size: 17px; }
+  .mainTitle { font-size: 72px; }
+  .centerEmblem { width: 58px; height: 58px; }
+}
+
+@media (max-width: 768px) {
+  /* Ensure readability on smaller widths using clamp for lower bounds */
+  .topLeftBrand, .topRightCredit { font-size: clamp(10px, 1.5vw, 14px); }
+  .mainTitle { font-size: clamp(24px, 6vw, 48px); }
+  .tagline { font-size: clamp(10px, 1.8vw, 16px); }
+  
+  /* 
+   * STRICT COMPOSITION (current)
+   * categoryLabel at 320px width needs to be around 8-9px minimum so it fits horizontally without overlapping. 
+   * At 9px, "JOURNEY" (7 chars) is approx 60px wide. Position gaps are around 15-18%, which at 320px is ~50px.
+   * Using 8.5px with slightly reduced letter spacing to prevent overlap.
+   */
+  .categoryLabel { 
+    font-size: clamp(8.5px, 1.6vw, 14px); 
+    letter-spacing: 0.1em; /* Reduced from 0.15em to fit 6 labels at small widths */
+  }
+}
+
+@media (max-width: 480px) {
+  .topLeftBrand, .topRightCredit { font-size: clamp(10px, 2.5vw, 14px); }
+  .mainTitle { font-size: clamp(24px, 8vw, 48px); }
+  .tagline { font-size: clamp(10px, 2.5vw, 16px); }
+  
+  /* 
+   * STRICT COMPOSITION (current)
+   * Prioritizes 6-column alignment, but text gets very small.
+   */
+  .categoryLabel { font-size: clamp(8px, 2vw, 14px); }
+
+  /* 
+   * READABLE-SIZE ALTERNATIVE (proposed tradeoff)
+   * Uncommenting this would prioritize readability but risks overlapping or requires
+   * staggering the labels vertically if they don't fit in one line.
+   *
+   * .categoryLabel { font-size: 11px; letter-spacing: 0.05em; }
+   */
+  
+  .bottomStrapline { font-size: clamp(9px, 2vw, 14px); }
+}
+
+/* CTA Section */
+.ctaSection {
+  width: 100%;
+  height: 160px; /* 140-180px extra space */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+}
+
+.ctaWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.ctaButton {
+  background-color: #ff2222;
+  color: #000;
+  border: none;
+  border-radius: 0;
+  min-height: 48px;
+  padding: 0 32px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.ctaButton:hover {
+  background-color: #ff4444;
+}
+
+.ctaButton:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+  background-color: #ff4444;
+}
+
+.shopMessage {
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+  height: 20px; /* Keeps height so message doesn't shift layout */
+  display: flex;
+  align-items: center;
+}
