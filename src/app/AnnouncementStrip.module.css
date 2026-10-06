@@ -1,0 +1,83 @@
+.stripContainer {
+  background-color: #000000;
+  color: #FFFFFF;
+  height: 48px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.marquee {
+  display: flex;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.marqueeContent {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-around;
+  min-width: 100%;
+  animation: scrollLeft 20s linear infinite;
+  will-change: transform;
+}
+
+.stripContainer:hover .marqueeContent,
+.stripContainer:focus-visible .marqueeContent,
+.stripContainer:focus-within .marqueeContent {
+  animation-play-state: paused;
+}
+
+.messageItem {
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0 40px; /* Generous horizontal spacing */
+  font-size: 14px;
+  letter-spacing: 0.1em;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    justify-content: center;
+  }
+  .marqueeContent {
+    animation: none;
+    min-width: auto;
+    justify-content: center;
+  }
+  .marqueeContent:last-child {
+    display: none;
+  }
+  .messageItem {
+    padding: 0;
+  }
+  .messageItem:not(:first-child) {
+    display: none;
+  }
+
+}

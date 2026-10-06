@@ -2,10 +2,13 @@ import styles from './page.module.css';
 import Image from 'next/image';
 import ShopButton from './ShopButton';
 import Bestsellers from './Bestsellers';
+import ProductListing from './ProductListing';
+import AnnouncementStrip from './AnnouncementStrip';
 
 export default function Home() {
   return (
     <main>
+      <AnnouncementStrip />
       <header className={styles.heroContainer}>
         <section className={styles.heroSceneSection}>
           {/* Full-width Background Layers */}
@@ -89,7 +92,10 @@ export default function Home() {
         </section>
       </header>
 
+      <AnnouncementStrip />
+
       <Bestsellers />
+      <ProductListing />
     </main>
   );
 }

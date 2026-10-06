@@ -1,0 +1,85 @@
+.productCard {
+  display: flex;
+  flex-direction: column;
+  color: #111111;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background-color: #f5f5f5;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.productImage {
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.productName {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.productPrice {
+  font-size: 13px;
+  color: #555555;
+  margin: 0;
+}
+
+.demoNote {
+  font-size: 10px;
+  color: #C91515;
+  margin-left: 6px;
+}
+
+.colorSelection {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.selectedColorName {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.swatchContainer {
+  display: flex;
+  gap: 8px;
+}
+
+.swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.2s ease, outline 0.2s ease;
+}
+
+.swatch.selected {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+  border-color: #111;
+}
+
+.swatch:focus-visible {
+  outline: 2px solid #C91515;
+  outline-offset: 2px;
+}

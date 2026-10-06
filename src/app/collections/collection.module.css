@@ -1,0 +1,60 @@
+.collectionPage {
+  background-color: #FFFFFF;
+  color: #111111;
+  min-height: 100vh;
+  padding: 120px 24px 80px;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 64px;
+}
+
+.backLink {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: #555555;
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color 0.2s ease;
+}
+
+.backLink:hover {
+  color: #C91515;
+}
+
+.heading {
+  font-size: 32px;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 32px;
+  }
+  .heading {
+    font-size: 24px;
+  }
+}

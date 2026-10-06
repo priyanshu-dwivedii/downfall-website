@@ -370,21 +370,26 @@
 /* CTA Section */
 .ctaSection {
   width: 100%;
-  height: 160px; /* 140-180px extra space */
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #000000;
+  margin: 0;
+  padding: 0;
 }
 
 .ctaWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
 }
 
 .ctaButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   background-color: #ff2222;
   color: #000;
   border: none;

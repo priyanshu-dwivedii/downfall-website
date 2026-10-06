@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from './bestsellers.module.css';
+import styles from './ProductCard.module.css';
 
 export interface Product {
   id: string;

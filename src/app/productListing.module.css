@@ -1,0 +1,37 @@
+.listingSection {
+  background-color: #FFFFFF;
+  color: #111111;
+  padding: 120px 24px 80px; /* Generous top spacing to separate from Bestsellers */
+  width: 100%;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 64px;
+  text-align: center;
+}
+
+.heading {
+  font-size: 32px;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+/* Responsive grid */
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}

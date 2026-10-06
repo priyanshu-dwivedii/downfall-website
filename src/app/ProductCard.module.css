@@ -1,0 +1,71 @@
+/* Product Card */
+.productCard {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Image Wrapper */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background-color: #111;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.productImage {
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+/* Non-interactive element hover effect (since no routes) */
+.productCard:hover .productImage {
+  transform: scale(1.05);
+}
+
+/* If a route is added and card becomes a Link, add focus style */
+a.productCard:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 4px;
+}
+
+.outOfStock {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-size: 10px;
+  padding: 4px 8px;
+  letter-spacing: 0.1em;
+  border: 1px solid #C91515; /* Restrained red accent */
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.productName {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.productPrice {
+  font-size: 13px;
+  color: #555555;
+  margin: 0;
+}
+
+.demoNote {
+  font-size: 10px;
+  color: #C91515;
+  margin-left: 6px;
+}
