@@ -47,21 +47,6 @@
 .portraitReference {
   aspect-ratio: 735 / 798;
 }
-
-/* Base styling (Portrait / Mobile) */
-@media (max-width: 1023px) {
-  .aspectRatioWrapper {
-    aspect-ratio: 735 / 798;
-  }
-}
-@media (max-aspect-ratio: 735/798) and (max-width: 1023px) {
-  .aspectRatioWrapper {
-    height: 100vh;
-    width: auto;
-    aspect-ratio: 735 / 798;
-  }
-}
-
 .scene {
   position: absolute;
   top: 0;
@@ -135,26 +120,25 @@
 }
 
 /* Typography Shared */
+@media (min-width: 1024px) {
+  .scene > * {
+    position: absolute;
+  }
+}
 .scene > * {
-  position: absolute;
   letter-spacing: 0.1em;
   font-weight: 500;
 }
 
-/* Top Branding */
-.topLeftBrand {
-  top: 3.1%;
-  left: 2.7%;
-  font-size: 1vw;
-  opacity: 0.8;
+.tagline, .categoryLabel, .bottomStrapline {
+  font-family: var(--font-playfair), serif;
+  font-style: normal;
+  font-weight: 600;
 }
 
-.topRightCredit {
-  top: 3.1%;
-  right: 2.7%;
-  font-size: 1vw;
-  opacity: 0.8;
-}
+
+
+
 
 /* Typography Group */
 .typographyGroup {
@@ -187,9 +171,11 @@
 
 /* Main Titles */
 .mainTitle {
-  font-size: 5vw;
+  font-family: var(--font-playfair), serif;
+  font-style: italic;
+  font-size: 5.5vw;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.05em;
   margin: 0 0 16px 0;
   line-height: 1;
   white-space: nowrap;
@@ -197,7 +183,7 @@
 
 .tagline {
   font-size: 1.2vw;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.25em;
   margin: 0;
   line-height: 1;
   opacity: 0.8;
@@ -219,7 +205,7 @@
   position: absolute;
   transform: translate(-50%, -50%);
   font-size: 1vw;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.25em;
   white-space: nowrap;
   opacity: 0.9;
 }
@@ -300,11 +286,11 @@
   .wall { height: calc(68% + 32px); }
   .floor { top: 68%; height: 32%; }
   
-  .topLeftBrand, .topRightCredit { top: 5%; }
+
   
   .typographyGroup { top: 2%; } /* Shifted upward approx 70px overall compared to 6% on 768px height */
   .centerEmblem { margin-bottom: 16px; width: 58px; height: 58px; }
-  .mainTitle { margin-bottom: 20px; font-size: 72px; line-height: 1; }
+  .mainTitle { margin-bottom: 20px; font-size: 82px; line-height: 1; }
   .tagline { font-size: 17px; line-height: 1; margin: 0; }
   
   /* Figures placed relative to the new floor height */
@@ -321,16 +307,16 @@
 }
 
 @media (min-width: 1440px) {
-  .topLeftBrand, .topRightCredit, .categoryLabel, .bottomStrapline { font-size: 14px; }
+  .categoryLabel, .bottomStrapline { font-size: 14px; }
   .tagline { font-size: 17px; }
-  .mainTitle { font-size: 72px; }
+  .mainTitle { font-size: 82px; }
   .centerEmblem { width: 58px; height: 58px; }
 }
 
 @media (max-width: 768px) {
   /* Ensure readability on smaller widths using clamp for lower bounds */
-  .topLeftBrand, .topRightCredit { font-size: clamp(10px, 1.5vw, 14px); }
-  .mainTitle { font-size: clamp(24px, 6vw, 48px); }
+
+  .mainTitle { font-size: clamp(28px, 6.5vw, 54px); }
   .tagline { font-size: clamp(10px, 1.8vw, 16px); }
   
   /* 
@@ -341,13 +327,13 @@
    */
   .categoryLabel { 
     font-size: clamp(8.5px, 1.6vw, 14px); 
-    letter-spacing: 0.1em; /* Reduced from 0.15em to fit 6 labels at small widths */
+    letter-spacing: 0.15em; /* Reduced from 0.25em to fit 6 labels at small widths */
   }
 }
 
 @media (max-width: 480px) {
-  .topLeftBrand, .topRightCredit { font-size: clamp(10px, 2.5vw, 14px); }
-  .mainTitle { font-size: clamp(24px, 8vw, 48px); }
+
+  .mainTitle { font-size: clamp(28px, 8.5vw, 54px); }
   .tagline { font-size: clamp(10px, 2.5vw, 16px); }
   
   /* 
@@ -361,10 +347,97 @@
    * Uncommenting this would prioritize readability but risks overlapping or requires
    * staggering the labels vertically if they don't fit in one line.
    *
-   * .categoryLabel { font-size: 11px; letter-spacing: 0.05em; }
+   * .categoryLabel { font-size: 11px; letter-spacing: 0.1em; }
    */
   
-  .bottomStrapline { font-size: clamp(9px, 2vw, 14px); }
+  .bottomStrapline { font-size: clamp(9px, 2vw, 14px); letter-spacing: 0.2em; }
+
+  .tagline { letter-spacing: 0.2em; }
+}
+
+/* Mobile Hero Flow Layout */
+@media (max-width: 1023px) {
+  .heroSceneSection {
+    height: auto;
+    min-height: 0;
+  }
+  .backgroundContainer {
+    height: 100%;
+    min-height: 0;
+    z-index: 0;
+  }
+  .aspectRatioWrapper {
+    width: 100%;
+    height: auto;
+    z-index: 1;
+  }
+  .scene {
+    position: relative; /* Normal flow */
+    height: auto;
+    padding-top: 80px; /* Space for Nav */
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .typographyGroup {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin-bottom: calc(-15vw + 20px); /* Overlap transparent PNG space and increase visual gap by 20px */
+  }
+  .scene .lowerSceneShift {
+    position: relative;
+    transform: none;
+    width: 100%;
+    height: auto;
+    padding-top: 45vw; /* Reserve vertical space for absolute models */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .backgroundContainer .lowerSceneShift {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: none;
+  }
+  .fig1, .fig2, .fig3, .fig4, .fig5, .fig6 {
+    top: 0;
+    bottom: auto;
+    height: 45vw; /* Match reserved space */
+  }
+  .categories {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: 0;
+    width: 100%;
+    height: 24px; /* Explicit height to contain absolute labels */
+    margin-top: 16px;
+  }
+  .categoryLabel {
+    top: 50%;
+  }
+  .bottomStrapline {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin-top: 24px;
+  }
+  .wall {
+    height: auto;
+    bottom: 124px; /* Snap to floor */
+  }
+  .floor {
+    top: auto;
+    bottom: 0;
+    height: 124px; /* Lock transition near the models' feet (~124px from bottom of scene) */
+  }
 }
 
 /* CTA Section */

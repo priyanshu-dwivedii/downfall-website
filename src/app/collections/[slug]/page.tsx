@@ -54,7 +54,7 @@ const collectionData: Record<string, { title: string; products: ProductWithColor
 export default async function CollectionPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   const collection = collectionData[params.slug];
-  
+
   if (!collection) {
     return notFound();
   }
@@ -66,7 +66,7 @@ export default async function CollectionPage(props: { params: Promise<{ slug: st
           <Link href="/shop" className={styles.backLink}>← BACK TO COLLECTIONS</Link>
           <h1 className={styles.heading}>{collection.title}</h1>
         </div>
-        
+
         <div className={styles.grid}>
           {collection.products.map(product => (
             <ProductCardWithColor key={product.id} product={product} />

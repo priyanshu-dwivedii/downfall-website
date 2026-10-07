@@ -2,14 +2,17 @@ import styles from './page.module.css';
 import Image from 'next/image';
 import ShopButton from './ShopButton';
 import Bestsellers from './Bestsellers';
-import ProductListing from './ProductListing';
 import AnnouncementStrip from './AnnouncementStrip';
+import ProductListing from './ProductListing';
+import BrandStory from './BrandStory';
+import InstagramSection from './InstagramSection';
+import HeroNav from './HeroNav';
 
 export default function Home() {
   return (
     <main>
       <AnnouncementStrip />
-      <header className={styles.heroContainer}>
+      <header id="home" className={styles.heroContainer}>
         <section className={styles.heroSceneSection}>
           {/* Full-width Background Layers */}
           <div className={styles.backgroundContainer}>
@@ -28,8 +31,7 @@ export default function Home() {
             <div className={styles.scene}>
 
               {/* Top Header */}
-              <div className={styles.topLeftBrand}>DOWNFALL</div>
-              <div className={styles.topRightCredit}>VYORÉ STUDIO</div>
+              <HeroNav />
 
               {/* Typography Group */}
               <div className={styles.typographyGroup}>
@@ -46,7 +48,7 @@ export default function Home() {
 
                 {/* Titles */}
                 <h1 className={styles.mainTitle}>DOWNFALL</h1>
-                <p className={styles.tagline}>EVERY VERSION OF YOU</p>
+                <p className={styles.tagline}>The only downfall you’ll enjoy!</p>
               </div>
 
               <div className={styles.lowerSceneShift}>
@@ -96,6 +98,8 @@ export default function Home() {
 
       <Bestsellers />
       <ProductListing />
+      <BrandStory />
+      <InstagramSection />
     </main>
   );
 }

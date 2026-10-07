@@ -1,0 +1,233 @@
+.instagramSection {
+  background-color: #FFFFFF;
+  color: #111111;
+  padding: 80px 24px;
+  width: 100%;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.sectionHeading {
+  font-size: 24px;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+}
+
+.demoDisclaimer {
+  font-size: 12px;
+  color: #555555;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+/* Panel Layout */
+.panel {
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid #EAEAEA;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid #EAEAEA;
+}
+
+.headerLink, .headerNonLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
+  min-width: 0; /* Prevents flex blowout on mobile */
+}
+
+.headerLink:focus-visible {
+  outline: 2px solid #C91515;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Avatar with Gradient Ring */
+.avatarContainer {
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.gradientRing {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarInner {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background-color: #000000; /* Dark background for white logo */
+  border: 2px solid #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.avatarImage {
+  object-fit: contain;
+}
+
+/* Profile Text */
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.handle {
+  font-family: var(--font-playfair), serif;
+  font-weight: 700;
+  font-size: 16px;
+  margin: 0 0 2px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.displayName {
+  font-family: var(--font-playfair), serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #555555;
+  margin-bottom: 4px;
+}
+
+.stats {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.stats strong {
+  font-weight: 600;
+}
+
+/* Icon */
+.iconLink, .iconNonLink {
+  color: #111111;
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
+.iconLink:focus-visible {
+  outline: 2px solid #C91515;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.instagramIcon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px; /* Minimal gap */
+}
+
+.postCard, .postCardLink {
+  display: block;
+  width: 100%;
+  position: relative;
+  text-decoration: none;
+}
+
+.postCardLink:focus-visible {
+  outline: 2px solid #C91515;
+  outline-offset: -2px; /* Inset outline to avoid cutting into gaps */
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #f5f5f5;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.postCardLink:hover .image {
+  transform: scale(1.03);
+}
+
+.reelIcon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #ffffff;
+  filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5));
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .panelHeader {
+    padding: 12px;
+  }
+  
+  .gradientRing {
+    width: 56px;
+    height: 56px;
+  }
+
+  .avatarInner {
+    width: 50px;
+    height: 50px;
+  }
+
+  .avatarImage {
+    width: 36px;
+    height: 36px;
+  }
+
+  .handle {
+    font-size: 14px;
+  }
+
+  .displayName {
+    font-size: 12px;
+  }
+
+  .stats {
+    font-size: 12px;
+    gap: 12px;
+  }
+}

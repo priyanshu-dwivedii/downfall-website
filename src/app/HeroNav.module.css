@@ -1,0 +1,131 @@
+.navContainer {
+  position: absolute;
+  top: 3.1%;
+  left: 0;
+  width: 100%;
+  z-index: 50; /* Above scene elements */
+  pointer-events: none; /* Allows clicks to pass through the empty center */
+}
+
+.navContainer > * {
+  pointer-events: auto;
+}
+
+/* Base link styles */
+.navLink, .mobileNavLink {
+  font-family: var(--font-playfair), serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 0.25em;
+  opacity: 0.8;
+  transition: opacity 0.2s ease, outline 0.2s ease;
+}
+
+.navLink:hover, .navLink:focus-visible,
+.mobileNavLink:hover, .mobileNavLink:focus-visible {
+  opacity: 1;
+}
+
+.navLink:focus-visible, .mobileNavLink:focus-visible, .mobileToggle:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+/* Desktop Menu */
+.desktopMenu {
+  display: flex;
+  list-style: none;
+  gap: 3vw; /* Even horizontal gaps */
+  margin: 0;
+  padding: 0;
+}
+
+.menuLeft {
+  position: absolute;
+  left: 2.7%;
+}
+
+.menuRight {
+  position: absolute;
+  right: 2.7%;
+}
+
+.navLink {
+  font-size: 1vw; /* Matches what topLeftBrand was */
+}
+
+/* Mobile Toggle */
+.mobileToggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  flex-direction: column;
+  gap: 5px;
+  position: absolute;
+  left: 2.7%;
+}
+
+.hamburgerLine {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: #fff;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.mobileMenu {
+  display: none;
+  position: absolute;
+  top: 40px;
+  left: 2.7%;
+}
+
+/* Responsive adjustments */
+@media (min-width: 1024px) {
+  .navContainer {
+    top: 5%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .navLink {
+    font-size: 14px;
+  }
+  .desktopMenu {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .desktopMenu {
+    display: none;
+  }
+  
+  .mobileToggle {
+    display: flex;
+  }
+
+  .mobileMenu {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 16px;
+    margin: 16px 0 0 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    gap: 16px;
+    min-width: 200px;
+  }
+
+  .mobileNavLink {
+    font-size: 14px;
+    display: block;
+    padding: 8px 0;
+    letter-spacing: 0.2em; /* slightly reduced for mobile readability */
+  }
+}

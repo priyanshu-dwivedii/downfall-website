@@ -46,7 +46,7 @@ const mockProducts: Product[] = [
 
 export default function Bestsellers() {
   return (
-    <section className={styles.bestsellersSection} aria-labelledby="bestsellers-heading">
+    <section id="bestsellers" className={styles.bestsellersSection} aria-labelledby="bestsellers-heading">
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 id="bestsellers-heading" className={styles.heading}>BESTSELLERS</h2>
