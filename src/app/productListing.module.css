@@ -16,9 +16,11 @@
 }
 
 .heading {
-  font-size: 32px;
-  letter-spacing: 0.15em;
+  font-family: var(--font-playfair), serif;
+  font-size: 48px;
   font-weight: 700;
+  font-style: italic;
+  letter-spacing: normal;
   margin: 0;
 }
 
@@ -33,5 +35,11 @@
   .grid {
     grid-template-columns: 1fr;
     gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    font-size: 36px;
   }
 }

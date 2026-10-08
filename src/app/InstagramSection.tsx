@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import AnimatedHeading from './AnimatedHeading';
 import styles from './InstagramSection.module.css';
 
 interface InstagramPost {
@@ -40,8 +41,8 @@ export default function InstagramSection() {
     <section id="instagram" className={styles.instagramSection} aria-labelledby="instagram-heading">
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 id="instagram-heading" className={styles.sectionHeading}>DOWNFALL ON INSTAGRAM</h2>
-          <p className={styles.demoDisclaimer}>* Demo profile preview. Awaiting final Instagram connection.</p>
+          <AnimatedHeading text="Downfall on Instagram" as="h2" id="instagram-heading" className={styles.sectionHeading} />
+
         </div>
 
         <div className={styles.panel}>

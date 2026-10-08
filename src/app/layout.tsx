@@ -19,10 +19,13 @@ export const metadata: Metadata = {
   description: "One wardrobe. Every moment.",
 };
 
+import ScrollBehavior from "./ScrollBehavior";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${montserrat.variable} ${playfair.variable}`}>
       <body>
+        <ScrollBehavior />
         {children}
         <Footer />
       </body>

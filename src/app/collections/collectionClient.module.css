@@ -1,0 +1,185 @@
+.pageWrapper {
+  background-color: #faf9f6;
+  min-height: 100vh;
+  color: #111;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 48px 32px;
+}
+
+.layout {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+}
+
+.sidebar {
+  width: 27%;
+  flex-shrink: 0;
+}
+
+.sidebarSticky {
+  position: sticky;
+  top: 100px;
+}
+
+.collectionTitle {
+  font-size: 40px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.collectionDesc {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #555;
+  margin-bottom: 40px;
+  max-width: 90%;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.categoryPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.pill:hover {
+  border-color: #111;
+}
+
+.pill.active {
+  background-color: #111;
+  color: white;
+  border-color: #111;
+}
+
+.sortWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sortLabel {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #555;
+}
+
+.selectWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 240px;
+}
+
+.sortSelect {
+  width: 100%;
+  appearance: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: white;
+  font-size: 14px;
+  color: #111;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.sortSelect:focus {
+  outline: none;
+  border-color: #111;
+}
+
+.selectWrapper::after {
+  content: '▼';
+  font-size: 10px;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #555;
+}
+
+.mainContent {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  .sidebar {
+    width: 100%;
+  }
+  
+  .sidebarSticky {
+    position: static;
+  }
+  
+  .collectionTitle {
+    font-size: 32px;
+  }
+
+  .collectionDesc {
+    max-width: 100%;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .controls {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 24px 16px;
+  }
+  
+  .controls {
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

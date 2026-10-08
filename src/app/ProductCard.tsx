@@ -42,7 +42,7 @@ export default function ProductCard({ product, routeExists = false }: Props) {
 
   if (routeExists) {
     return (
-      <Link href={`/product/${product.slug}`} className={styles.productCard}>
+      <Link href={`/products/${product.slug}`} className={styles.productCard}>
         {content}
       </Link>
     );

@@ -1,61 +1,31 @@
 import styles from './bestsellers.module.css';
-import ProductCard, { Product } from './ProductCard';
+import ProductCard from './ProductCard';
+import AnimatedHeading from './AnimatedHeading';
+import { catalog } from '@/app/data/products';
 
-const mockProducts: Product[] = [
-  {
-    id: 'p1',
-    slug: 'minimalist-black-tee',
-    name: 'MINIMALIST BLACK TEE',
-    image: '/garment_1.jpg',
-    altText: 'Black t-shirt on dark grey background',
-    price: 45.00,
-    currency: 'USD',
-    available: true
-  },
-  {
-    id: 'p2',
-    slug: 'premium-grey-hoodie',
-    name: 'PREMIUM GREY HOODIE',
-    image: '/garment_2.jpg',
-    altText: 'Grey hoodie on dark background',
-    price: 85.00,
-    currency: 'USD',
-    available: true
-  },
-  {
-    id: 'p3',
-    slug: 'sleek-leather-jacket',
-    name: 'SLEEK LEATHER JACKET',
-    image: '/garment_3.jpg',
-    altText: 'Black leather jacket on dark background',
-    price: 320.00,
-    currency: 'USD',
-    available: false
-  },
-  {
-    id: 'p4',
-    slug: 'white-minimalist-sneakers',
-    name: 'MINIMALIST SNEAKERS',
-    image: '/garment_4.jpg',
-    altText: 'White sneakers on dark stone',
-    price: 120.00,
-    currency: 'USD',
-    available: true
-  }
-];
+const bestsellersIds = ['p1', 'p2', 'p3', 'p4'];
+const mockProducts = bestsellersIds.map(id => catalog.find(p => p.id === id)!).map(p => ({
+  id: p.id,
+  slug: p.slug,
+  name: p.name,
+  image: p.variants[0].image,
+  altText: p.name,
+  price: p.price,
+  currency: p.currency,
+  available: p.variants.some(v => v.sizes.some(s => s.available))
+}));
 
 export default function Bestsellers() {
   return (
     <section id="bestsellers" className={styles.bestsellersSection} aria-labelledby="bestsellers-heading">
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 id="bestsellers-heading" className={styles.heading}>BESTSELLERS</h2>
-          <p className={styles.demoDisclaimer}>* Editorial selections for demonstration purposes only.</p>
+          <AnimatedHeading text="The Standout Edit" as="h2" id="bestsellers-heading" className={styles.heading} />
         </div>
         
         <div className={styles.grid}>
           {mockProducts.map(product => (
-            <ProductCard key={product.id} product={product} routeExists={false} />
+            <ProductCard key={product.id} product={product} routeExists={true} />
           ))}
         </div>
       </div>

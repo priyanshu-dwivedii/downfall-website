@@ -1,10 +1,16 @@
 .navContainer {
   position: absolute;
-  top: 3.1%;
+  top: 5%;
   left: 0;
   width: 100%;
   z-index: 50; /* Above scene elements */
   pointer-events: none; /* Allows clicks to pass through the empty center */
+}
+
+@media (max-width: 1023px) {
+  .navContainer {
+    top: 3.1%;
+  }
 }
 
 .navContainer > * {
@@ -12,7 +18,7 @@
 }
 
 /* Base link styles */
-.navLink, .mobileNavLink {
+.navLink {
   font-family: var(--font-playfair), serif;
   font-weight: 600;
   text-transform: uppercase;
@@ -21,111 +27,180 @@
   letter-spacing: 0.25em;
   opacity: 0.8;
   transition: opacity 0.2s ease, outline 0.2s ease;
+  font-size: 14px;
+  display: block;
+  padding: 8px 0;
 }
 
-.navLink:hover, .navLink:focus-visible,
-.mobileNavLink:hover, .mobileNavLink:focus-visible {
+.navLink:hover, .navLink:focus-visible {
   opacity: 1;
 }
 
-.navLink:focus-visible, .mobileNavLink:focus-visible, .mobileToggle:focus-visible {
+.navLink:focus-visible, .menuToggle:focus-visible, .closeButton:focus-visible {
   outline: 2px solid #fff;
   outline-offset: 4px;
+  border-radius: 4px;
 }
 
-/* Desktop Menu */
-.desktopMenu {
+/* Menu & Cart Toggles */
+.menuToggle, .cartToggle {
   display: flex;
-  list-style: none;
-  gap: 3vw; /* Even horizontal gaps */
-  margin: 0;
-  padding: 0;
-}
-
-.menuLeft {
-  position: absolute;
-  left: 2.7%;
-}
-
-.menuRight {
-  position: absolute;
-  right: 2.7%;
-}
-
-.navLink {
-  font-size: 1vw; /* Matches what topLeftBrand was */
-}
-
-/* Mobile Toggle */
-.mobileToggle {
-  display: none;
-  background: transparent;
-  border: none;
+  align-items: center;
+  justify-content: center;
+  background-color: #F8F8F8; /* Off-white */
+  border: 1px solid #000000;
+  border-radius: 27px; /* Pill shape (54px high) */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  padding: 8px;
-  flex-direction: column;
-  gap: 5px;
+  width: 132px;
+  height: 54px;
   position: absolute;
+  padding: 0;
+  gap: 14px;
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out;
+}
+
+.menuToggle {
   left: 2.7%;
+}
+
+.cartToggle {
+  right: 2.7%;
+  cursor: not-allowed;
+}
+
+.menuToggle:hover,
+.menuToggle:focus-visible,
+.cartToggle:hover,
+.cartToggle:focus-visible {
+  background-color: #d10f18; /* DOWNFALL red */
+  border-color: #d10f18;
+}
+
+/* Hamburger Icon */
+.hamburgerIcon {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .hamburgerLine {
   display: block;
-  width: 24px;
-  height: 2px;
-  background-color: #fff;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  width: 15px;
+  height: 2.5px;
+  border-radius: 2px;
+  background-color: #000000; /* Black icon */
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.25s ease-in-out;
 }
 
-.mobileMenu {
-  display: none;
+.menuToggle:hover .hamburgerLine,
+.menuToggle:focus-visible .hamburgerLine {
+  background-color: #ffffff;
+}
+
+.menuLabel {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #000000; /* Black text */
+  letter-spacing: normal;
+  margin-top: 1px; /* Visual centering adjustment for font */
+  transition: color 0.25s ease-in-out;
+}
+
+.menuToggle:hover .menuLabel,
+.menuToggle:focus-visible .menuLabel,
+.cartToggle:hover .menuLabel,
+.cartToggle:focus-visible .menuLabel {
+  color: #ffffff;
+}
+
+.cartIcon {
+  display: flex;
+  color: #000000;
+  transition: color 0.25s ease-in-out;
+}
+
+.cartToggle:hover .cartIcon,
+.cartToggle:focus-visible .cartIcon {
+  color: #ffffff;
+}
+
+/* Menu Panel */
+.menuPanel {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
   position: absolute;
-  top: 40px;
+  top: 62px;
   left: 2.7%;
+  padding: 16px;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  gap: 16px;
+  min-width: 200px;
 }
 
-/* Responsive adjustments */
-@media (min-width: 1024px) {
-  .navContainer {
-    top: 5%;
-  }
+.menuHeader {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
 }
 
-@media (min-width: 1440px) {
-  .navLink {
-    font-size: 14px;
-  }
-  .desktopMenu {
-    gap: 40px;
-  }
+.closeButton {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 8px;
+  transition: opacity 0.2s ease;
+}
+
+.closeButton:hover {
+  opacity: 0.7;
 }
 
 @media (max-width: 1023px) {
-  .desktopMenu {
-    display: none;
-  }
-  
-  .mobileToggle {
-    display: flex;
-  }
-
-  .mobileMenu {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-    padding: 16px;
-    margin: 16px 0 0 0;
-    background-color: rgba(0, 0, 0, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    gap: 16px;
-    min-width: 200px;
-  }
-
-  .mobileNavLink {
-    font-size: 14px;
-    display: block;
-    padding: 8px 0;
+  .navLink {
     letter-spacing: 0.2em; /* slightly reduced for mobile readability */
+  }
+
+  .menuToggle, .cartToggle {
+    width: 100px;
+    height: 44px;
+    gap: 8px;
+  }
+
+  .menuToggle {
+    left: 12px;
+  }
+
+  .cartToggle {
+    right: 12px;
+  }
+
+  .menuLabel {
+    font-size: 13px;
+  }
+
+  .hamburgerLine {
+    width: 14px;
+  }
+
+  .cartIcon svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menuToggle, .cartToggle,
+  .hamburgerLine, .cartIcon,
+  .menuLabel {
+    transition: none;
   }
 }

@@ -19,11 +19,12 @@
 }
 
 .sectionHeading {
-  font-size: 24px;
-  letter-spacing: 0.15em;
+  font-family: var(--font-playfair), serif;
+  font-size: 48px;
   font-weight: 700;
+  font-style: italic;
+  letter-spacing: normal;
   margin: 0 0 8px 0;
-  text-transform: uppercase;
 }
 
 .demoDisclaimer {
@@ -199,6 +200,10 @@
 
 /* Responsive */
 @media (max-width: 480px) {
+  .sectionHeading {
+    font-size: 36px;
+  }
+
   .panelHeader {
     padding: 12px;
   }

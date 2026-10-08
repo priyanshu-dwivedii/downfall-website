@@ -1,12 +1,12 @@
 .brandStorySection {
   background-color: #000000;
   color: #FFFFFF;
-  padding: 120px 24px;
+  padding: 56px 24px;
   width: 100%;
 }
 
 .container {
-  max-width: 1440px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
@@ -14,11 +14,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 80px;
+  gap: 56px;
 }
 
 .textColumn {
-  flex: 1;
+  flex: 0 0 45%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,30 +28,80 @@
   font-size: 14px;
   letter-spacing: 0.2em;
   font-weight: 600;
-  color: #ff2222; /* Restrained red accent */
+  color: #ff2222;
   text-transform: uppercase;
   margin-bottom: 24px;
 }
 
 .heading {
-  font-size: 48px;
+  font-family: var(--font-playfair), serif;
+  font-size: 56px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  font-style: italic;
+  letter-spacing: normal;
+  color: #ffffff;
   line-height: 1.1;
   margin: 0 0 32px 0;
 }
 
 .body {
-  font-size: 18px;
+  font-family: var(--font-playfair), serif;
+  font-size: 19px;
   line-height: 1.6;
-  letter-spacing: 0.05em;
-  opacity: 0.8;
+  letter-spacing: 0.03em;
+  color: #d1d1d1;
+  margin: 0 0 40px 0;
+  max-width: 440px;
+}
+
+.body p {
   margin: 0;
-  max-width: 600px;
+}
+
+.body p:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.divider {
+  width: 100%;
+  max-width: 440px;
+  border: none;
+  border-top: 1px solid #333333;
+  margin: 0 0 24px 0;
+}
+
+.smallStatement {
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  color: #a0a0a0;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+.exploreLink {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: uppercase;
+  align-self: flex-start;
+  transition: color 0.2s ease-in-out;
+  outline: none;
+}
+
+.exploreLink:hover,
+.exploreLink:focus-visible {
+  color: #ff2222;
+}
+
+.exploreLink:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 6px;
 }
 
 .imageColumn {
-  flex: 1;
+  flex: 0 0 calc(55% - 56px); /* 55% minus the gap space conceptually */
   display: flex;
   justify-content: flex-end;
 }
@@ -59,9 +109,10 @@
 .imageWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 5;
+  max-width: 416px; /* Approx 520px tall at 4:5 */
+  height: 520px;
   background-color: #111111;
-  border-radius: 0; /* Square corners */
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -72,37 +123,43 @@
 /* Mobile Layout */
 @media (max-width: 1023px) {
   .brandStorySection {
-    padding: 80px 24px;
+    padding: 40px 24px;
   }
   
   .contentWrapper {
     flex-direction: column;
-    gap: 48px;
+    gap: 32px;
   }
   
   .textColumn {
+    flex: 1 1 auto;
     width: 100%;
   }
 
   .heading {
-    font-size: 36px;
+    font-size: clamp(32px, 8vw, 48px); /* Scale without horizontal overflow */
+    margin-bottom: 24px;
   }
 
   .body {
-    font-size: 16px;
+    font-size: 17px;
+    max-width: 100%;
+    margin-bottom: 32px;
+  }
+  
+  .divider {
+    max-width: 100%;
   }
 
   .imageColumn {
+    flex: 1 1 auto;
     width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .brandStorySection {
-    padding: 64px 24px;
+    justify-content: center;
   }
   
-  .heading {
-    font-size: 32px;
+  .imageWrapper {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
   }
 }

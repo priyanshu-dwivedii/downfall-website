@@ -1,0 +1,101 @@
+.ctaWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.ctaGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #000000;
+  cursor: pointer;
+}
+
+/* Remove default link focus outline to avoid duplicate rectangles */
+.ctaGroup:focus-visible {
+  outline: none;
+}
+
+/* Accessible focus on the shapes */
+.ctaGroup:focus-visible .textPill,
+.ctaGroup:focus-visible .iconCircle {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+}
+
+/* Hover/Focus background color */
+.ctaGroup:hover .textPill,
+.ctaGroup:hover .iconCircle,
+.ctaGroup:focus-visible .textPill,
+.ctaGroup:focus-visible .iconCircle {
+  background-color: #ffffff;
+}
+
+/* Hover/Focus swap animation */
+.ctaGroup:hover .textPill,
+.ctaGroup:focus-visible .textPill {
+  transform: translateX(68px); /* 56px + 12px gap */
+}
+
+.ctaGroup:hover .iconCircle,
+.ctaGroup:focus-visible .iconCircle {
+  /* Move left by textPill width + 12px gap */
+  transform: translateX(calc((var(--pill-width) + 12px) * -1));
+}
+
+.textPill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: 56px;
+  padding: 0 40px;
+  border-radius: 28px;
+  background-color: #f8f8f8;
+  border: 1px solid #000000;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background-color 0.25s ease-in-out, transform 0.35s ease-in-out;
+}
+
+.iconCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #f8f8f8;
+  border: 1px solid #000000;
+  transition: background-color 0.25s ease-in-out, transform 0.35s ease-in-out;
+}
+
+@media (max-width: 480px) {
+  .textPill {
+    padding: 0 24px;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+}
+
+@media (max-width: 360px) {
+  .textPill {
+    padding: 0 16px;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .textPill, .iconCircle {
+    transition: none;
+  }
+}

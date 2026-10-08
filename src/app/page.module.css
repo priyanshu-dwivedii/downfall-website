@@ -176,7 +176,7 @@
   font-size: 5.5vw;
   font-weight: 700;
   letter-spacing: 0.05em;
-  margin: 0 0 16px 0;
+  margin: 0 0 24px 0;
   line-height: 1;
   white-space: nowrap;
 }
@@ -290,7 +290,7 @@
   
   .typographyGroup { top: 2%; } /* Shifted upward approx 70px overall compared to 6% on 768px height */
   .centerEmblem { margin-bottom: 16px; width: 58px; height: 58px; }
-  .mainTitle { margin-bottom: 20px; font-size: 82px; line-height: 1; }
+  .mainTitle { margin-bottom: 32px; font-size: 82px; line-height: 1; }
   .tagline { font-size: 17px; line-height: 1; margin: 0; }
   
   /* Figures placed relative to the new floor height */
@@ -452,48 +452,4 @@
   padding: 0;
 }
 
-.ctaWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.ctaButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  background-color: #ff2222;
-  color: #000;
-  border: none;
-  border-radius: 0;
-  min-height: 48px;
-  padding: 0 32px;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transition: all 0.2s ease;
-}
-
-.ctaButton:hover {
-  background-color: #ff4444;
-}
-
-.ctaButton:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 4px;
-  background-color: #ff4444;
-}
-
-.shopMessage {
-  color: #fff;
-  font-size: 13px;
-  letter-spacing: 0.05em;
-  opacity: 0.8;
-  height: 20px; /* Keeps height so message doesn't shift layout */
-  display: flex;
-  align-items: center;
-}
+/* End of page styles */

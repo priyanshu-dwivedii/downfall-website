@@ -3,45 +3,58 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import styles from './ProductCardWithColor.module.css';
-
-export interface ColorVariant {
-  name: string;
-  image: string;
-  hex: string;
-}
-
-export interface ProductWithColors {
-  id: string;
-  name: string;
-  variants: ColorVariant[];
-  price: number;
-  currency: string;
-}
+import { Product } from '@/app/data/products';
 
 interface Props {
-  product: ProductWithColors;
+  product: Product;
 }
+
+import Link from 'next/link';
 
 export default function ProductCardWithColor({ product }: Props) {
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
 
+  // Determine Out of Stock
+  const allSizesUnavailable = product.variants.every(v => v.sizes.every(s => !s.available));
+  const isOutOfStock = allSizesUnavailable;
+  
+  // Determine Bestseller
+  const isBestseller = product.id.startsWith('p');
+  
+  // Category heuristic based on id or description
+  let category = 'DOWNFALL APPAREL';
+  if (product.id.startsWith('c')) category = 'BASICS';
+  if (product.id.startsWith('f')) category = 'FORMAL';
+  if (product.id.startsWith('x')) category = 'LUXURY';
+
+  const productUrl = `/products/${product.slug}?color=${encodeURIComponent(selectedVariant.name)}`;
+
   return (
     <div className={styles.productCard}>
-      <div className={styles.imageWrapper}>
+      <Link href={productUrl} className={styles.imageWrapper}>
         <Image 
           src={selectedVariant.image} 
           alt={`${product.name} in ${selectedVariant.name}`} 
           fill 
-          sizes="(max-width: 768px) 50vw, 25vw"
+          sizes="(max-width: 768px) 100vw, 33vw"
           className={styles.productImage} 
         />
-      </div>
+        {isOutOfStock && <span className={styles.badgeOut}>OUT OF STOCK</span>}
+        {!isOutOfStock && isBestseller && <span className={styles.badgeBest}>BESTSELLER</span>}
+      </Link>
       
       <div className={styles.productInfo}>
-        <h3 className={styles.productName}>{product.name}</h3>
-        <p className={styles.productPrice}>
-          {product.currency} {product.price.toFixed(2)} <span className={styles.demoNote}>(Demo)</span>
-        </p>
+        <div className={styles.titleRow}>
+          <div>
+            <Link href={productUrl} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <h3 className={styles.productName}>{product.name}</h3>
+            </Link>
+            <p className={styles.productCategory}>{category}</p>
+          </div>
+          <p className={styles.productPrice}>
+            {product.currency} {product.price.toFixed(2)} <span className={styles.demoNote}>(Demo)</span>
+          </p>
+        </div>
         
         <div className={styles.colorSelection}>
           <span className={styles.selectedColorName}>{selectedVariant.name}</span>
@@ -53,7 +66,10 @@ export default function ProductCardWithColor({ product }: Props) {
                 className={`${styles.swatch} ${variant.name === selectedVariant.name ? styles.selected : ''}`}
                 style={{ backgroundColor: variant.hex }}
                 aria-label={`Select ${variant.name}`}
-                onClick={() => setSelectedVariant(variant)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setSelectedVariant(variant);
+                }}
               />
             ))}
           </div>

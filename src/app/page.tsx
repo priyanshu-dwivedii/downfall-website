@@ -7,11 +7,17 @@ import ProductListing from './ProductListing';
 import BrandStory from './BrandStory';
 import InstagramSection from './InstagramSection';
 import HeroNav from './HeroNav';
+import HeroTitles from './HeroTitles';
 
 export default function Home() {
   return (
     <main>
-      <AnnouncementStrip />
+      <AnnouncementStrip messages={[
+        'EVERYDAY STREETWEAR',
+        'BOLD EXPRESSION',
+        'DAILY ESSENTIALS',
+        'STATEMENT LOOKS'
+      ]} />
       <header id="home" className={styles.heroContainer}>
         <section className={styles.heroSceneSection}>
           {/* Full-width Background Layers */}
@@ -47,8 +53,12 @@ export default function Home() {
                 </div>
 
                 {/* Titles */}
-                <h1 className={styles.mainTitle}>DOWNFALL</h1>
-                <p className={styles.tagline}>The only downfall you’ll enjoy!</p>
+                <HeroTitles 
+                  titleText="DOWNFALL"
+                  taglineText="The only downfall you’ll enjoy!"
+                  titleClassName={styles.mainTitle}
+                  taglineClassName={styles.tagline}
+                />
               </div>
 
               <div className={styles.lowerSceneShift}>
@@ -94,7 +104,12 @@ export default function Home() {
         </section>
       </header>
 
-      <AnnouncementStrip />
+      <AnnouncementStrip messages={[
+        'ONE WARDROBE. EVERY MOMENT.',
+        'BASICS · FORMAL · LUXURY',
+        'THIS IS DOWNFALL',
+        'THE ONLY DOWNFALL YOU’LL ENJOY!'
+      ]} />
 
       <Bestsellers />
       <ProductListing />

@@ -1,7 +1,16 @@
 .productCard {
   display: flex;
   flex-direction: column;
-  color: #111111;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.productCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
 }
 
 .imageWrapper {
@@ -10,7 +19,6 @@
   aspect-ratio: 4 / 5;
   background-color: #f5f5f5;
   overflow: hidden;
-  margin-bottom: 16px;
 }
 
 .productImage {
@@ -18,23 +26,67 @@
   transition: opacity 0.3s ease;
 }
 
+.badgeOut {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: #111;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.badgeBest {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: #C91515;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
 .productInfo {
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
 }
 
 .productName {
   font-size: 14px;
-  letter-spacing: 0.1em;
-  font-weight: 500;
-  margin: 0;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 4px 0;
   text-transform: uppercase;
 }
 
+.productCategory {
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .productPrice {
-  font-size: 13px;
-  color: #555555;
+  font-size: 14px;
+  color: #111;
+  font-weight: 500;
   margin: 0;
 }
 
@@ -45,15 +97,14 @@
 }
 
 .colorSelection {
-  margin-top: 8px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .selectedColorName {
   font-size: 11px;
-  color: #888;
+  color: #555;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -64,13 +115,13 @@
 }
 
 .swatch {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   border: 1px solid #ddd;
   cursor: pointer;
   padding: 0;
-  transition: border-color 0.2s ease, outline 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .swatch.selected {

@@ -1,0 +1,64 @@
+.animatedHeading {
+  /* margin and padding are omitted to allow consuming classes to define their own spacing */
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.wordsWrapper {
+  display: block;
+}
+
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.visible .letter {
+  animation: reveal 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation-delay: var(--delay);
+}
+
+.space {
+  display: inline-block;
+}
+
+@keyframes reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letter {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .visible .letter {
+    animation: none;
+  }
+}
