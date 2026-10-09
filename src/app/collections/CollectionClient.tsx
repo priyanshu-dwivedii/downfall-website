@@ -13,6 +13,13 @@ interface CollectionClientProps {
   products: Product[];
 }
 
+const CATEGORIES = [
+  { id: 'all', label: 'ALL', href: '/collections/all' },
+  { id: 'basics', label: 'BASICS', href: '/collections/basics' },
+  { id: 'formal', label: 'FORMAL', href: '/collections/formal' },
+  { id: 'luxury', label: 'LUXURY', href: '/collections/luxury' },
+];
+
 export default function CollectionClient({ slug, title, description, products }: CollectionClientProps) {
   const [sortParam, setSortParam] = useState('featured');
   
@@ -21,6 +28,8 @@ export default function CollectionClient({ slug, title, description, products }:
     if (sortParam === 'price-desc') return b.price - a.price;
     return 0;
   });
+
+  const currentSlug = slug.toLowerCase();
   
   return (
     <div className={styles.pageWrapper}>
@@ -33,13 +42,6 @@ export default function CollectionClient({ slug, title, description, products }:
               <p className={styles.collectionDesc}>{description}</p>
               
               <div className={styles.controls}>
-                <div className={styles.categoryPills}>
-                  <Link href="/collections/all" className={`${styles.pill} ${slug === 'all' ? styles.active : ''}`}>All</Link>
-                  <Link href="/collections/basics" className={`${styles.pill} ${slug === 'basics' ? styles.active : ''}`}>Basics</Link>
-                  <Link href="/collections/formal" className={`${styles.pill} ${slug === 'formal' ? styles.active : ''}`}>Formal</Link>
-                  <Link href="/collections/luxury" className={`${styles.pill} ${slug === 'luxury' ? styles.active : ''}`}>Luxury</Link>
-                </div>
-                
                 <div className={styles.sortWrapper}>
                   <label htmlFor="sort" className={styles.sortLabel}>Sort By</label>
                   <div className={styles.selectWrapper}>
@@ -60,6 +62,22 @@ export default function CollectionClient({ slug, title, description, products }:
           </aside>
           
           <main className={styles.mainContent}>
+            <nav className={styles.categoryPills} aria-label="Collection categories">
+              {CATEGORIES.map(cat => {
+                const isSelected = currentSlug === cat.id;
+                return (
+                  <Link 
+                    key={cat.id} 
+                    href={cat.href} 
+                    className={`${styles.pill} ${isSelected ? styles.active : ''}`}
+                    aria-current={isSelected ? 'page' : undefined}
+                  >
+                    {cat.label}
+                  </Link>
+                );
+              })}
+            </nav>
+
             <div className={styles.grid}>
               {sortedProducts.map(product => (
                 <ProductCardWithColor key={product.id} product={product} />

@@ -19,8 +19,8 @@
 
 /* Base link styles */
 .navLink {
-  font-family: var(--font-playfair), serif;
-  font-weight: 600;
+
+ font-weight: 700;
   text-transform: uppercase;
   color: #fff;
   text-decoration: none;
@@ -66,15 +66,30 @@
 
 .cartToggle {
   right: 2.7%;
-  cursor: not-allowed;
 }
 
-.menuToggle:hover,
+@media (hover: hover) {
+  .menuToggle:hover,
+  .cartToggle:hover {
+    background-color: #111;
+    border-color: #fff;
+  }
+  .menuToggle:hover .hamburgerLine,
+  .cartToggle:hover .hamburgerLine {
+    background-color: #fff;
+  }
+  .menuToggle:hover .menuLabel,
+  .cartToggle:hover .menuLabel {
+    color: #fff;
+  }
+}
+
+.menuToggle:active,
+.cartToggle:active,
 .menuToggle:focus-visible,
-.cartToggle:hover,
 .cartToggle:focus-visible {
-  background-color: #d10f18; /* DOWNFALL red */
-  border-color: #d10f18;
+  background-color: #111;
+  border-color: #fff;
 }
 
 /* Hamburger Icon */
@@ -93,13 +108,15 @@
   transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.25s ease-in-out;
 }
 
-.menuToggle:hover .hamburgerLine,
-.menuToggle:focus-visible .hamburgerLine {
+.menuToggle:active .hamburgerLine,
+.cartToggle:active .hamburgerLine,
+.menuToggle:focus-visible .hamburgerLine,
+.cartToggle:focus-visible .hamburgerLine {
   background-color: #ffffff;
 }
 
 .menuLabel {
-  font-family: system-ui, -apple-system, sans-serif;
+
   font-weight: 700;
   font-size: 16px;
   color: #000000; /* Black text */
@@ -108,9 +125,9 @@
   transition: color 0.25s ease-in-out;
 }
 
-.menuToggle:hover .menuLabel,
+.menuToggle:active .menuLabel,
+.cartToggle:active .menuLabel,
 .menuToggle:focus-visible .menuLabel,
-.cartToggle:hover .menuLabel,
 .cartToggle:focus-visible .menuLabel {
   color: #ffffff;
 }
@@ -119,11 +136,35 @@
   display: flex;
   color: #000000;
   transition: color 0.25s ease-in-out;
+  position: relative;
+  margin-right: 4px;
 }
 
 .cartToggle:hover .cartIcon,
 .cartToggle:focus-visible .cartIcon {
   color: #ffffff;
+}
+
+.cartBadge {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background-color: #d10f18;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cartToggle:hover .cartBadge,
+.cartToggle:focus-visible .cartBadge {
+  background-color: #ffffff;
+  color: #d10f18;
 }
 
 /* Menu Panel */

@@ -1,5 +1,5 @@
 .pageWrapper {
-  background-color: #faf9f6;
+  background-color: var(--bg-offwhite);
   min-height: 100vh;
   color: #111;
 }
@@ -27,53 +27,81 @@
 }
 
 .collectionTitle {
+  font-family: var(--font-playfair), serif;
   font-size: 40px;
-  font-family: 'Times New Roman', Times, serif;
   font-weight: 700;
+  font-style: normal;
   letter-spacing: 0.02em;
-  line-height: 1.1;
+  line-height: 1.15;
   margin-bottom: 16px;
+  overflow-wrap: break-word;
 }
 
 .collectionDesc {
+  font-family: var(--font-playfair), serif;
+  font-weight: 400;
+  font-style: normal;
   font-size: 15px;
   line-height: 1.5;
   color: #555;
-  margin-bottom: 40px;
+  margin-bottom: 36px;
   max-width: 90%;
 }
 
 .controls {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
 }
 
 .categoryPills {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 32px;
+  width: 100%;
 }
 
 .pill {
-  display: inline-block;
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  color: #333;
-  transition: all 0.2s ease;
-  background: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 24px;
+  border-radius: 9999px;
+  border: 1px solid #000000;
+  background-color: var(--bg-offwhite, #faf9f6);
+  font-family: var(--font-playfair), serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #000000;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-.pill:hover {
-  border-color: #111;
+.pill:hover,
+.pill:focus-visible {
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+.pill:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 3px;
 }
 
 .pill.active {
-  background-color: #111;
-  color: white;
-  border-color: #111;
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #000000;
 }
 
 .sortWrapper {
@@ -83,6 +111,9 @@
 }
 
 .sortLabel {
+  font-family: var(--font-playfair), serif;
+  font-weight: 700;
+  font-style: normal;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -102,10 +133,12 @@
   border-radius: 8px;
   border: 1px solid #ddd;
   background-color: white;
+  font-family: var(--font-playfair), serif;
+  font-weight: 700;
+  font-style: normal;
   font-size: 14px;
   color: #111;
   cursor: pointer;
-  font-family: inherit;
 }
 
 .sortSelect:focus {
@@ -155,6 +188,18 @@
 
   .collectionDesc {
     max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .categoryPills {
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .pill {
+    height: 38px;
+    padding: 0 20px;
+    font-size: 12px;
   }
   
   .grid {
@@ -163,7 +208,7 @@
   
   .controls {
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
     flex-wrap: wrap;
   }
@@ -176,7 +221,18 @@
   
   .controls {
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
+  }
+
+  .categoryPills {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .pill {
+    height: 36px;
+    padding: 0 16px;
+    font-size: 11px;
   }
   
   .grid {

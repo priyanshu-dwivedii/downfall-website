@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import AnimatedHeading from './AnimatedHeading';
+import ScrollAnimatedHeading from './ScrollAnimatedHeading';
 import styles from './InstagramSection.module.css';
 
 interface InstagramPost {
@@ -41,7 +41,7 @@ export default function InstagramSection() {
     <section id="instagram" className={styles.instagramSection} aria-labelledby="instagram-heading">
       <div className={styles.container}>
         <div className={styles.header}>
-          <AnimatedHeading text="Downfall on Instagram" as="h2" id="instagram-heading" className={styles.sectionHeading} />
+          <ScrollAnimatedHeading text="Downfall on Instagram" as="h2" id="instagram-heading" className={styles.sectionHeading} />
 
         </div>
 
@@ -53,7 +53,7 @@ export default function InstagramSection() {
                 <div className={styles.gradientRing}>
                   <div className={styles.avatarInner}>
                     <Image 
-                      src="/Downfall%20logo.png" 
+                      src="/d-emblem-black-transparent.png" 
                       alt="Downfall Avatar" 
                       width={48} 
                       height={48} 

@@ -3,7 +3,12 @@ import { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from './ShopButton.module.css';
 
-export default function ShopButton() {
+interface ShopButtonProps {
+  text?: string;
+  href?: string;
+}
+
+export default function ShopButton({ text = "SHOP THE COLLECTION", href = "/collections/all" }: ShopButtonProps) {
   const pillRef = useRef<HTMLDivElement>(null);
   const [pillWidth, setPillWidth] = useState(0);
 
@@ -23,12 +28,12 @@ export default function ShopButton() {
   return (
     <div className={styles.ctaWrapper}>
       <Link 
-        href="/collections/all" 
+        href={href} 
         className={styles.ctaGroup}
         style={{ '--pill-width': `${pillWidth}px` } as React.CSSProperties}
       >
         <div className={styles.textPill} ref={pillRef}>
-          SHOP THE COLLECTION
+          {text}
         </div>
         <div className={styles.iconCircle}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

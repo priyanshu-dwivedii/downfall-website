@@ -1,86 +1,236 @@
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+/* Minimal Header */
+.minimalHeader {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
-  background-color: #faf9f6;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.menuBtn {
-  display: flex;
   align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  color: #111;
-  padding: 8px;
-  border-radius: 20px;
-  transition: background-color 0.2s ease;
+  padding: 24px 40px;
+  border-bottom: 1px solid #e0dfdb;
+  position: relative;
+  background-color: var(--bg-offwhite);
+  z-index: 100;
+  top: 0;
+  position: sticky;
 }
 
-.menuBtn:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.menuIcon {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 16px;
-}
-
-.bar {
-  width: 100%;
-  height: 2px;
-  background-color: #111;
-  border-radius: 2px;
-}
-
-.menuText {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-}
-
-.logoLink {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: #111;
+.logoContainer {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
 }
 
-.brandName {
-  font-size: 16px;
+.logoLink {
   font-weight: 700;
-  letter-spacing: 0.15em;
+  font-style: italic;
+  font-size: 22px;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  color: #111111;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Nav Pill Styles */
+.menuToggle, .cartToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F8F8F8;
+  border: 1px solid #000000;
+  border-radius: 23px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  width: 120px;
+  height: 46px;
+  padding: 0;
+  gap: 8px;
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out;
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .menuToggle:hover,
+  .cartToggle:hover {
+    background-color: #111;
+    border-color: #fff;
+  }
+  .menuToggle:hover .hamburgerLine,
+  .cartToggle:hover .hamburgerLine {
+    background-color: #fff;
+  }
+  .menuToggle:hover .menuLabel,
+  .cartToggle:hover .menuLabel {
+    color: #fff;
+  }
+}
+
+.menuToggle:active,
+.cartToggle:active,
+.menuToggle:focus-visible,
+.cartToggle:focus-visible {
+  background-color: #111;
+  border-color: #fff;
+}
+
+.hamburgerIcon {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.hamburgerLine {
+  display: block;
+  width: 15px;
+  height: 2.5px;
+  border-radius: 2px;
+  background-color: #000000;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.25s ease-in-out;
+}
+
+.menuToggle:active .hamburgerLine,
+.cartToggle:active .hamburgerLine,
+.menuToggle:focus-visible .hamburgerLine,
+.cartToggle:focus-visible .hamburgerLine {
+  background-color: #ffffff;
+}
+
+.menuLabel {
+  font-weight: 700;
+  font-size: 14px;
+  color: #000000;
+  letter-spacing: normal;
+  margin-top: 1px;
+  transition: color 0.25s ease-in-out;
+}
+
+.menuToggle:active .menuLabel,
+.cartToggle:active .menuLabel,
+.menuToggle:focus-visible .menuLabel,
+.cartToggle:focus-visible .menuLabel {
+  color: #ffffff;
+}
+
+.cartIcon {
+  display: flex;
+  color: #000000;
+  position: relative;
+  transition: color 0.25s ease-in-out;
+  margin-right: 4px;
+}
+
+.cartToggle:hover .cartIcon,
+.cartToggle:focus-visible .cartIcon {
+  color: #ffffff;
 }
 
 .logoImage {
+  display: block;
   object-fit: contain;
 }
 
-.spacer {
-  width: 60px; /* balances the left side menu button */
+.cartBadge {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background-color: #d10f18;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cartToggle:hover .cartBadge,
+.cartToggle:focus-visible .cartBadge {
+  background-color: #ffffff;
+  color: #d10f18;
+}
+
+/* Menu Panel */
+.menuPanel {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  position: absolute;
+  top: 90px;
+  left: 40px;
+  background: #ffffff;
+  border: 1px solid #111111;
+  padding: 24px;
+  gap: 16px;
+  z-index: 50;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  margin: 0;
+}
+
+.menuHeader {
+  margin-bottom: 8px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+.closeMenuBtn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  padding: 4px 0;
+  color: #111;
+}
+
+.closeMenuBtn:hover {
+  text-decoration: underline;
+}
+
+.menuPanel a {
+  text-decoration: none;
+  color: #111111;
+  font-size: 16px;
+  transition: color 0.2s;
+  font-weight: 700;
+}
+
+.menuPanel a:hover {
+  color: #d10f18;
 }
 
 @media (max-width: 768px) {
-  .header {
-    padding: 12px 16px;
+  .minimalHeader {
+    padding: 16px 24px;
   }
-  .menuText {
-    display: none;
+  
+  .logoLink {
+    font-size: 15px;
+    letter-spacing: 0.05em;
   }
-  .brandName {
-    font-size: 14px;
+  
+  .menuToggle, .cartToggle {
+    width: 90px;
+    height: 44px;
+    gap: 8px;
+    border-radius: 22px;
+  }
+
+  .menuLabel {
+    font-size: 12px;
+  }
+
+  .hamburgerLine {
+    width: 14px;
+  }
+
+  .cartIcon svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .menuPanel {
+    top: 70px;
+    left: 24px;
   }
 }

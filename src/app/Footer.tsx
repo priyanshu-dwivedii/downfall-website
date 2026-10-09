@@ -79,16 +79,15 @@ export default function Footer() {
           
           <div className={styles.brandColumn}>
             <Image 
-              src="/Downfall%20logo.png" 
+              src="/downfall-white-red-transparent.png" 
               alt="Downfall Logo" 
-              width={160} 
-              height={50} 
+              width={166} 
+              height={90} 
+              style={{ objectFit: 'contain' }}
               className={styles.logo}
             />
             <p className={styles.brandText}>
               The only downfall you’ll enjoy!
-              <br /><br />
-              A sharper take on everyday streetwear.
             </p>
           </div>
 

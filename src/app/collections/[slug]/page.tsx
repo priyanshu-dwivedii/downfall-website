@@ -4,7 +4,7 @@ import CollectionClient from '../CollectionClient';
 
 const collectionData: Record<string, { title: string; description: string; products: Product[] }> = {
   all: {
-    title: 'ALL PRODUCTS',
+    title: 'SHOP THE ENTIRE COLLECTION',
     description: 'Explore the complete DOWNFALL collection. A meticulously curated selection of everyday essentials, refined formal wear, and luxury pieces.',
     products: catalog
   },

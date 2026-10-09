@@ -1,6 +1,6 @@
 import styles from './bestsellers.module.css';
 import ProductCard from './ProductCard';
-import AnimatedHeading from './AnimatedHeading';
+import ScrollAnimatedHeading from './ScrollAnimatedHeading';
 import { catalog } from '@/app/data/products';
 
 const bestsellersIds = ['p1', 'p2', 'p3', 'p4'];
@@ -20,7 +20,7 @@ export default function Bestsellers() {
     <section id="bestsellers" className={styles.bestsellersSection} aria-labelledby="bestsellers-heading">
       <div className={styles.container}>
         <div className={styles.header}>
-          <AnimatedHeading text="The Standout Edit" as="h2" id="bestsellers-heading" className={styles.heading} />
+          <ScrollAnimatedHeading text="The Standout Edit" as="h2" id="bestsellers-heading" className={styles.heading} />
         </div>
         
         <div className={styles.grid}>

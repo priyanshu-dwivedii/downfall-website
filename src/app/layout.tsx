@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
-import { Montserrat, Playfair_Display } from "next/font/google";
+import { Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Footer from "./Footer";
-
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin"],
-});
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
-  style: ['normal', 'italic'],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -21,13 +17,24 @@ export const metadata: Metadata = {
 
 import ScrollBehavior from "./ScrollBehavior";
 
+import { CartProvider } from "./context/CartContext";
+import { MenuProvider } from "./context/MenuContext";
+import CartDrawer from "./cart/CartDrawer";
+import MenuDrawer from "./MenuDrawer";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${playfair.variable}`}>
+    <html lang="en" className={playfair.variable}>
       <body>
-        <ScrollBehavior />
-        {children}
-        <Footer />
+        <CartProvider>
+          <MenuProvider>
+            <ScrollBehavior />
+            {children}
+            <Footer />
+            <CartDrawer />
+            <MenuDrawer />
+          </MenuProvider>
+        </CartProvider>
       </body>
     </html>
   );

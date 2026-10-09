@@ -1,0 +1,81 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  color: #ffffff;
+}
+
+.header {
+  padding: 32px 24px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: uppercase;
+}
+
+.closeBtn:hover, .closeBtn:focus-visible {
+  color: #d10f18;
+  outline: none;
+}
+
+.nav {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 8px 24px 40px 24px;
+  width: 100%;
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.navLink {
+  font-family: var(--font-playfair), serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: clamp(32px, 4.8vw, 51px);
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s ease-out;
+  display: inline-block;
+}
+
+.navLink:hover, .navLink:focus-visible {
+  color: #d10f18;
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .navList {
+    gap: 20px;
+  }
+}

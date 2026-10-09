@@ -1,5 +1,5 @@
 .bestsellersSection {
-  background-color: #FFFFFF;
+  background-color: var(--bg-offwhite);
   color: #111111;
   padding: 80px 24px;
   width: 100%;
@@ -16,7 +16,7 @@
 }
 
 .heading {
-  font-family: var(--font-playfair), serif;
+
   font-size: 48px;
   font-weight: 700;
   font-style: italic;

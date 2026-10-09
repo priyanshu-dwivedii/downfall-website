@@ -5,6 +5,7 @@ import Bestsellers from './Bestsellers';
 import AnnouncementStrip from './AnnouncementStrip';
 import ProductListing from './ProductListing';
 import BrandStory from './BrandStory';
+import CustomerReviews from './CustomerReviews';
 import InstagramSection from './InstagramSection';
 import HeroNav from './HeroNav';
 import HeroTitles from './HeroTitles';
@@ -41,16 +42,7 @@ export default function Home() {
 
               {/* Typography Group */}
               <div className={styles.typographyGroup}>
-                {/* Center Emblem */}
-                <div className={styles.centerEmblem}>
-                  <Image
-                    src="/Downfall%20logo.png"
-                    alt="Downfall Emblem"
-                    width={40}
-                    height={40}
-                    className={styles.emblemImage}
-                  />
-                </div>
+
 
                 {/* Titles */}
                 <HeroTitles 
@@ -114,6 +106,7 @@ export default function Home() {
       <Bestsellers />
       <ProductListing />
       <BrandStory />
+      <CustomerReviews />
       <InstagramSection />
     </main>
   );

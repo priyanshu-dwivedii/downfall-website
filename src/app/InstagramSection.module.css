@@ -1,5 +1,5 @@
 .instagramSection {
-  background-color: #FFFFFF;
+  background-color: var(--bg-offwhite);
   color: #111111;
   padding: 80px 24px;
   width: 100%;
@@ -19,7 +19,7 @@
 }
 
 .sectionHeading {
-  font-family: var(--font-playfair), serif;
+
   font-size: 48px;
   font-weight: 700;
   font-style: italic;
@@ -88,7 +88,6 @@
   width: 62px;
   height: 62px;
   border-radius: 50%;
-  background-color: #000000; /* Dark background for white logo */
   border: 2px solid #FFFFFF;
   display: flex;
   align-items: center;
@@ -108,7 +107,7 @@
 }
 
 .handle {
-  font-family: var(--font-playfair), serif;
+
   font-weight: 700;
   font-size: 16px;
   margin: 0 0 2px 0;
@@ -118,8 +117,8 @@
 }
 
 .displayName {
-  font-family: var(--font-playfair), serif;
-  font-weight: 400;
+
+ font-weight: 700;
   font-size: 14px;
   color: #555555;
   margin-bottom: 4px;
@@ -129,11 +128,11 @@
   display: flex;
   gap: 16px;
   font-size: 14px;
-  font-family: system-ui, -apple-system, sans-serif;
+
 }
 
 .stats strong {
-  font-weight: 600;
+ font-weight: 700;
 }
 
 /* Icon */

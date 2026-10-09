@@ -1,10 +1,12 @@
 :root {
-  --background: #ffffff;
+  --bg-offwhite: #faf9f6;
+  --background: var(--bg-offwhite);
   --foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --bg-offwhite: #faf9f6;
     --background: #0a0a0a;
     --foreground: #ededed;
   }
@@ -27,9 +29,21 @@ body {
   flex-direction: column;
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-playfair), serif;
+  font-weight: 700;
+  font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, .heading {
+  font-family: var(--font-playfair), serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+input, button, textarea, select, a, p, span, div {
+  font-family: var(--font-playfair), serif;
 }
 
 * {

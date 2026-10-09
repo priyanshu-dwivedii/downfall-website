@@ -66,10 +66,10 @@
   gap: 16px;
 }
 
-.productName {
+.productName { font-style: normal !important; font-weight: 700 !important;
   font-size: 14px;
   letter-spacing: 0.05em;
-  font-weight: 600;
+ font-weight: 700;
   color: #111;
   margin: 0 0 4px 0;
   text-transform: uppercase;
@@ -86,7 +86,7 @@
 .productPrice {
   font-size: 14px;
   color: #111;
-  font-weight: 500;
+ font-weight: 700;
   margin: 0;
 }
 

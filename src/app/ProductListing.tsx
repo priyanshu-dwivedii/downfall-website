@@ -1,6 +1,6 @@
 import styles from './productListing.module.css';
 import CollectionCard, { Collection } from './CollectionCard';
-import AnimatedHeading from './AnimatedHeading';
+import ScrollAnimatedHeading from './ScrollAnimatedHeading';
 
 const collections: Collection[] = [
   {
@@ -31,7 +31,7 @@ export default function ProductListing() {
     <section id="collections" className={styles.listingSection} aria-labelledby="listing-heading">
       <div className={styles.container}>
         <div className={styles.header}>
-          <AnimatedHeading text="The Downfall Collection" as="h2" id="listing-heading" className={styles.heading} />
+          <ScrollAnimatedHeading text="The Downfall Collection" as="h2" id="listing-heading" className={styles.heading} />
         </div>
         
         <div className={styles.grid}>
