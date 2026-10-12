@@ -30,8 +30,14 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files
+.env
+.env*.local
+.env.production
+.env.development
+.env.test
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -39,3 +45,18 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# scratch & local testing
+/test_*.js
+/test_*.html
+/preview.html
+/public/uploads/*
+
+# local catalog backups, credentials, migration manifests & recordings
+/src/data/auth-store.json
+/src/data/backups/
+/src/data/*.backup.json
+/src/data/migration-manifest.json
+*.webm
+*.webp
+

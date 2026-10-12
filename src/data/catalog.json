@@ -1,0 +1,402 @@
+[
+  {
+    "id": "c1",
+    "slug": "classic-tee",
+    "name": "CLASSIC TEE",
+    "description": "Our signature everyday tee crafted from mid-weight combed cotton for a structured yet breathable drape. A slightly relaxed fit designed for effortless daily wear.",
+    "price": 35,
+    "currency": "USD",
+    "category": "basics",
+    "status": "published",
+    "isDemoPrice": true,
+    "images": [
+      "/tee_black.jpg",
+      "/tee_white.jpg",
+      "/tee_red.jpg"
+    ],
+    "variants": [
+      {
+        "name": "Black",
+        "hex": "#111111",
+        "image": "/tee_black.jpg",
+        "sizes": [
+          {
+            "size": "S",
+            "available": true,
+            "stock": 15
+          },
+          {
+            "size": "M",
+            "available": true,
+            "stock": 20
+          },
+          {
+            "size": "L",
+            "available": true,
+            "stock": 18
+          },
+          {
+            "size": "XL",
+            "available": false,
+            "stock": 0
+          }
+        ]
+      },
+      {
+        "name": "White",
+        "hex": "#FFFFFF",
+        "image": "/tee_white.jpg",
+        "sizes": [
+          {
+            "size": "S",
+            "available": true,
+            "stock": 10
+          },
+          {
+            "size": "M",
+            "available": false,
+            "stock": 0
+          },
+          {
+            "size": "L",
+            "available": true,
+            "stock": 12
+          },
+          {
+            "size": "XL",
+            "available": true,
+            "stock": 8
+          }
+        ]
+      },
+      {
+        "name": "Dark Red",
+        "hex": "#6b1c23",
+        "image": "/tee_red.jpg",
+        "sizes": [
+          {
+            "size": "S",
+            "available": false,
+            "stock": 0
+          },
+          {
+            "size": "M",
+            "available": true,
+            "stock": 14
+          },
+          {
+            "size": "L",
+            "available": true,
+            "stock": 16
+          },
+          {
+            "size": "XL",
+            "available": true,
+            "stock": 6
+          }
+        ]
+      }
+    ],
+    "version": 4,
+    "updatedAt": "2026-10-11T16:58:51.486Z",
+    "expectedVersion": 3,
+    "expectedUpdatedAt": "2026-10-11T16:57:53.002Z"
+  },
+  {
+    "id": "f1",
+    "slug": "tailored-blazer",
+    "name": "TAILORED BLAZER",
+    "description": "A modern unstructured blazer cut from a premium wool-blend. Features sharp lapels, dual vents, and a sleek, tailored profile suitable for both formal and smart-casual occasions.",
+    "price": 245,
+    "currency": "USD",
+    "category": "formal",
+    "status": "published",
+    "isDemoPrice": true,
+    "images": [
+      "/blazer_black.jpg",
+      "/blazer_navy.jpg"
+    ],
+    "variants": [
+      {
+        "name": "Black",
+        "hex": "#111111",
+        "image": "/blazer_black.jpg",
+        "sizes": [
+          {
+            "size": "36",
+            "available": true,
+            "stock": 5
+          },
+          {
+            "size": "38",
+            "available": true,
+            "stock": 8
+          },
+          {
+            "size": "40",
+            "available": true,
+            "stock": 10
+          },
+          {
+            "size": "42",
+            "available": false,
+            "stock": 0
+          },
+          {
+            "size": "44",
+            "available": true,
+            "stock": 4
+          }
+        ]
+      },
+      {
+        "name": "Navy",
+        "hex": "#1C2841",
+        "image": "/blazer_navy.jpg",
+        "sizes": [
+          {
+            "size": "36",
+            "available": false,
+            "stock": 0
+          },
+          {
+            "size": "38",
+            "available": true,
+            "stock": 6
+          },
+          {
+            "size": "40",
+            "available": true,
+            "stock": 9
+          },
+          {
+            "size": "42",
+            "available": true,
+            "stock": 7
+          },
+          {
+            "size": "44",
+            "available": false,
+            "stock": 0
+          }
+        ]
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "x1",
+    "slug": "silk-evening-dress",
+    "name": "SILK EVENING DRESS",
+    "description": "An elegant floor-length slip dress meticulously crafted from 100% mulberry silk. Features a draped cowl neckline and a graceful bias cut that perfectly contours the body.",
+    "price": 850,
+    "currency": "USD",
+    "category": "luxury",
+    "status": "published",
+    "isDemoPrice": true,
+    "images": [
+      "/shop_luxury.jpg"
+    ],
+    "variants": [
+      {
+        "name": "Ivory",
+        "hex": "#F5F5F0",
+        "image": "/shop_luxury.jpg",
+        "sizes": [
+          {
+            "size": "XS",
+            "available": true,
+            "stock": 4
+          },
+          {
+            "size": "S",
+            "available": true,
+            "stock": 7
+          },
+          {
+            "size": "M",
+            "available": false,
+            "stock": 0
+          },
+          {
+            "size": "L",
+            "available": true,
+            "stock": 5
+          }
+        ]
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "p1",
+    "slug": "minimalist-black-tee",
+    "name": "MINIMALIST BLACK TEE",
+    "description": "A staple in any modern wardrobe. This minimalist black tee provides a sleek, versatile foundation for infinite outfit combinations.",
+    "price": 45,
+    "currency": "USD",
+    "category": "basics",
+    "status": "published",
+    "isDemoPrice": true,
+    "images": [
+      "/garment_1.jpg"
+    ],
+    "variants": [
+      {
+        "name": "Black",
+        "hex": "#111111",
+        "image": "/garment_1.jpg",
+        "sizes": [
+          {
+            "size": "S",
+            "available": true,
+            "stock": 12
+          },
+          {
+            "size": "M",
+            "available": true,
+            "stock": 15
+          },
+          {
+            "size": "L",
+            "available": true,
+            "stock": 10
+          }
+        ]
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "p2",
+    "slug": "premium-grey-hoodie",
+    "name": "PREMIUM GREY HOODIE",
+    "description": "Heavyweight french terry cotton hoodie featuring a drop shoulder, oversized fit, and a kangaroo pocket. Engineered for maximum comfort and durability.",
+    "price": 85,
+    "currency": "USD",
+    "category": "basics",
+    "status": "published",
+    "isDemoPrice": true,
+    "images": [
+      "/garment_2.jpg"
+    ],
+    "variants": [
+      {
+        "name": "Grey",
+        "hex": "#555555",
+        "image": "/garment_2.jpg",
+        "sizes": [
+          {
+            "size": "S",
+            "available": true,
+            "stock": 8
+          },
+          {
+            "size": "M",
+            "available": true,
+            "stock": 12
+          },
+          {
+            "size": "L",
+            "available": false,
+            "stock": 0
+          },
+          {
+            "size": "XL",
+            "available": true,
+            "stock": 6
+          }
+        ]
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "p3",
+    "slug": "sleek-leather-jacket",
+    "name": "SLEEK LEATHER JACKET",
+    "description": "Constructed from full-grain leather, this jacket ages beautifully. Features minimalist silver hardware and a slightly cropped silhouette.",
+    "price": 320,
+    "currency": "USD",
+    "category": "basics",
+    "status": "published",
+    "isDemoPrice": true,
+    "images": [
+      "/garment_3.jpg"
+    ],
+    "variants": [
+      {
+        "name": "Black",
+        "hex": "#111111",
+        "image": "/garment_3.jpg",
+        "sizes": [
+          {
+            "size": "S",
+            "available": false,
+            "stock": 0
+          },
+          {
+            "size": "M",
+            "available": false,
+            "stock": 0
+          },
+          {
+            "size": "L",
+            "available": false,
+            "stock": 0
+          }
+        ]
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "p4",
+    "slug": "white-minimalist-sneakers",
+    "name": "MINIMALIST SNEAKERS",
+    "description": "Premium Italian calf leather upper and lining set on a durable rubber cupsole. A clean, unbranded profile for elevated casual wear.",
+    "price": 120,
+    "currency": "USD",
+    "category": "basics",
+    "status": "published",
+    "isDemoPrice": true,
+    "images": [
+      "/garment_4.jpg"
+    ],
+    "variants": [
+      {
+        "name": "White",
+        "hex": "#FFFFFF",
+        "image": "/garment_4.jpg",
+        "sizes": [
+          {
+            "size": "8",
+            "available": true,
+            "stock": 6
+          },
+          {
+            "size": "9",
+            "available": true,
+            "stock": 9
+          },
+          {
+            "size": "10",
+            "available": true,
+            "stock": 11
+          },
+          {
+            "size": "11",
+            "available": false,
+            "stock": 0
+          },
+          {
+            "size": "12",
+            "available": true,
+            "stock": 5
+          }
+        ]
+      }
+    ],
+    "version": 1
+  }
+]

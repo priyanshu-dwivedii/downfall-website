@@ -12,9 +12,10 @@ import styles from './ProductDetail.module.css';
 interface Props {
   product: Product;
   initialColor?: string;
+  relatedProducts?: Product[];
 }
 
-export default function ProductDetailClient({ product, initialColor }: Props) {
+export default function ProductDetailClient({ product, initialColor, relatedProducts: propRelated }: Props) {
   const { items, addToCart, totalQuantity, isMounted, openCart } = useCart();
   const { isMenuOpen, openMenu, closeMenu } = useMenu();
 
@@ -195,12 +196,14 @@ export default function ProductDetailClient({ product, initialColor }: Props) {
   }
 
   // Find related products (exclude current)
-  const relatedProducts = catalog.filter(p => p.id !== product.id).slice(0, 4);
+  const relatedProducts = propRelated || catalog.filter(p => p.id !== product.id).slice(0, 4);
 
-  let categoryName = 'MENSWEAR';
-  if (product.id.startsWith('c')) categoryName = 'BASICS';
-  if (product.id.startsWith('f')) categoryName = 'FORMAL';
-  if (product.id.startsWith('x')) categoryName = 'LUXURY';
+  let categoryName = (product as any).category ? (product as any).category.toUpperCase() : 'MENSWEAR';
+  if (!(product as any).category) {
+    if (product.id.startsWith('c')) categoryName = 'BASICS';
+    if (product.id.startsWith('f')) categoryName = 'FORMAL';
+    if (product.id.startsWith('x')) categoryName = 'LUXURY';
+  }
 
   const toggleAccordion = (id: string) => {
     setOpenAccordion(prev => prev === id ? null : id);

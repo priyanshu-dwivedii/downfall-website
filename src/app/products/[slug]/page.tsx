@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation';
-import { getProductBySlug } from '@/app/data/products';
+import { getProductBySlug, getCatalog } from '@/lib/catalog';
 import ProductDetailClient from './ProductDetailClient';
+
+export const dynamic = 'force-dynamic';
 
 export default async function ProductPage(props: { 
   params: Promise<{ slug: string }>,
@@ -8,13 +10,20 @@ export default async function ProductPage(props: {
 }) {
   const params = await props.params;
   const searchParams = await props.searchParams;
-  const product = getProductBySlug(params.slug);
+  const product = await getProductBySlug(params.slug, false); // only published on storefront
   
   if (!product) {
     return notFound();
   }
 
+  const allPublished = await getCatalog(false);
+  const related = allPublished.filter((p) => p.id !== product.id).slice(0, 4);
+
   return (
-    <ProductDetailClient product={product} initialColor={searchParams.color} />
+    <ProductDetailClient
+      product={product as any}
+      initialColor={searchParams.color}
+      relatedProducts={related as any}
+    />
   );
 }

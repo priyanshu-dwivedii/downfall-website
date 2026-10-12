@@ -1,0 +1,677 @@
+.pageWrapper {
+  background-color: #ffffff;
+  color: #111;
+  min-height: 100vh;
+  padding-bottom: 96px;
+  font-family: var(--font-playfair), serif;
+  font-style: normal;
+}
+
+/* Ensure the checkout header within .pageWrapper has pure white background */
+.pageWrapper :global(header) {
+  background-color: #ffffff !important;
+}
+
+/* Ensure all typography on /checkout is upright using Playfair Display with font-style: normal */
+.pageWrapper :global(*),
+.pageWrapper h1,
+.pageWrapper h2,
+.pageWrapper h3,
+.pageWrapper h4,
+.pageWrapper h5,
+.pageWrapper h6,
+.pageWrapper p,
+.pageWrapper span,
+.pageWrapper div,
+.pageWrapper label,
+.pageWrapper input,
+.pageWrapper select,
+.pageWrapper textarea,
+.pageWrapper button,
+.pageWrapper a {
+  font-family: var(--font-playfair), serif;
+  font-style: normal !important;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  font-family: var(--font-playfair), serif;
+  font-style: normal !important;
+  color: #888;
+}
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 40px 24px 0;
+}
+
+.headerSection {
+  margin-bottom: 36px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 24px;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #555;
+  margin-bottom: 20px;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: #d10f18;
+}
+
+.pageTitle {
+  font-family: var(--font-playfair), serif;
+  font-size: 36px;
+  font-weight: 700;
+  font-style: normal !important;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin: 0 0 12px 0;
+  color: #111;
+  line-height: 1.15;
+}
+
+.pageSubtitle {
+  font-size: 15px;
+  font-weight: 400;
+  font-style: normal;
+  color: #666;
+  max-width: 760px;
+  line-height: 1.6;
+}
+
+/* Empty State */
+.emptyCard {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 64px 32px;
+  text-align: center;
+  max-width: 600px;
+  margin: 40px auto;
+}
+
+.emptyTitle {
+  font-family: var(--font-playfair), serif;
+  font-size: 26px;
+  font-weight: 700;
+  font-style: normal !important;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  color: #111;
+}
+
+.emptyText {
+  font-size: 15px;
+  font-weight: 400;
+  font-style: normal;
+  color: #666;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.exploreButton {
+  display: inline-block;
+  background-color: #111;
+  color: #fff;
+  padding: 16px 36px;
+  font-size: 13px;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid #111;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.exploreButton:hover {
+  background-color: #d10f18;
+  border-color: #d10f18;
+  color: #fff;
+}
+
+/* Main Grid Layout */
+.layoutGrid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Form Sections */
+.formColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.formCard {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 32px;
+}
+
+.cardHeader {
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding-bottom: 16px;
+}
+
+.sectionTitle {
+  font-family: var(--font-playfair), serif;
+  font-size: 20px;
+  font-weight: 700;
+  font-style: normal !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #111;
+  margin: 0 0 6px 0;
+}
+
+.sectionSubtitle {
+  font-size: 13px;
+  font-weight: 400;
+  font-style: normal;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Fields & Groups */
+.gridTwoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.gridThreeCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.fieldGroup:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #111;
+  margin-bottom: 8px;
+}
+
+.optionalTag {
+  font-size: 11px;
+  font-weight: 400;
+  font-style: normal;
+  color: #888;
+  text-transform: none;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  color: #111;
+  font-size: 14px;
+  font-weight: 700;
+  font-style: normal;
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  border-color: #111;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 1px #111;
+}
+
+.inputError,
+.inputError:focus {
+  border-color: #d10f18 !important;
+  background-color: #fffdfd;
+}
+
+.errorMessage {
+  font-size: 12px;
+  font-weight: 700;
+  font-style: normal;
+  color: #d10f18;
+  margin-top: 6px;
+  display: block;
+}
+
+.textarea {
+  min-height: 110px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Item Customisation Preferences */
+.itemPreferenceList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.itemPreferenceCard {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+.itemPreferenceHeader {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.itemThumbWrapper {
+  position: relative;
+  width: 56px;
+  height: 72px;
+  background-color: #eee;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.itemThumb {
+  object-fit: cover;
+}
+
+.itemHeaderDetails {
+  flex: 1;
+}
+
+.itemHeaderName {
+  font-size: 15px;
+  font-weight: 700;
+  font-style: normal;
+  text-transform: uppercase;
+  color: #111;
+  margin-bottom: 4px;
+}
+
+.itemHeaderMeta {
+  font-size: 13px;
+  font-weight: 700;
+  font-style: normal;
+  color: #666;
+}
+
+.itemPrefFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Measurements Section */
+.unitToggleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.unitToggleLabel {
+  font-size: 12px;
+  font-weight: 700;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #555;
+}
+
+.unitBtnGroup {
+  display: inline-flex;
+  border: 1px solid #111;
+  overflow: hidden;
+}
+
+.unitBtn {
+  background-color: transparent;
+  color: #111;
+  border: none;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  font-style: normal;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.unitBtnActive {
+  background-color: #111;
+  color: #fff;
+}
+
+/* Acknowledgement Checkbox */
+.consentCard {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 24px 32px;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  cursor: pointer;
+}
+
+.checkboxInput {
+  margin-top: 3px;
+  width: 18px;
+  height: 18px;
+  accent-color: #111;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checkboxText {
+  font-size: 13px;
+  font-weight: 700;
+  font-style: normal;
+  color: #111;
+  line-height: 1.5;
+  user-select: none;
+}
+
+/* Submit Actions */
+.submitSection {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 32px;
+}
+
+.submitActionRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.submissionAlertBox {
+  background-color: #fff0f0;
+  border: 1px solid #d10f18;
+  color: #d10f18;
+  padding: 14px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.submitButton {
+  background-color: #111;
+  color: #fff;
+  border: 1px solid #111;
+  padding: 18px 36px;
+  font-size: 14px;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.submitButton:hover {
+  background-color: #d10f18;
+  border-color: #d10f18;
+  color: #fff;
+}
+
+.submitExplanation {
+  font-size: 13px;
+  font-weight: 700;
+  font-style: normal;
+  color: #333;
+  line-height: 1.45;
+  flex: 1;
+  min-width: 220px;
+  margin: 0;
+}
+
+.privacyNotice {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 12px;
+  font-weight: 400;
+  font-style: normal;
+  color: #777;
+  line-height: 1.5;
+}
+
+/* Sticky Order Summary Column */
+.summarySticky {
+  position: sticky;
+  top: 100px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 32px;
+}
+
+.summaryTitle {
+  font-family: var(--font-playfair), serif;
+  font-size: 20px;
+  font-weight: 700;
+  font-style: normal !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 6px 0;
+  color: #111;
+}
+
+.summarySubtitle {
+  font-size: 12px;
+  font-weight: 400;
+  font-style: normal;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.itemsScrollList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 4px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding-bottom: 20px;
+}
+
+.summaryItem {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.summaryItemImage {
+  position: relative;
+  width: 64px;
+  height: 80px;
+  background-color: #f0f0f0;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.summaryItemDetails {
+  flex: 1;
+}
+
+.summaryItemName {
+  font-size: 14px;
+  font-weight: 700;
+  font-style: normal;
+  text-transform: uppercase;
+  color: #111;
+  margin-bottom: 4px;
+}
+
+.summaryItemMeta {
+  font-size: 12px;
+  font-weight: 700;
+  font-style: normal;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.summaryItemPrice {
+  font-size: 13px;
+  font-weight: 700;
+  font-style: normal;
+  color: #111;
+}
+
+.demoTag {
+  color: #d10f18;
+  font-size: 11px;
+  font-weight: 700;
+  font-style: normal;
+  margin-left: 4px;
+}
+
+.summaryTotals {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  font-style: normal;
+  color: #666;
+}
+
+.summaryRowTotal {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: 700;
+  font-style: normal;
+  color: #111;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 16px;
+  margin-top: 4px;
+}
+
+.demoDisclaimer {
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  font-size: 12px;
+  font-weight: 700;
+  font-style: normal;
+  color: #555;
+  line-height: 1.5;
+}
+
+.demoDisclaimerHeading {
+  color: #d10f18;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .layoutGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .summarySticky {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 24px 16px 0;
+  }
+
+  .formCard,
+  .consentCard,
+  .submitSection,
+  .summarySticky {
+    padding: 20px 16px;
+  }
+
+  .pageTitle {
+    font-size: 26px;
+  }
+
+  .gridTwoCol,
+  .gridThreeCol,
+  .itemPrefFields {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .submitActionRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .submitButton {
+    width: 100%;
+  }
+
+  .submitExplanation {
+    text-align: center;
+  }
+}

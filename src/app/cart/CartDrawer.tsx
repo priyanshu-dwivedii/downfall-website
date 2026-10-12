@@ -10,7 +10,7 @@ import QuantityInput from './QuantityInput';
 import styles from './CartDrawer.module.css';
 
 export default function CartDrawer() {
-  const { isCartOpen, closeCart, items, updateQuantity, removeFromCart, subtotal, isMounted } = useCart();
+  const { isCartOpen, closeCart, items, updateQuantity, removeFromCart, subtotal, isMounted, getProduct } = useCart();
   const drawerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const triggerRef = useRef<HTMLElement | null>(null);
@@ -123,10 +123,12 @@ export default function CartDrawer() {
           <div className={styles.populatedState}>
             <div className={styles.itemsList}>
               {items.map((item) => {
-                const product = catalog.find(p => p.id === item.productId);
+                const product = getProduct(item.productId) || catalog.find(p => p.id === item.productId);
                 if (!product) return null;
                 const variant = product.variants.find(v => v.name === item.variantName);
                 if (!variant) return null;
+
+                const isDemo = (product as any).isDemoPrice !== undefined ? Boolean((product as any).isDemoPrice) : true;
 
                 return (
                   <div key={item.id} className={styles.cartItem}>
@@ -141,7 +143,7 @@ export default function CartDrawer() {
                     <div className={styles.itemDetails}>
                       <div className={styles.itemHeader}>
                         <h3 className={styles.itemName}>{product.name}</h3>
-                        <p className={styles.itemPrice}>${product.price.toFixed(2)} USD <span className={styles.demoNote}>(Demo)</span></p>
+                        <p className={styles.itemPrice}>${product.price.toFixed(2)} USD {isDemo && <span className={styles.demoNote}>(Demo)</span>}</p>
                       </div>
                       <p className={styles.itemVariant}>{item.variantName} / {item.size}</p>
                       
@@ -186,9 +188,15 @@ export default function CartDrawer() {
                 <span className={styles.subtotalLabel}>Subtotal</span>
                 <span className={styles.subtotalValue}>${subtotal.toFixed(2)} USD</span>
               </div>
-              <p className={styles.shippingNotice}>Shipping and taxes calculated at checkout.</p>
-              <button className={styles.checkoutBtn} disabled>
-                Check out (Unavailable)
+              <p className={styles.shippingNotice}>Bespoke collection enquiry via WhatsApp.</p>
+              <button 
+                className={styles.checkoutBtn} 
+                onClick={() => {
+                  closeCart();
+                  router.push('/checkout');
+                }}
+              >
+                PROCEED TO ORDER
               </button>
             </div>
           </div>

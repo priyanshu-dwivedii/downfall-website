@@ -22,11 +22,14 @@ export default function ProductCardWithColor({ product }: Props) {
   const isBestseller = product.id.startsWith('p');
   
   // Category heuristic based on id or description
-  let category = 'DOWNFALL APPAREL';
-  if (product.id.startsWith('c')) category = 'BASICS';
-  if (product.id.startsWith('f')) category = 'FORMAL';
-  if (product.id.startsWith('x')) category = 'LUXURY';
+  let category = (product as any).category ? (product as any).category.toUpperCase() : 'DOWNFALL APPAREL';
+  if (!(product as any).category) {
+    if (product.id.startsWith('c')) category = 'BASICS';
+    if (product.id.startsWith('f')) category = 'FORMAL';
+    if (product.id.startsWith('x')) category = 'LUXURY';
+  }
 
+  const isDemo = (product as any).isDemoPrice !== undefined ? Boolean((product as any).isDemoPrice) : true;
   const productUrl = `/products/${product.slug}?color=${encodeURIComponent(selectedVariant.name)}`;
 
   return (
@@ -52,7 +55,7 @@ export default function ProductCardWithColor({ product }: Props) {
             <p className={styles.productCategory}>{category}</p>
           </div>
           <p className={styles.productPrice}>
-            {product.currency} {product.price.toFixed(2)} <span className={styles.demoNote}>(Demo)</span>
+            {product.currency} {product.price.toFixed(2)} {isDemo && <span className={styles.demoNote}>(Demo)</span>}
           </p>
         </div>
         

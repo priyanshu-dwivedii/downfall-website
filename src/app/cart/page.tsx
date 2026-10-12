@@ -8,7 +8,7 @@ import QuantityInput from './QuantityInput';
 import styles from './cart.module.css';
 
 export default function CartPage() {
-  const { items, updateQuantity, removeFromCart, totalQuantity, subtotal, isMounted } = useCart();
+  const { items, updateQuantity, removeFromCart, totalQuantity, subtotal, isMounted, getProduct } = useCart();
 
   if (!isMounted) {
     return null; // Avoid hydration errors
@@ -34,10 +34,12 @@ export default function CartPage() {
         <div className={styles.cartContent}>
           <div className={styles.itemsList}>
             {items.map(item => {
-              const product = catalog.find(p => p.id === item.productId);
+              const product = getProduct(item.productId) || catalog.find(p => p.id === item.productId);
               if (!product) return null;
               const variant = product.variants.find(v => v.name === item.variantName);
               if (!variant) return null;
+
+              const isDemo = (product as any).isDemoPrice !== undefined ? Boolean((product as any).isDemoPrice) : true;
 
               return (
                 <div key={item.id} className={styles.cartItem}>
@@ -58,7 +60,7 @@ export default function CartPage() {
                         {product.name}
                       </Link>
                       <p className={styles.itemPrice}>
-                        {product.currency} {product.price.toFixed(2)} <span className={styles.demoNote}>(Demo)</span>
+                        {product.currency} {product.price.toFixed(2)} {isDemo && <span className={styles.demoNote}>(Demo)</span>}
                       </p>
                     </div>
                     
@@ -122,13 +124,13 @@ export default function CartPage() {
             </div>
             
             <div className={styles.checkoutWrapper}>
-              <button 
+              <Link 
+                href="/checkout"
                 className={styles.checkoutBtn} 
-                disabled
               >
-                CHECKOUT
-              </button>
-              <p className={styles.checkoutMessage}>Checkout is not available yet</p>
+                PROCEED TO ORDER
+              </Link>
+              <p className={styles.bespokeNotice}>Bespoke collection enquiry via WhatsApp</p>
             </div>
           </div>
         </div>
