@@ -79,11 +79,22 @@ export default function CollectionClient({ slug, title, description, products }:
               })}
             </nav>
 
-            <div className={styles.grid}>
-              {sortedProducts.map(product => (
-                <ProductCardWithColor key={product.id} product={product} />
-              ))}
-            </div>
+            {sortedProducts.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '64px 20px', color: '#666' }}>
+                <p style={{ fontSize: '18px', marginBottom: '16px', color: '#111' }}>
+                  No garments currently available in this edit.
+                </p>
+                <Link href="/collections/bottomwear" style={{ textDecoration: 'underline', color: '#111' }}>
+                  Explore the Bottomwear Atelier &rarr;
+                </Link>
+              </div>
+            ) : (
+              <div className={styles.grid}>
+                {sortedProducts.map((product) => (
+                  <ProductCardWithColor key={product.id} product={product} />
+                ))}
+              </div>
+            )}
           </main>
         </div>
       </div>

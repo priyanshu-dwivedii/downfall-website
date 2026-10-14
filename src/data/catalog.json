@@ -7,7 +7,7 @@
     "price": 35,
     "currency": "USD",
     "category": "basics",
-    "status": "published",
+    "status": "archived",
     "isDemoPrice": true,
     "images": [
       "/tee_black.jpg",
@@ -110,7 +110,7 @@
     "price": 245,
     "currency": "USD",
     "category": "formal",
-    "status": "published",
+    "status": "archived",
     "isDemoPrice": true,
     "images": [
       "/blazer_black.jpg",
@@ -192,7 +192,7 @@
     "price": 850,
     "currency": "USD",
     "category": "luxury",
-    "status": "published",
+    "status": "archived",
     "isDemoPrice": true,
     "images": [
       "/shop_luxury.jpg"
@@ -236,7 +236,7 @@
     "price": 45,
     "currency": "USD",
     "category": "basics",
-    "status": "published",
+    "status": "archived",
     "isDemoPrice": true,
     "images": [
       "/garment_1.jpg"
@@ -275,7 +275,7 @@
     "price": 85,
     "currency": "USD",
     "category": "basics",
-    "status": "published",
+    "status": "archived",
     "isDemoPrice": true,
     "images": [
       "/garment_2.jpg"
@@ -319,7 +319,7 @@
     "price": 320,
     "currency": "USD",
     "category": "basics",
-    "status": "published",
+    "status": "archived",
     "isDemoPrice": true,
     "images": [
       "/garment_3.jpg"
@@ -358,7 +358,7 @@
     "price": 120,
     "currency": "USD",
     "category": "basics",
-    "status": "published",
+    "status": "archived",
     "isDemoPrice": true,
     "images": [
       "/garment_4.jpg"
@@ -407,7 +407,7 @@
     "price": 1649,
     "currency": "INR",
     "category": "bottomwear",
-    "status": "draft",
+    "status": "published",
     "fulfilment": "made_to_order",
     "isMadeToOrder": true,
     "isDemoPrice": false,
@@ -448,7 +448,7 @@
     "price": 1799,
     "currency": "INR",
     "category": "bottomwear",
-    "status": "draft",
+    "status": "published",
     "fulfilment": "made_to_order",
     "isMadeToOrder": true,
     "isDemoPrice": false,
@@ -489,7 +489,7 @@
     "price": 1299,
     "currency": "INR",
     "category": "bottomwear",
-    "status": "draft",
+    "status": "published",
     "fulfilment": "made_to_order",
     "isMadeToOrder": true,
     "isDemoPrice": false,
@@ -549,7 +549,7 @@
     "price": 1549,
     "currency": "INR",
     "category": "bottomwear",
-    "status": "draft",
+    "status": "published",
     "fulfilment": "made_to_order",
     "isMadeToOrder": true,
     "isDemoPrice": false,
@@ -590,7 +590,7 @@
     "price": 1549,
     "currency": "INR",
     "category": "bottomwear",
-    "status": "draft",
+    "status": "published",
     "fulfilment": "made_to_order",
     "isMadeToOrder": true,
     "isDemoPrice": false,
@@ -631,7 +631,7 @@
     "price": 1549,
     "currency": "INR",
     "category": "bottomwear",
-    "status": "draft",
+    "status": "published",
     "fulfilment": "made_to_order",
     "isMadeToOrder": true,
     "isDemoPrice": false,
@@ -672,7 +672,7 @@
     "price": 1299,
     "currency": "INR",
     "category": "bottomwear",
-    "status": "draft",
+    "status": "published",
     "fulfilment": "made_to_order",
     "isMadeToOrder": true,
     "isDemoPrice": false,

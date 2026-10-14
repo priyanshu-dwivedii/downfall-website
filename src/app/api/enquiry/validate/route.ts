@@ -48,11 +48,12 @@ export async function POST(request: Request) {
 
       if (product.status !== 'published') {
         if (!isAuthorizedAdmin) {
+          const statusDesc = product.status === 'archived' ? 'archived and no longer available' : 'an unpublished draft and cannot be ordered';
           rejectedItems.push({
             productId: item.productId,
             productName: product.name,
             status: product.status,
-            reason: `"${product.name}" is an unpublished draft and cannot be ordered or enquired by public visitors.`,
+            reason: `"${product.name}" is ${statusDesc}.`,
           });
         }
       }

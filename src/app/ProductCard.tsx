@@ -10,6 +10,7 @@ export interface Product {
   altText: string;
   price: number;
   currency: string;
+  isDemoPrice?: boolean;
   available: boolean;
 }
 
