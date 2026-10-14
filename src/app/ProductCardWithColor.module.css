@@ -22,7 +22,7 @@
 }
 
 .productImage {
-  object-fit: cover;
+  object-fit: contain;
   transition: opacity 0.3s ease;
 }
 

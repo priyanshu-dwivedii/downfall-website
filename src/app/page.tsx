@@ -10,6 +10,8 @@ import InstagramSection from './InstagramSection';
 import HeroNav from './HeroNav';
 import HeroTitles from './HeroTitles';
 
+export const dynamic = 'force-dynamic';
+
 export default function Home() {
   return (
     <main>

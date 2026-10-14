@@ -11,6 +11,23 @@ interface Props {
 
 import Link from 'next/link';
 
+const PRODUCT_PANEL_BACKGROUNDS: Record<string, string> = {
+  'draft_beige_wide_leg_joggers': '#adacb3',
+  'beige-wide-leg-joggers': '#adacb3',
+  'draft_indigo_drape_jeans': '#c2bebc',
+  'classic-indigo-drape-jeans': '#c2bebc',
+  'draft_cocoa_skater_denim': '#bdb5b1',
+  '90s-retro-cocoa-skater-denim': '#bdb5b1',
+  'draft_brown_pinstripe_flared_pants': '#aeafb2',
+  'brown-pinstripe-flared-pants': '#aeafb2',
+  'draft_grey_pinstripe_flared_pants': '#c6c5c5',
+  'grey-pinstripe-flared-pants': '#c6c5c5',
+  'draft_grey_wide_leg_joggers': '#a7a7ad',
+  'grey-wide-leg-joggers': '#a7a7ad',
+  'draft_white_pinstripe_flared_pants': '#cfcac5',
+  'white-pinstripe-flared-pants': '#cfcac5',
+};
+
 export default function ProductCardWithColor({ product }: Props) {
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
 
@@ -31,10 +48,11 @@ export default function ProductCardWithColor({ product }: Props) {
 
   const isDemo = (product as any).isDemoPrice !== undefined ? Boolean((product as any).isDemoPrice) : true;
   const productUrl = `/products/${product.slug}?color=${encodeURIComponent(selectedVariant.name)}`;
+  const panelBg = PRODUCT_PANEL_BACKGROUNDS[product.id] || PRODUCT_PANEL_BACKGROUNDS[product.slug] || '#f5f5f5';
 
   return (
     <div className={styles.productCard}>
-      <Link href={productUrl} className={styles.imageWrapper}>
+      <Link href={productUrl} className={styles.imageWrapper} style={{ backgroundColor: panelBg }}>
         <Image 
           src={selectedVariant.image} 
           alt={`${product.name} in ${selectedVariant.name}`} 
