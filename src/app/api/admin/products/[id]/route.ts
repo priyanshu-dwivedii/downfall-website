@@ -6,6 +6,7 @@ import {
   deleteProduct,
   setProductStatus,
   ConcurrencyConflictError,
+  validateProductPublishability,
 } from '@/lib/catalog';
 
 export async function GET(
@@ -50,6 +51,23 @@ export async function PUT(
 
     if (data.price !== undefined && (isNaN(Number(data.price)) || Number(data.price) < 0)) {
       return NextResponse.json({ error: 'Price must be a valid positive number.' }, { status: 400 });
+    }
+
+    if (data.category !== undefined && !['basics', 'formal', 'luxury', 'bottomwear'].includes(data.category)) {
+      return NextResponse.json({ error: 'Valid category (basics, formal, luxury, or bottomwear) is required.' }, { status: 400 });
+    }
+
+    if (data.status === 'published') {
+      const merged = { ...existing, ...data };
+      const check = validateProductPublishability(merged);
+      if (!check.canPublish) {
+        return NextResponse.json(
+          {
+            error: `Cannot publish product: missing required selling information (${check.missingFields.join(', ')}). Incomplete garments must remain drafts.`,
+          },
+          { status: 400 }
+        );
+      }
     }
 
     const updated = await saveProduct({

@@ -2,7 +2,7 @@ export interface ProductVariant {
   name: string;
   hex: string;
   image: string;
-  sizes: { size: string; available: boolean }[];
+  sizes: { size: string; available: boolean; stock?: number }[];
 }
 
 export interface Product {
@@ -12,7 +12,18 @@ export interface Product {
   description: string;
   price: number;
   currency: string;
+  category?: 'basics' | 'formal' | 'luxury' | 'bottomwear';
+  status?: 'published' | 'draft' | 'archived';
+  isDemoPrice?: boolean;
+  fulfilment?: 'stocked' | 'made_to_order';
+  isMadeToOrder?: boolean;
+  images?: string[];
   variants: ProductVariant[];
+  imageCorrectionRequired?: boolean;
+  imageCorrectionNote?: string;
+  referenceNote?: string;
+  productionTime?: string;
+  careInstructions?: string;
 }
 
 export const catalog: Product[] = [

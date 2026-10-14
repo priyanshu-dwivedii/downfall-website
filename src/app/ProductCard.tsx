@@ -34,7 +34,11 @@ export default function ProductCard({ product, routeExists = false }: Props) {
       <div className={styles.productInfo}>
         <h3 className={styles.productName}>{product.name}</h3>
         <p className={styles.productPrice}>
-          {product.currency} {product.price.toFixed(2)} <span className={styles.demoNote}>(Demo)</span>
+          {product.currency === 'INR'
+            ? `₹${product.price.toLocaleString('en-IN')}`
+            : `$${product.price.toFixed(2)} USD`
+          }{' '}
+          {(product as any).isDemoPrice !== false && <span className={styles.demoNote}>(Demo)</span>}
         </p>
       </div>
     </>

@@ -3,21 +3,45 @@
 import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { catalog as staticCatalog, Product } from '@/app/data/products';
 
+export interface CustomMeasurements {
+  waist?: string;
+  outseam?: string;
+  unit: 'in' | 'cm';
+}
+
 export interface CartItem {
   id: string;      
   productId: string;
   variantName: string;
   size: string;
   quantity: number;
+  customMeasurements?: CustomMeasurements;
+}
+
+export interface FormattedCurrencySubtotal {
+  currency: string;
+  symbol: string;
+  amount: number;
+  formatted: string;
 }
 
 interface CartContextType {
   items: CartItem[];
-  addToCart: (item: { productId: string; variantName: string; size: string; quantity?: number }) => void;
+  addToCart: (item: {
+    productId: string;
+    variantName: string;
+    size: string;
+    quantity?: number;
+    customMeasurements?: CustomMeasurements;
+  }) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, newQuantity: number) => void;
   totalQuantity: number;
   subtotal: number;
+  currencySubtotals: Record<string, number>;
+  formattedSubtotals: FormattedCurrencySubtotal[];
+  formattedSubtotalString: string;
+  isMixedCart: boolean;
   isMounted: boolean;
   isCartOpen: boolean;
   openCart: () => void;
@@ -55,11 +79,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
         const sizeInfo = variant.sizes.find((s) => s.size === item.size);
         if (!sizeInfo || !sizeInfo.available) return null;
 
-        // Stock check
-        const maxStock = (sizeInfo as any).stock !== undefined ? (sizeInfo as any).stock : 10;
-        if (maxStock <= 0) return null;
+        // Fulfilment is authoritative; prevents isMadeToOrder from contradicting it
+        const isMadeToOrder = (product as any)?.fulfilment
+          ? (product as any).fulfilment === 'made_to_order'
+          : Boolean((product as any)?.isMadeToOrder);
 
-        const clampedQuantity = Math.min(item.quantity, maxStock, 10);
+        if (isMadeToOrder) {
+          // Made to order garments do not have an invented stock or quantity cap; preserve valid quantity >= 1
+          return {
+            ...item,
+            quantity: Math.max(1, item.quantity),
+          };
+        }
+
+        // Stocked product check
+        const maxStock = (sizeInfo as any).stock !== undefined ? (sizeInfo as any).stock : undefined;
+        if (maxStock !== undefined && maxStock <= 0) return null;
+
+        const clampedQuantity = maxStock !== undefined ? Math.min(item.quantity, maxStock) : item.quantity;
         return {
           ...item,
           quantity: Math.max(1, clampedQuantity),
@@ -111,30 +148,87 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items, isMounted]);
 
-  const addToCart = (newItem: { productId: string; variantName: string; size: string; quantity?: number }) => {
+  const areMeasurementsEqual = (m1?: CustomMeasurements, m2?: CustomMeasurements) => {
+    if (!m1 && !m2) return true;
+    if (!m1 || !m2) return false;
+    return (
+      (m1.waist?.trim() || '') === (m2.waist?.trim() || '') &&
+      (m1.outseam?.trim() || '') === (m2.outseam?.trim() || '') &&
+      m1.unit === m2.unit
+    );
+  };
+
+  const buildItemId = (item: {
+    productId: string;
+    variantName: string;
+    size: string;
+    customMeasurements?: CustomMeasurements;
+  }) => {
+    let id = `${item.productId}_${item.variantName}_${item.size}`;
+    if (item.customMeasurements) {
+      const w = (item.customMeasurements.waist || '').trim();
+      const o = (item.customMeasurements.outseam || '').trim();
+      const u = item.customMeasurements.unit || 'in';
+      id += `_w${w}_o${o}_${u}`;
+    }
+    return id;
+  };
+
+  const addToCart = (newItem: {
+    productId: string;
+    variantName: string;
+    size: string;
+    quantity?: number;
+    customMeasurements?: CustomMeasurements;
+  }) => {
     const qtyToAdd = newItem.quantity && newItem.quantity > 0 ? newItem.quantity : 1;
+    const product = getProduct(newItem.productId);
+    const isMTO = product?.fulfilment
+      ? product.fulfilment === 'made_to_order'
+      : Boolean((product as any)?.isMadeToOrder);
+
     setItems((prev) => {
       const existingItem = prev.find(
         (i) =>
           i.productId === newItem.productId &&
           i.variantName === newItem.variantName &&
-          i.size === newItem.size
+          i.size === newItem.size &&
+          areMeasurementsEqual(i.customMeasurements, newItem.customMeasurements)
       );
       if (existingItem) {
+        const nextQty = existingItem.quantity + qtyToAdd;
+        const variant = product?.variants.find((v) => v.name === newItem.variantName);
+        const sizeInfo = variant?.sizes.find((s) => s.size === newItem.size);
+        const maxStock = (sizeInfo as any)?.stock;
+        const clampedQty = isMTO
+          ? nextQty
+          : maxStock !== undefined
+          ? Math.min(nextQty, maxStock)
+          : nextQty;
+
         return prev.map((i) =>
-          i.id === existingItem.id
-            ? { ...i, quantity: Math.min(10, i.quantity + qtyToAdd) }
-            : i
+          i.id === existingItem.id ? { ...i, quantity: clampedQty } : i
         );
       }
+
+      const variant = product?.variants.find((v) => v.name === newItem.variantName);
+      const sizeInfo = variant?.sizes.find((s) => s.size === newItem.size);
+      const maxStock = (sizeInfo as any)?.stock;
+      const initialQty = isMTO
+        ? qtyToAdd
+        : maxStock !== undefined
+        ? Math.min(qtyToAdd, maxStock)
+        : qtyToAdd;
+
       return [
         ...prev,
         {
-          id: `${newItem.productId}_${newItem.variantName}_${newItem.size}`,
+          id: buildItemId(newItem),
           productId: newItem.productId,
           variantName: newItem.variantName,
           size: newItem.size,
-          quantity: Math.min(10, qtyToAdd),
+          quantity: initialQty,
+          customMeasurements: newItem.customMeasurements,
         },
       ];
     });
@@ -147,17 +241,57 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const updateQuantity = (id: string, newQuantity: number) => {
     if (newQuantity <= 0) return removeFromCart(id);
-    const clampedQty = Math.min(10, newQuantity);
+    const item = items.find((i) => i.id === id);
+    const product = item ? getProduct(item.productId) : undefined;
+    const isMTO = product?.fulfilment
+      ? product.fulfilment === 'made_to_order'
+      : Boolean((product as any)?.isMadeToOrder);
+
+    if (isMTO) {
+      setItems((prev) => prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i)));
+      return;
+    }
+
+    const variant = product?.variants.find((v) => v.name === item?.variantName);
+    const sizeInfo = variant?.sizes.find((s) => s.size === item?.size);
+    const maxStock = (sizeInfo as any)?.stock;
+    const clampedQty = maxStock !== undefined ? Math.min(newQuantity, maxStock) : newQuantity;
     setItems((prev) => prev.map((i) => (i.id === id ? { ...i, quantity: clampedQty } : i)));
   };
 
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
 
-  // Subtotal calculated with current revalidated catalog prices
-  const subtotal = items.reduce((sum, item) => {
+  // Currency-aware subtotal computation: NEVER mix different currencies into a single numeric sum
+  const currencySubtotals = items.reduce<Record<string, number>>((acc, item) => {
     const product = getProduct(item.productId);
-    return sum + (product ? product.price * item.quantity : 0);
-  }, 0);
+    const curr = product?.currency || 'USD';
+    const price = product ? product.price : 0;
+    acc[curr] = (acc[curr] || 0) + price * item.quantity;
+    return acc;
+  }, {});
+
+  const currenciesInCart = Object.keys(currencySubtotals);
+  const isMixedCart = currenciesInCart.length > 1;
+
+  const formattedSubtotals: FormattedCurrencySubtotal[] = currenciesInCart.map((curr) => {
+    const amount = currencySubtotals[curr];
+    const formatted = curr === 'INR'
+      ? `₹${amount.toLocaleString('en-IN')} INR`
+      : `$${amount.toFixed(2)} USD`;
+    return {
+      currency: curr,
+      symbol: curr === 'INR' ? '₹' : '$',
+      amount,
+      formatted,
+    };
+  });
+
+  const formattedSubtotalString = formattedSubtotals.length > 0
+    ? formattedSubtotals.map((f) => f.formatted).join(' + ')
+    : '$0.00 USD';
+
+  // For backward compatibility: if single currency return that amount; if mixed, return 0 to prevent accidental addition
+  const subtotal = currenciesInCart.length === 1 ? currencySubtotals[currenciesInCart[0]] : 0;
 
   return (
     <CartContext.Provider
@@ -168,6 +302,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
         updateQuantity,
         totalQuantity,
         subtotal,
+        currencySubtotals,
+        formattedSubtotals,
+        formattedSubtotalString,
+        isMixedCart,
         isMounted,
         isCartOpen,
         openCart,

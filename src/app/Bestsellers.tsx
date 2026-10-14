@@ -17,7 +17,7 @@ export default async function Bestsellers() {
       altText: p.name,
       price: p.price,
       currency: p.currency,
-      available: p.variants.some((v) => v.sizes.some((s) => s.available)),
+      available: p.variants.some((v: any) => v.sizes?.some((s: any) => s.available)),
     }));
 
   return (

@@ -398,5 +398,310 @@
       }
     ],
     "version": 1
+  },
+  {
+    "id": "draft_cocoa_skater_denim",
+    "slug": "90s-retro-cocoa-skater-denim",
+    "name": "90s Retro Cocoa Skater Denim",
+    "description": "Overview:\n1990s retro cocoa denim jeans featuring a high rise and a relaxed wide-leg fit.\n\nKey Features:\n• Fabric: Lightweight 10oz denim\n• Fit: Relaxed wide-leg fit\n• Rise: High rise\n• Customisation: Bespoke waist and length customisation\n\nSize & Fit Information:\n• Model Height: 6'4\"\n• Reference Garment Outseam: 47 inches\n• Fit Note: The 6'4\" model height and 47-inch outseam reflect reference garment specifications and are not universal sizing defaults. Bespoke waist and length customisation is supported.",
+    "price": 1649,
+    "currency": "INR",
+    "category": "bottomwear",
+    "status": "draft",
+    "fulfilment": "made_to_order",
+    "isMadeToOrder": true,
+    "isDemoPrice": false,
+    "images": [
+      "/products/90s-retro-cocoa-skater-denim/cocoa-skater-denim-1.png",
+      "/products/90s-retro-cocoa-skater-denim/cocoa-skater-denim-2.png",
+      "/products/90s-retro-cocoa-skater-denim/cocoa-skater-denim-3.png",
+      "/products/90s-retro-cocoa-skater-denim/cocoa-skater-denim-4.png",
+      "/products/90s-retro-cocoa-skater-denim/cocoa-skater-denim-5.png"
+    ],
+    "variants": [
+      {
+        "name": "Cocoa",
+        "hex": "#5c4033",
+        "image": "/products/90s-retro-cocoa-skater-denim/cocoa-skater-denim-1.png",
+        "sizes": [
+          {
+            "size": "Custom measurements",
+            "available": true
+          }
+        ]
+      }
+    ],
+    "measurements": [
+      "Waist circumference",
+      "Requested garment outseam"
+    ],
+    "productionTime": "",
+    "careInstructions": "",
+    "referenceNote": "47 inches outseam is a reference garment specification modeled at 6'4\", not a default. Please specify your desired garment outseam. Customer values remain blank by default.",
+    "version": 1
+  },
+  {
+    "id": "draft_indigo_drape_jeans",
+    "slug": "classic-indigo-drape-jeans",
+    "name": "Classic Indigo Drape Jeans",
+    "description": "Overview:\nUpgrade your daily rotation with a classic indigo finish and a relaxed, wide-leg silhouette. Inspired by the easy proportions of retro denim, these jeans bring a flowing drape and understated character to everyday dressing.\n\nKey Features:\n• Classic Indigo Colour: A versatile blue shade that pairs effortlessly with everyday essentials.\n• Relaxed Wide-Leg Silhouette: A generous cut for an easy, laid-back look.\n• High-Rise Cut: A defined waist balanced by a loose leg profile.\n• Bespoke Fit: Made to order with custom waist and garment-length measurements.\n\nSize & Fit:\n• Fit: Relaxed, wide-leg fit\n• Rise: High rise\n• Colour: Indigo\n• Sizing: Custom waist circumference and garment outseam\n• Fulfilment: Made to order",
+    "price": 1799,
+    "currency": "INR",
+    "category": "bottomwear",
+    "status": "draft",
+    "fulfilment": "made_to_order",
+    "isMadeToOrder": true,
+    "isDemoPrice": false,
+    "images": [
+      "/products/classic-indigo-drape-jeans/classic-indigo-drape-jeans-1.png",
+      "/products/classic-indigo-drape-jeans/classic-indigo-drape-jeans-2.png",
+      "/products/classic-indigo-drape-jeans/classic-indigo-drape-jeans-3.png",
+      "/products/classic-indigo-drape-jeans/classic-indigo-drape-jeans-4.png",
+      "/products/classic-indigo-drape-jeans/classic-indigo-drape-jeans-5.png"
+    ],
+    "variants": [
+      {
+        "name": "Indigo",
+        "hex": "#264E86",
+        "image": "/products/classic-indigo-drape-jeans/classic-indigo-drape-jeans-1.png",
+        "sizes": [
+          {
+            "size": "Custom measurements",
+            "available": true
+          }
+        ]
+      }
+    ],
+    "measurements": [
+      "Waist circumference",
+      "Requested garment outseam"
+    ],
+    "productionTime": "",
+    "careInstructions": "",
+    "referenceNote": "Please specify your desired garment outseam and waist circumference. Customer values remain blank by default.",
+    "version": 1
+  },
+  {
+    "id": "draft_beige_wide_leg_joggers",
+    "slug": "beige-wide-leg-joggers",
+    "name": "Beige Wide Leg Joggers",
+    "description": "Overview:\nRelaxed wide-leg joggers designed with a high rise and an effortless, fluid silhouette.\n\nKey Features:\n• Fabric: Breathable 220 GSM fabric\n• Fit: Relaxed wide-leg fit\n• Rise: High rise\n• Waistband: Elastic waistband with a beige drawstring.\n• Sizing Flexibility: Customisable sizing (Custom measurements)\n\nSize & Fit Information:\n• Model Height: 6'4\"\n• Reference Garment Outseam: 47 inches\n• Fit Note: The 6'4\" model height and 47-inch outseam reflect reference garment specifications and are not universal sizing defaults. Customisable sizing is supported.",
+    "price": 1299,
+    "currency": "INR",
+    "category": "bottomwear",
+    "status": "draft",
+    "fulfilment": "made_to_order",
+    "isMadeToOrder": true,
+    "isDemoPrice": false,
+    "images": [
+      "/products/beige-wide-leg-joggers/beige-wide-leg-joggers-1.png",
+      "/products/beige-wide-leg-joggers/beige-wide-leg-joggers-2.png",
+      "/products/beige-wide-leg-joggers/beige-wide-leg-joggers-3.png",
+      "/products/beige-wide-leg-joggers/beige-wide-leg-joggers-4.png",
+      "/products/beige-wide-leg-joggers/beige-wide-leg-joggers-5.png"
+    ],
+    "variants": [
+      {
+        "name": "Beige",
+        "hex": "#D4C5B9",
+        "image": "/products/beige-wide-leg-joggers/beige-wide-leg-joggers-1.png",
+        "sizes": [
+          {
+            "size": "Custom measurements",
+            "available": true
+          }
+        ]
+      }
+    ],
+    "measurements": [
+      "Waist circumference",
+      "Requested garment outseam"
+    ],
+    "productionTime": "",
+    "careInstructions": "",
+    "referenceNote": "47 inches outseam is a reference garment specification modeled at 6'4\", not a default. Please specify your desired garment outseam. Customer values remain blank by default.",
+    "version": 1
+  },
+  {
+    "id": "draft_black_wide_leg_joggers",
+    "slug": "black-wide-leg-joggers",
+    "name": "Black Wide Leg Joggers",
+    "description": "Overview:\nRelaxed wide-leg joggers designed with a high rise and an effortless, fluid silhouette.\n\nKey Features:\n• Fabric: Breathable 220 GSM fabric\n• Fit: Relaxed wide-leg fit\n• Rise: High rise\n• Waistband: Clean elastic waistband without a drawstring\n• Sizing Flexibility: Customisable sizing\n\nSize & Fit Information:\n• Model Height: 6'4\"\n• Reference Garment Outseam: 47 inches\n• Fit Note: The 6'4\" model height and 47-inch outseam reflect reference garment specifications and are not universal sizing defaults. Customisable sizing is supported.",
+    "price": 1199,
+    "currency": "INR",
+    "category": "bottomwear",
+    "status": "draft",
+    "fulfilment": "made_to_order",
+    "isMadeToOrder": true,
+    "isDemoPrice": false,
+    "images": [],
+    "variants": [],
+    "measurements": [],
+    "productionTime": "",
+    "careInstructions": "",
+    "version": 1
+  },
+  {
+    "id": "draft_white_pinstripe_flared_pants",
+    "slug": "white-pinstripe-flared-pants",
+    "name": "White Pinstripe Flared Pants",
+    "description": "Overview:\nFlared trousers featuring vertical pinstripes and a distinct pleated silhouette flaring outward from the knee.\n\nKey Features:\n• Fabric: 100% High-Grade Viscose\n• Pattern: Vertical pinstripes\n• Fit & Cut: Flared pleated fit with flare starting from the knee\n• Rise: High rise\n• Waistline: Broad waistline\n• Closure: Two-button closure\n\nSize & Fit Information:\n• Fit Profile: High-rise, flared pleated fit designed with knee-down flare\n• Fit Note: Commercial sizing options and sizing specifications pending client confirmation.",
+    "price": 1549,
+    "currency": "INR",
+    "category": "bottomwear",
+    "status": "draft",
+    "fulfilment": "made_to_order",
+    "isMadeToOrder": true,
+    "isDemoPrice": false,
+    "images": [
+      "/products/white-pinstripe-flared-pants/white-pinstripe-flared-pants-1.png",
+      "/products/white-pinstripe-flared-pants/white-pinstripe-flared-pants-2.png",
+      "/products/white-pinstripe-flared-pants/white-pinstripe-flared-pants-3.png",
+      "/products/white-pinstripe-flared-pants/white-pinstripe-flared-pants-4.png",
+      "/products/white-pinstripe-flared-pants/white-pinstripe-flared-pants-5.png"
+    ],
+    "variants": [
+      {
+        "name": "White",
+        "hex": "#FFFFFF",
+        "image": "/products/white-pinstripe-flared-pants/white-pinstripe-flared-pants-1.png",
+        "sizes": [
+          {
+            "size": "Custom measurements",
+            "available": true
+          }
+        ]
+      }
+    ],
+    "measurements": [
+      "Waist circumference",
+      "Requested garment outseam"
+    ],
+    "productionTime": "",
+    "careInstructions": "",
+    "referenceNote": "Please specify your desired garment outseam and waist circumference. Customer values remain blank by default.",
+    "version": 1
+  },
+  {
+    "id": "draft_brown_pinstripe_flared_pants",
+    "slug": "brown-pinstripe-flared-pants",
+    "name": "Brown Pinstripe Flared Pants",
+    "description": "Overview:\nFlared trousers featuring vertical pinstripes and a distinct pleated silhouette flaring outward from the knee.\n\nKey Features:\n• Fabric: 100% High-Grade Viscose\n• Pattern: Vertical pinstripes\n• Fit & Cut: Flared pleated fit with flare starting from the knee\n• Rise: High rise\n• Waistline: Broad waistline\n• Closure: Two-button closure\n\nSize & Fit Information:\n• Fit Profile: High-rise, flared pleated fit designed with knee-down flare\n• Fit Note: Commercial sizing options and sizing specifications pending client confirmation.",
+    "price": 1549,
+    "currency": "INR",
+    "category": "bottomwear",
+    "status": "draft",
+    "fulfilment": "made_to_order",
+    "isMadeToOrder": true,
+    "isDemoPrice": false,
+    "images": [
+      "/products/brown-pinstripe-flared-pants/brown-pinstripe-flared-pants-1.png",
+      "/products/brown-pinstripe-flared-pants/brown-pinstripe-flared-pants-2.png",
+      "/products/brown-pinstripe-flared-pants/brown-pinstripe-flared-pants-3.png",
+      "/products/brown-pinstripe-flared-pants/brown-pinstripe-flared-pants-4.png",
+      "/products/brown-pinstripe-flared-pants/brown-pinstripe-flared-pants-5.png"
+    ],
+    "variants": [
+      {
+        "name": "Brown",
+        "hex": "#5c4033",
+        "image": "/products/brown-pinstripe-flared-pants/brown-pinstripe-flared-pants-1.png",
+        "sizes": [
+          {
+            "size": "Custom measurements",
+            "available": true
+          }
+        ]
+      }
+    ],
+    "measurements": [
+      "Waist circumference",
+      "Requested garment outseam"
+    ],
+    "productionTime": "",
+    "careInstructions": "",
+    "referenceNote": "Please specify your desired garment outseam and waist circumference. Customer values remain blank by default.",
+    "version": 1
+  },
+  {
+    "id": "draft_grey_pinstripe_flared_pants",
+    "slug": "grey-pinstripe-flared-pants",
+    "name": "Grey Pinstripe Flared Pants",
+    "description": "Overview:\nFlared trousers featuring vertical pinstripes and a distinct pleated silhouette flaring outward from the knee.\n\nKey Features:\n• Fabric: 100% High-Grade Viscose\n• Pattern: Vertical pinstripes\n• Fit & Cut: Flared pleated fit with flare starting from the knee\n• Rise: High rise\n• Waistline: Broad waistline\n• Closure: Two-button closure\n\nSize & Fit Information:\n• Fit Profile: High-rise, flared pleated fit designed with knee-down flare\n• Fit Note: Commercial sizing options and sizing specifications pending client confirmation.",
+    "price": 1549,
+    "currency": "INR",
+    "category": "bottomwear",
+    "status": "draft",
+    "fulfilment": "made_to_order",
+    "isMadeToOrder": true,
+    "isDemoPrice": false,
+    "images": [
+      "/products/grey-pinstripe-flared-pants/grey-pinstripe-flared-pants-1.png",
+      "/products/grey-pinstripe-flared-pants/grey-pinstripe-flared-pants-2.png",
+      "/products/grey-pinstripe-flared-pants/grey-pinstripe-flared-pants-3.png",
+      "/products/grey-pinstripe-flared-pants/grey-pinstripe-flared-pants-4.png",
+      "/products/grey-pinstripe-flared-pants/grey-pinstripe-flared-pants-5.png"
+    ],
+    "variants": [
+      {
+        "name": "Grey",
+        "hex": "#808080",
+        "image": "/products/grey-pinstripe-flared-pants/grey-pinstripe-flared-pants-1.png",
+        "sizes": [
+          {
+            "size": "Custom measurements",
+            "available": true
+          }
+        ]
+      }
+    ],
+    "measurements": [
+      "Waist circumference",
+      "Requested garment outseam"
+    ],
+    "productionTime": "",
+    "careInstructions": "",
+    "referenceNote": "Please specify your desired garment outseam and waist circumference. Customer values remain blank by default.",
+    "version": 1
+  },
+  {
+    "id": "draft_grey_wide_leg_joggers",
+    "slug": "grey-wide-leg-joggers",
+    "name": "Grey Wide Leg Joggers",
+    "description": "Overview:\nRelaxed wide-leg joggers designed with a high rise and an effortless, fluid silhouette.\n\nKey Features:\n• Fabric: Breathable 220 GSM fabric\n• Fit: Relaxed wide-leg fit\n• Rise: High rise\n• Waistband: Elastic waistband with a grey drawstring.\n• Sizing Flexibility: Sizing requirements pending confirmation\n\nSize & Fit Information:\n• Model Height: 6'4\"\n• Reference Garment Outseam: 47 inches\n• Fit Note: The 6'4\" model height and 47-inch outseam reflect reference garment specifications and are not universal sizing defaults. Sizing requirements pending confirmation.",
+    "price": 1299,
+    "currency": "INR",
+    "category": "bottomwear",
+    "status": "draft",
+    "fulfilment": "made_to_order",
+    "isMadeToOrder": true,
+    "isDemoPrice": false,
+    "images": [
+      "/products/grey-wide-leg-joggers/grey-wide-leg-joggers-1.png",
+      "/products/grey-wide-leg-joggers/grey-wide-leg-joggers-2.png",
+      "/products/grey-wide-leg-joggers/grey-wide-leg-joggers-3.png",
+      "/products/grey-wide-leg-joggers/grey-wide-leg-joggers-4.png"
+    ],
+    "variants": [
+      {
+        "name": "Grey",
+        "hex": "#808080",
+        "image": "/products/grey-wide-leg-joggers/grey-wide-leg-joggers-1.png",
+        "sizes": [
+          {
+            "size": "Custom measurements",
+            "available": true
+          }
+        ]
+      }
+    ],
+    "measurements": [
+      "Waist circumference",
+      "Requested garment outseam"
+    ],
+    "productionTime": "",
+    "careInstructions": "",
+    "referenceNote": "47 inches outseam is a reference garment specification modeled at 6'4\", not a default. Please specify your desired garment outseam. Customer values remain blank by default.",
+    "version": 1
   }
 ]

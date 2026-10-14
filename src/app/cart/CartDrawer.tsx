@@ -10,7 +10,7 @@ import QuantityInput from './QuantityInput';
 import styles from './CartDrawer.module.css';
 
 export default function CartDrawer() {
-  const { isCartOpen, closeCart, items, updateQuantity, removeFromCart, subtotal, isMounted, getProduct } = useCart();
+  const { isCartOpen, closeCart, items, updateQuantity, removeFromCart, subtotal, isMounted, getProduct, formattedSubtotals, formattedSubtotalString, isMixedCart } = useCart();
   const drawerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const triggerRef = useRef<HTMLElement | null>(null);
@@ -130,6 +130,11 @@ export default function CartDrawer() {
 
                 const isDemo = (product as any).isDemoPrice !== undefined ? Boolean((product as any).isDemoPrice) : true;
 
+                const currency = (product as any)?.currency || 'USD';
+                const itemPriceFormatted = currency === 'INR'
+                  ? `₹${product.price.toLocaleString('en-IN')}`
+                  : `$${product.price.toFixed(2)} USD`;
+
                 return (
                   <div key={item.id} className={styles.cartItem}>
                     <div className={styles.itemImage}>
@@ -143,9 +148,14 @@ export default function CartDrawer() {
                     <div className={styles.itemDetails}>
                       <div className={styles.itemHeader}>
                         <h3 className={styles.itemName}>{product.name}</h3>
-                        <p className={styles.itemPrice}>${product.price.toFixed(2)} USD {isDemo && <span className={styles.demoNote}>(Demo)</span>}</p>
+                        <p className={styles.itemPrice}>{itemPriceFormatted} {isDemo && <span className={styles.demoNote}>(Demo)</span>}</p>
                       </div>
                       <p className={styles.itemVariant}>{item.variantName} / {item.size}</p>
+                      {item.customMeasurements && (
+                        <p style={{ fontSize: '11px', color: '#555555', marginTop: '2px', fontWeight: 700 }}>
+                          Waist: {item.customMeasurements.waist} {item.customMeasurements.unit} &bull; Outseam: {item.customMeasurements.outseam} {item.customMeasurements.unit}
+                        </p>
+                      )}
                       
                       <div className={styles.itemActions}>
                         <div className={styles.quantityControl}>
@@ -184,10 +194,24 @@ export default function CartDrawer() {
             </div>
             
             <div className={styles.footer}>
-              <div className={styles.subtotalRow}>
-                <span className={styles.subtotalLabel}>Subtotal</span>
-                <span className={styles.subtotalValue}>${subtotal.toFixed(2)} USD</span>
-              </div>
+              {isMixedCart ? (
+                <div style={{ marginBottom: '14px' }}>
+                  <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#777', marginBottom: '6px', fontWeight: 700 }}>
+                    Mixed Currency Bag
+                  </div>
+                  {formattedSubtotals.map((fs) => (
+                    <div key={fs.currency} className={styles.subtotalRow} style={{ marginTop: '4px' }}>
+                      <span className={styles.subtotalLabel}>{fs.currency} Subtotal</span>
+                      <span className={styles.subtotalValue}>{fs.formatted}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className={styles.subtotalRow}>
+                  <span className={styles.subtotalLabel}>Subtotal</span>
+                  <span className={styles.subtotalValue}>{formattedSubtotalString}</span>
+                </div>
+              )}
               <p className={styles.shippingNotice}>Bespoke collection enquiry via WhatsApp.</p>
               <button 
                 className={styles.checkoutBtn} 

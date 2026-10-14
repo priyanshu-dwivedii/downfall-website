@@ -18,6 +18,7 @@ const CATEGORIES = [
   { id: 'basics', label: 'BASICS', href: '/collections/basics' },
   { id: 'formal', label: 'FORMAL', href: '/collections/formal' },
   { id: 'luxury', label: 'LUXURY', href: '/collections/luxury' },
+  { id: 'bottomwear', label: 'BOTTOMWEAR', href: '/collections/bottomwear' },
 ];
 
 export default function CollectionClient({ slug, title, description, products }: CollectionClientProps) {

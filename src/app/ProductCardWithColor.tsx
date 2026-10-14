@@ -55,7 +55,11 @@ export default function ProductCardWithColor({ product }: Props) {
             <p className={styles.productCategory}>{category}</p>
           </div>
           <p className={styles.productPrice}>
-            {product.currency} {product.price.toFixed(2)} {isDemo && <span className={styles.demoNote}>(Demo)</span>}
+            {product.currency === 'INR'
+              ? `₹${product.price.toLocaleString('en-IN')}`
+              : `$${product.price.toFixed(2)} USD`
+            }{' '}
+            {isDemo && <span className={styles.demoNote}>(Demo)</span>}
           </p>
         </div>
         

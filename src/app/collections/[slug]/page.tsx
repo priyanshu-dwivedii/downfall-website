@@ -21,6 +21,10 @@ const collectionMetadata: Record<string, { title: string; description: string }>
     title: 'LUXURY — REFINED',
     description: 'Exquisite materials and unparalleled craftsmanship for when only the best will do.',
   },
+  bottomwear: {
+    title: 'BOTTOMWEAR — ATELIER',
+    description: 'Precision-tailored flared trousers, retro skater denim, and relaxed joggers cut and produced to order.',
+  },
 };
 
 export default async function CollectionPage(props: { params: Promise<{ slug: string }> }) {
@@ -40,6 +44,8 @@ export default async function CollectionPage(props: { params: Promise<{ slug: st
     products = published.filter((p) => p.category === 'formal' || p.id === 'f1');
   } else if (params.slug === 'luxury') {
     products = published.filter((p) => p.category === 'luxury' || p.id === 'x1');
+  } else if (params.slug === 'bottomwear') {
+    products = published.filter((p) => p.category === 'bottomwear');
   }
 
   return (
@@ -57,6 +63,7 @@ export function generateStaticParams() {
     { slug: 'all' },
     { slug: 'basics' },
     { slug: 'formal' },
-    { slug: 'luxury' }
+    { slug: 'luxury' },
+    { slug: 'bottomwear' }
   ];
 }

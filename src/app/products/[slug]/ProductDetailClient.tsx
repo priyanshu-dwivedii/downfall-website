@@ -24,22 +24,43 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
     || product.variants[0];
 
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(startingVariant);
-  const [selectedSize, setSelectedSize] = useState<string>('');
+  const [selectedSize, setSelectedSize] = useState<string>(
+    startingVariant?.sizes?.length === 1 ? startingVariant.sizes[0].size : ''
+  );
   const [quantity, setQuantity] = useState<number>(1);
   const [inputValue, setInputValue] = useState<string>('1');
   const [openAccordion, setOpenAccordion] = useState<string | null>('description');
   const [sizeError, setSizeError] = useState(false);
   const [addedSuccess, setAddedSuccess] = useState(false);
 
+  // Multi-image gallery with original aspect ratio preservation
+  const galleryImages = (product.images && product.images.length > 0)
+    ? product.images
+    : [selectedVariant.image];
+  const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
+
+  // Custom measurements state
+  const isCustomMeasurementsProduct = Boolean(
+    selectedSize === 'Custom measurements' ||
+    (product as any).measurements?.length > 0 ||
+    (selectedVariant?.sizes?.length === 1 && selectedVariant.sizes[0].size === 'Custom measurements')
+  );
+  const [customUnit, setCustomUnit] = useState<'in' | 'cm'>('in');
+  const [waistMeasurement, setWaistMeasurement] = useState<string>(''); // Kept blank initially
+  const [outseamMeasurement, setOutseamMeasurement] = useState<string>(''); // Kept blank; customer values remain blank by default
+  const [measurementError, setMeasurementError] = useState<string | null>(null);
+
+  const isMadeToOrder = product.fulfilment ? product.fulfilment === 'made_to_order' : Boolean(product.isMadeToOrder);
+
   // Variant & size stock calculations
-  const allSizesUnavailable = selectedVariant.sizes.every(s => !s.available);
-  const selectedSizeInfo = selectedVariant.sizes.find(s => s.size === selectedSize);
-  const isSelectedSizeAvailable = selectedSize ? Boolean(selectedSizeInfo?.available) : true;
+  const allSizesUnavailable = !isMadeToOrder && Boolean(selectedVariant?.sizes?.length) && selectedVariant.sizes.every(s => !s.available);
+  const selectedSizeInfo = selectedVariant?.sizes?.find(s => s.size === selectedSize);
+  const isSelectedSizeAvailable = selectedSize ? (isMadeToOrder ? true : Boolean(selectedSizeInfo?.available)) : true;
 
   const matchingCartItem = selectedSize
     ? items.find(
         i => i.productId === product.id && 
-             i.variantName === selectedVariant.name && 
+             i.variantName === selectedVariant?.name && 
              i.size === selectedSize
       )
     : undefined;
@@ -47,7 +68,9 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
   const MAX_ITEM_STOCK = 10;
   const availableStock = allSizesUnavailable || (selectedSize && !isSelectedSizeAvailable)
     ? 0
-    : Math.max(0, MAX_ITEM_STOCK - inCartQty);
+    : isMadeToOrder
+      ? Infinity
+      : Math.max(0, (selectedSizeInfo?.stock ?? MAX_ITEM_STOCK) - inCartQty);
 
   useEffect(() => {
     if (selectedSize) {
@@ -75,12 +98,21 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
 
   const handleVariantChange = (variant: ProductVariant) => {
     setSelectedVariant(variant);
-    setSelectedSize(''); // Require valid size selection for new variant
+    const defaultSize = variant.sizes.length === 1 ? variant.sizes[0].size : '';
+    setSelectedSize(defaultSize);
     setQuantity(1);      // Reset quantity
     setInputValue('1');
     focusedQuantityRef.current = 1;
     setSizeError(false);
+    setMeasurementError(null);
     setAddedSuccess(false);
+
+    if (product.images && product.images.length > 0) {
+      const imgIdx = product.images.indexOf(variant.image);
+      if (imgIdx >= 0) {
+        setActiveImageIndex(imgIdx);
+      }
+    }
   };
 
   const handleDecrement = () => {
@@ -93,7 +125,7 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
   };
 
   const handleIncrement = () => {
-    if (availableStock > 0 && quantity < availableStock) {
+    if (availableStock === Infinity || (availableStock > 0 && quantity < availableStock)) {
       const next = quantity + 1;
       setQuantity(next);
       setInputValue(next.toString());
@@ -105,7 +137,7 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
     const parsed = parseInt(raw, 10);
     if (isNaN(parsed) || parsed < 1) {
       setInputValue(quantity.toString());
-    } else if (availableStock > 0 && parsed > availableStock) {
+    } else if (availableStock !== Infinity && availableStock > 0 && parsed > availableStock) {
       setQuantity(availableStock);
       setInputValue(availableStock.toString());
       focusedQuantityRef.current = availableStock;
@@ -154,6 +186,10 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
   };
 
   const handleAddToCart = () => {
+    if (selectedVariant.sizes && selectedVariant.sizes.length === 0) {
+      return;
+    }
+
     if (!selectedSize) {
       setSizeError(true);
       return;
@@ -163,19 +199,39 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
       return;
     }
 
+    if (isCustomMeasurementsProduct) {
+      if (!waistMeasurement.trim() || !outseamMeasurement.trim()) {
+        setMeasurementError('Please enter both waist circumference and requested garment outseam before adding to bag.');
+        return;
+      }
+      const numWaist = parseFloat(waistMeasurement.trim());
+      const numOutseam = parseFloat(outseamMeasurement.trim());
+      if (isNaN(numWaist) || numWaist <= 0 || isNaN(numOutseam) || numOutseam <= 0) {
+        setMeasurementError('Please enter valid positive numbers for both waist circumference and requested garment outseam.');
+        return;
+      }
+    }
+
     const parsedInput = parseInt(inputValue, 10);
     let effectiveQty = quantity;
     if (!isNaN(parsedInput) && parsedInput >= 1) {
-      effectiveQty = Math.min(parsedInput, availableStock);
+      effectiveQty = availableStock !== Infinity ? Math.min(parsedInput, availableStock) : parsedInput;
     }
-    const qtyToAdd = Math.min(effectiveQty, availableStock);
+    const qtyToAdd = availableStock !== Infinity ? Math.min(effectiveQty, availableStock) : effectiveQty;
     if (qtyToAdd <= 0) return;
 
     addToCart({
       productId: product.id,
       variantName: selectedVariant.name,
       size: selectedSize,
-      quantity: qtyToAdd
+      quantity: qtyToAdd,
+      customMeasurements: isCustomMeasurementsProduct
+        ? {
+            waist: waistMeasurement.trim(),
+            outseam: outseamMeasurement.trim(),
+            unit: customUnit,
+          }
+        : undefined,
     });
 
     setQuantity(1);
@@ -184,15 +240,18 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
 
     setAddedSuccess(true);
     setSizeError(false);
+    setMeasurementError(null);
   };
 
   let stockMessage: string | null = null;
-  if (allSizesUnavailable) {
+  if (isMadeToOrder) {
+    stockMessage = null;
+  } else if (allSizesUnavailable) {
     stockMessage = 'Out of stock';
   } else if (selectedSize && !isSelectedSizeAvailable) {
     stockMessage = 'Selected size is out of stock';
-  } else if (selectedSize && inCartQty >= MAX_ITEM_STOCK) {
-    stockMessage = `Max stock reached (${MAX_ITEM_STOCK} in cart)`;
+  } else if (selectedSize && availableStock !== Infinity && inCartQty >= (selectedSizeInfo?.stock ?? MAX_ITEM_STOCK)) {
+    stockMessage = `Max stock reached (${inCartQty} in cart)`;
   }
 
   // Find related products (exclude current)
@@ -261,27 +320,35 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
           {/* Gallery Left */}
           <div className={styles.galleryContainer}>
             <div className={styles.thumbnailList} role="tablist" aria-label="Product image gallery">
-              <button 
-                className={`${styles.thumbnailButton} ${styles.activeThumbnail}`}
-                role="tab"
-                aria-selected="true"
-                aria-label={`View image 1 of ${product.name}`}
-              >
-                <Image 
-                  src={selectedVariant.image} 
-                  alt={`Thumbnail 1 of ${product.name} in ${selectedVariant.name}`} 
-                  fill 
-                  sizes="80px"
-                  className={styles.thumbnailImage} 
-                />
-              </button>
+              {galleryImages.map((imgSrc, idx) => {
+                const isActive = activeImageIndex === idx;
+                return (
+                  <button 
+                    key={idx}
+                    type="button"
+                    className={`${styles.thumbnailButton} ${isActive ? styles.activeThumbnail : ''}`}
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-label={`View image ${idx + 1} of ${product.name}`}
+                    onClick={() => setActiveImageIndex(idx)}
+                  >
+                    <Image 
+                      src={imgSrc} 
+                      alt={`Thumbnail ${idx + 1} of ${product.name}`} 
+                      fill 
+                      sizes="80px"
+                      className={styles.thumbnailImage} 
+                    />
+                  </button>
+                );
+              })}
             </div>
             
             <div className={styles.mainImagePanel}>
               <div className={styles.imageWrapper}>
                 <Image 
-                  src={selectedVariant.image} 
-                  alt={`${product.name} in ${selectedVariant.name}`} 
+                  src={galleryImages[activeImageIndex] || selectedVariant.image} 
+                  alt={`${product.name} - View ${activeImageIndex + 1}`} 
                   fill 
                   sizes="(max-width: 768px) 100vw, 60vw"
                   className={styles.productImage} 
@@ -293,10 +360,37 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
 
           {/* Details Right */}
           <div className={styles.details}>
+            {(product as any).imageCorrectionRequired && (
+              <div 
+                style={{
+                  backgroundColor: '#fffbe6',
+                  border: '1px solid #d48806',
+                  padding: '12px 16px',
+                  marginBottom: '16px',
+                  fontSize: '12px',
+                  color: '#ad6800',
+                  lineHeight: 1.5,
+                  fontWeight: 700,
+                }}
+                role="alert"
+                aria-label="Image correction flag"
+              >
+                ⚠️ IMAGES FLAGGED FOR CORRECTION: Supplied gallery photos show black drawstring ends. The client confirms the garment features an elastic waistband with a grey drawstring with no black tips or sections. Original images are kept intact and must not be published.
+              </div>
+            )}
             <p className={styles.categoryLabel}>{categoryName}</p>
             <h1 className={styles.productName}>{product.name}</h1>
             <p className={styles.productPrice}>
-              {product.currency} {product.price.toFixed(2)} <span className={styles.demoNote}>(Demo)</span>
+              {product.currency === 'INR'
+                ? `₹${product.price.toLocaleString('en-IN')}`
+                : `$${product.price.toFixed(2)} USD`
+              }{' '}
+              {(product as any).isDemoPrice !== false && <span className={styles.demoNote}>(Demo)</span>}
+              {isMadeToOrder && (
+                <span className={styles.demoNote} style={{ marginLeft: '6px', color: '#8b5e34', borderColor: '#8b5e34' }}>
+                  Made to Order
+                </span>
+              )}
             </p>
             
             <p className={styles.productDescription}>{product.description}</p>
@@ -326,32 +420,162 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
                 {sizeError && <span className={styles.errorText}>Please select a size first</span>}
               </div>
               <div className={styles.sizeContainer}>
-                {selectedVariant.sizes.map(sizeObj => {
-                  const isSelected = selectedSize === sizeObj.size;
-                  return (
-                    <button
-                      key={sizeObj.size}
-                      type="button"
-                      disabled={!sizeObj.available}
-                      className={`
-                        ${styles.sizeButton} 
-                        ${isSelected ? styles.selectedSize : ''} 
-                        ${!sizeObj.available ? styles.disabledSize : ''}
-                      `}
-                      aria-label={`Select size ${sizeObj.size}`}
-                      aria-pressed={isSelected}
-                      onClick={() => {
-                        setSelectedSize(sizeObj.size);
-                        setSizeError(false);
-                        setAddedSuccess(false);
-                      }}
-                    >
-                      {sizeObj.size}
-                    </button>
-                  );
-                })}
+                {selectedVariant.sizes && selectedVariant.sizes.length > 0 ? (
+                  selectedVariant.sizes.map(sizeObj => {
+                    const isSelected = selectedSize === sizeObj.size;
+                    return (
+                      <button
+                        key={sizeObj.size}
+                        type="button"
+                        disabled={!sizeObj.available}
+                        className={`
+                          ${styles.sizeButton} 
+                          ${isSelected ? styles.selectedSize : ''} 
+                          ${!sizeObj.available ? styles.disabledSize : ''}
+                        `}
+                        aria-label={`Select size ${sizeObj.size}`}
+                        aria-pressed={isSelected}
+                        onClick={() => {
+                          setSelectedSize(sizeObj.size);
+                          setSizeError(false);
+                          setAddedSuccess(false);
+                        }}
+                      >
+                        {sizeObj.size}
+                      </button>
+                    );
+                  })
+                ) : (
+                  <p style={{ fontSize: '13px', color: '#666666', margin: 0, fontStyle: 'italic', fontWeight: 400 }}>
+                    Commercial sizing options and specifications pending confirmation.
+                  </p>
+                )}
               </div>
             </div>
+
+            {/* Custom Measurements Fields */}
+            {isCustomMeasurementsProduct && (
+              <div className={styles.selectionGroup}>
+                <div style={{
+                  border: '1px solid #111111',
+                  padding: '16px',
+                  backgroundColor: '#ffffff',
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                    <span style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                      CUSTOM MEASUREMENTS
+                    </span>
+                    <div style={{ display: 'inline-flex', border: '1px solid #111111' }}>
+                      <button
+                        type="button"
+                        onClick={() => setCustomUnit('in')}
+                        style={{
+                          padding: '4px 10px',
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          backgroundColor: customUnit === 'in' ? '#111111' : '#ffffff',
+                          color: customUnit === 'in' ? '#ffffff' : '#111111',
+                          border: 'none',
+                          cursor: 'pointer',
+                        }}
+                        aria-pressed={customUnit === 'in'}
+                      >
+                        IN (Inches)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCustomUnit('cm')}
+                        style={{
+                          padding: '4px 10px',
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          backgroundColor: customUnit === 'cm' ? '#111111' : '#ffffff',
+                          color: customUnit === 'cm' ? '#ffffff' : '#111111',
+                          border: 'none',
+                          cursor: 'pointer',
+                        }}
+                        aria-pressed={customUnit === 'cm'}
+                      >
+                        CM (Centimetres)
+                      </button>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    <div>
+                      <label htmlFor="waist-circ-input" style={{ display: 'block', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '6px' }}>
+                        Waist circumference ({customUnit}) *
+                      </label>
+                      <input
+                        id="waist-circ-input"
+                        type="text"
+                        value={waistMeasurement}
+                        onChange={(e) => {
+                          setWaistMeasurement(e.target.value);
+                          setMeasurementError(null);
+                        }}
+                        placeholder={customUnit === 'in' ? 'e.g. 32' : 'e.g. 81'}
+                        style={{
+                          width: '100%',
+                          padding: '8px 10px',
+                          fontSize: '13px',
+                          fontWeight: 700,
+                          border: measurementError && !waistMeasurement.trim() ? '1px solid #c00' : '1px solid #111111',
+                          backgroundColor: '#fafafa',
+                          boxSizing: 'border-box',
+                        }}
+                        aria-label={`Waist circumference in ${customUnit}`}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="outseam-input" style={{ display: 'block', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '6px' }}>
+                        Requested garment outseam ({customUnit}) *
+                      </label>
+                      <input
+                        id="outseam-input"
+                        type="text"
+                        value={outseamMeasurement}
+                        onChange={(e) => {
+                          setOutseamMeasurement(e.target.value);
+                          setMeasurementError(null);
+                        }}
+                        placeholder={customUnit === 'in' ? 'e.g. 42' : 'e.g. 106'}
+                        style={{
+                          width: '100%',
+                          padding: '8px 10px',
+                          fontSize: '13px',
+                          fontWeight: 700,
+                          border: measurementError && !outseamMeasurement.trim() ? '1px solid #c00' : '1px solid #111111',
+                          backgroundColor: '#fafafa',
+                          boxSizing: 'border-box',
+                        }}
+                        aria-label={`Requested garment outseam in ${customUnit}`}
+                      />
+                    </div>
+                  </div>
+
+                  {((product as any).referenceNote || (
+                    product.description && (product.description.includes('47 inches') || product.description.includes("6'4\""))
+                      ? "47 inches outseam is a reference garment specification modeled at 6'4\", not a default. Please specify your desired garment outseam. Customer values remain blank by default."
+                      : "Please specify your desired garment outseam and waist circumference. Customer values remain blank by default."
+                  )) && (
+                    <p style={{ margin: '10px 0 0 0', fontSize: '11px', color: '#555555', lineHeight: 1.4 }}>
+                      <strong>Reference Note:</strong> {(product as any).referenceNote || (
+                        product.description && (product.description.includes('47 inches') || product.description.includes("6'4\""))
+                          ? "47 inches outseam is a reference garment specification modeled at 6'4\", not a default. Please specify your desired garment outseam. Customer values remain blank by default."
+                          : "Please specify your desired garment outseam and waist circumference. Customer values remain blank by default."
+                      )}
+                    </p>
+                  )}
+
+                  {measurementError && (
+                    <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#c00000', fontWeight: 700 }} role="alert">
+                      {measurementError}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Quantity Selector */}
             <div className={styles.selectionGroup}>
@@ -375,7 +599,7 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
                     inputMode="numeric"
                     pattern="[0-9]*"
                     min="1"
-                    max={availableStock > 0 ? availableStock : 1}
+                    max={availableStock !== Infinity && availableStock > 0 ? availableStock : undefined}
                     value={inputValue}
                     onFocus={handleInputFocus}
                     onChange={handleInputChange}
@@ -389,7 +613,7 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
                     type="button"
                     className={styles.quantityBtn}
                     onClick={handleIncrement}
-                    disabled={quantity >= availableStock || availableStock <= 0}
+                    disabled={availableStock !== Infinity && (quantity >= availableStock || availableStock <= 0)}
                     aria-label="Increase quantity"
                   >
                     +
@@ -408,9 +632,15 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
                   type="button"
                   className={styles.addToCartButton} 
                   onClick={handleAddToCart}
-                  disabled={allSizesUnavailable || (selectedSize ? !isSelectedSizeAvailable || availableStock <= 0 : false)}
+                  disabled={
+                    Boolean(selectedVariant.sizes && selectedVariant.sizes.length === 0) ||
+                    allSizesUnavailable ||
+                    (selectedSize ? !isSelectedSizeAvailable || availableStock <= 0 : false)
+                  }
                 >
-                  {allSizesUnavailable || (selectedSize && !isSelectedSizeAvailable)
+                  {selectedVariant.sizes && selectedVariant.sizes.length === 0
+                    ? 'SIZING PENDING'
+                    : allSizesUnavailable || (selectedSize && !isSelectedSizeAvailable)
                     ? 'OUT OF STOCK'
                     : selectedSize && availableStock <= 0
                     ? 'MAX IN CART'
@@ -456,21 +686,41 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
                 )}
               </div>
               
-              <div className={styles.accordionItem}>
-                <button 
-                  className={styles.accordionHeader} 
-                  onClick={() => toggleAccordion('material')}
-                  aria-expanded={openAccordion === 'material'}
-                >
-                  MATERIAL & CARE
-                  <span className={styles.accordionIcon}>{openAccordion === 'material' ? '−' : '+'}</span>
-                </button>
-                {openAccordion === 'material' && (
-                  <div className={styles.accordionContent}>
-                    <p>Refer to garment label for specific material and care instructions.</p>
-                  </div>
-                )}
-              </div>
+              {Boolean(product.careInstructions && product.careInstructions.trim()) && (
+                <div className={styles.accordionItem}>
+                  <button 
+                    className={styles.accordionHeader} 
+                    onClick={() => toggleAccordion('care')}
+                    aria-expanded={openAccordion === 'care'}
+                  >
+                    CARE INSTRUCTIONS
+                    <span className={styles.accordionIcon}>{openAccordion === 'care' ? '−' : '+'}</span>
+                  </button>
+                  {openAccordion === 'care' && (
+                    <div className={styles.accordionContent}>
+                      <p>{product.careInstructions}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {Boolean(product.productionTime && product.productionTime.trim()) && (
+                <div className={styles.accordionItem}>
+                  <button 
+                    className={styles.accordionHeader} 
+                    onClick={() => toggleAccordion('production')}
+                    aria-expanded={openAccordion === 'production'}
+                  >
+                    PRODUCTION & FULFILMENT
+                    <span className={styles.accordionIcon}>{openAccordion === 'production' ? '−' : '+'}</span>
+                  </button>
+                  {openAccordion === 'production' && (
+                    <div className={styles.accordionContent}>
+                      <p>{product.productionTime}</p>
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div className={styles.accordionItem}>
                 <button 

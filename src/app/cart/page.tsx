@@ -8,7 +8,7 @@ import QuantityInput from './QuantityInput';
 import styles from './cart.module.css';
 
 export default function CartPage() {
-  const { items, updateQuantity, removeFromCart, totalQuantity, subtotal, isMounted, getProduct } = useCart();
+  const { items, updateQuantity, removeFromCart, totalQuantity, subtotal, isMounted, getProduct, formattedSubtotals, formattedSubtotalString, isMixedCart } = useCart();
 
   if (!isMounted) {
     return null; // Avoid hydration errors
@@ -40,6 +40,9 @@ export default function CartPage() {
               if (!variant) return null;
 
               const isDemo = (product as any).isDemoPrice !== undefined ? Boolean((product as any).isDemoPrice) : true;
+              const itemPriceFormatted = product.currency === 'INR'
+                ? `₹${product.price.toLocaleString('en-IN')}`
+                : `$${product.price.toFixed(2)} USD`;
 
               return (
                 <div key={item.id} className={styles.cartItem}>
@@ -60,12 +63,17 @@ export default function CartPage() {
                         {product.name}
                       </Link>
                       <p className={styles.itemPrice}>
-                        {product.currency} {product.price.toFixed(2)} {isDemo && <span className={styles.demoNote}>(Demo)</span>}
+                        {itemPriceFormatted} {isDemo && <span className={styles.demoNote}>(Demo)</span>}
                       </p>
                     </div>
                     
                     <p className={styles.itemMeta}>Color: {variant.name}</p>
                     <p className={styles.itemMeta}>Size: {item.size}</p>
+                    {item.customMeasurements && (
+                      <p className={styles.itemMeta} style={{ color: '#8b5e34' }}>
+                        Custom: Waist {item.customMeasurements.waist} {item.customMeasurements.unit}, Outseam {item.customMeasurements.outseam} {item.customMeasurements.unit}
+                      </p>
+                    )}
                     
                     <div className={styles.itemControls}>
                       <div className={styles.quantityControl}>
@@ -108,20 +116,42 @@ export default function CartPage() {
           <div className={styles.summarySection}>
             <h2 className={styles.summaryTitle}>ORDER SUMMARY</h2>
             
-            <div className={styles.summaryRow}>
-              <span>Subtotal</span>
-              <span>USD {subtotal.toFixed(2)}</span>
-            </div>
-            
-            <div className={styles.summaryRow}>
-              <span>Shipping</span>
-              <span>Calculated at checkout</span>
-            </div>
-            
-            <div className={styles.summaryTotal}>
-              <span>Total</span>
-              <span>USD {subtotal.toFixed(2)}</span>
-            </div>
+            {isMixedCart ? (
+              <>
+                <p style={{ fontSize: '12px', color: '#8b5e34', margin: '0 0 12px 0', fontWeight: 700 }}>
+                  Notice: Your bag contains garments priced in different currencies (INR and USD). Subtotals are calculated and displayed separately.
+                </p>
+                {formattedSubtotals.map((fs) => (
+                  <div key={fs.currency} className={styles.summaryRow}>
+                    <span>Subtotal ({fs.currency})</span>
+                    <span>{fs.formatted}</span>
+                  </div>
+                ))}
+                <div className={styles.summaryRow}>
+                  <span>Shipping</span>
+                  <span>Calculated at checkout</span>
+                </div>
+                <div className={styles.summaryTotal}>
+                  <span>Total</span>
+                  <span style={{ fontSize: '14px', textAlign: 'right' }}>{formattedSubtotalString}</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className={styles.summaryRow}>
+                  <span>Subtotal</span>
+                  <span>{formattedSubtotalString}</span>
+                </div>
+                <div className={styles.summaryRow}>
+                  <span>Shipping</span>
+                  <span>Calculated at checkout</span>
+                </div>
+                <div className={styles.summaryTotal}>
+                  <span>Total</span>
+                  <span>{formattedSubtotalString}</span>
+                </div>
+              </>
+            )}
             
             <div className={styles.checkoutWrapper}>
               <Link 

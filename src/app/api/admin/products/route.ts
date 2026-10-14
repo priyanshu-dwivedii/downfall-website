@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminRequest } from '@/lib/auth';
-import { getCatalog, saveProduct } from '@/lib/catalog';
+import { getCatalog, saveProduct, validateProductPublishability } from '@/lib/catalog';
 
 export async function GET(request: Request) {
   const auth = await verifyAdminRequest(request);
@@ -30,8 +30,20 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Valid positive price is required.' }, { status: 400 });
     }
 
-    if (!data.category || !['basics', 'formal', 'luxury'].includes(data.category)) {
-      return NextResponse.json({ error: 'Valid category (basics, formal, or luxury) is required.' }, { status: 400 });
+    if (!data.category || !['basics', 'formal', 'luxury', 'bottomwear'].includes(data.category)) {
+      return NextResponse.json({ error: 'Valid category (basics, formal, luxury, or bottomwear) is required.' }, { status: 400 });
+    }
+
+    if (data.status === 'published') {
+      const check = validateProductPublishability(data);
+      if (!check.canPublish) {
+        return NextResponse.json(
+          {
+            error: `Cannot publish product: missing required selling information (${check.missingFields.join(', ')}). Incomplete garments must be saved as drafts.`,
+          },
+          { status: 400 }
+        );
+      }
     }
 
     const result = await saveProduct({

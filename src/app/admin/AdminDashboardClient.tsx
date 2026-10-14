@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from './admin.module.css';
-import { Product, ProductVariant, ProductCategory, ProductStatus } from '@/lib/catalog';
+import { Product, ProductVariant, ProductCategory, ProductStatus, validateProductPublishability } from '@/lib/catalog-types';
 
 interface AdminDashboardClientProps {
   initialProducts: Product[];
@@ -40,6 +40,7 @@ export default function AdminDashboardClient({ initialProducts, username }: Admi
   const variantFileInputRef = useRef<HTMLInputElement>(null);
   const [uploadingVariantIndex, setUploadingVariantIndex] = useState<number | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [newMeasurementInput, setNewMeasurementInput] = useState('');
 
   // Confirmation Modal State
   const [confirmDialog, setConfirmDialog] = useState<{
@@ -103,10 +104,15 @@ export default function AdminDashboardClient({ initialProducts, username }: Admi
       slug: '',
       description: '',
       price: 0,
-      currency: 'USD',
-      category: 'basics',
+      currency: 'INR',
+      category: 'bottomwear',
       status: 'draft',
-      isDemoPrice: true,
+      isDemoPrice: false,
+      fulfilment: 'made_to_order',
+      isMadeToOrder: true,
+      productionTime: '',
+      careInstructions: '',
+      measurements: [],
       images: ['/garment_1.jpg'],
       variants: [
         {
@@ -121,13 +127,17 @@ export default function AdminDashboardClient({ initialProducts, username }: Admi
         },
       ],
     });
+    setNewMeasurementInput('');
     setEditorError(null);
     setIsEditorOpen(true);
   };
 
   // Open Editor for Existing Product
   const handleEdit = (product: Product) => {
-    setEditingProduct(JSON.parse(JSON.stringify(product)));
+    const copy = JSON.parse(JSON.stringify(product));
+    if (!copy.measurements) copy.measurements = [];
+    setEditingProduct(copy);
+    setNewMeasurementInput('');
     setEditorError(null);
     setIsEditorOpen(true);
   };
@@ -262,6 +272,33 @@ export default function AdminDashboardClient({ initialProducts, username }: Admi
     setEditingProduct({ ...editingProduct, variants: newVariants });
   };
 
+  // Measurements Manipulation
+  const handleAddMeasurement = (name?: string) => {
+    if (!editingProduct) return;
+    const toAdd = (name || newMeasurementInput).trim();
+    if (!toAdd) return;
+    const current = editingProduct.measurements || [];
+    if (current.includes(toAdd)) {
+      showToast(`Measurement "${toAdd}" is already in the list.`, 'error');
+      return;
+    }
+    setEditingProduct({
+      ...editingProduct,
+      measurements: [...current, toAdd],
+    });
+    if (!name) setNewMeasurementInput('');
+  };
+
+  const handleRemoveMeasurement = (index: number) => {
+    if (!editingProduct || !editingProduct.measurements) return;
+    const updated = [...editingProduct.measurements];
+    updated.splice(index, 1);
+    setEditingProduct({
+      ...editingProduct,
+      measurements: updated,
+    });
+  };
+
   // Save product (Create or Edit)
   const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -280,6 +317,17 @@ export default function AdminDashboardClient({ initialProducts, username }: Admi
     if (!editingProduct.category) {
       setEditorError('Category is required.');
       return;
+    }
+
+    // Publication check: block publishing incomplete products while allowing drafts
+    if (editingProduct.status === 'published') {
+      const check = validateProductPublishability(editingProduct);
+      if (!check.canPublish) {
+        setEditorError(
+          `Publication blocked: Missing required selling information (${check.missingFields.join(', ')}). Incomplete garments can only be saved as Drafts until all details are provided.`
+        );
+        return;
+      }
     }
 
     setIsSaving(true);
@@ -319,6 +367,17 @@ export default function AdminDashboardClient({ initialProducts, username }: Admi
     const isCurrentlyArchived = product.status === 'archived';
     const nextStatus: ProductStatus = isCurrentlyArchived ? 'published' : 'archived';
     const actionLabel = isCurrentlyArchived ? 'Unarchive and Publish' : 'Archive Product';
+
+    if (nextStatus === 'published') {
+      const check = validateProductPublishability(product);
+      if (!check.canPublish) {
+        showToast(
+          `Cannot publish "${product.name}": required selling information is incomplete (${check.missingFields.join(', ')}).`,
+          'error'
+        );
+        return;
+      }
+    }
 
     setConfirmDialog({
       isOpen: true,
@@ -454,6 +513,7 @@ export default function AdminDashboardClient({ initialProducts, username }: Admi
                 <option value="basics">Basics</option>
                 <option value="formal">Formal</option>
                 <option value="luxury">Luxury</option>
+                <option value="bottomwear">Bottomwear</option>
               </select>
             </div>
 
@@ -512,7 +572,15 @@ export default function AdminDashboardClient({ initialProducts, username }: Admi
                       ? styles.badgeBasics
                       : p.category === 'formal'
                       ? styles.badgeFormal
-                      : styles.badgeLuxury;
+                      : p.category === 'luxury'
+                      ? styles.badgeLuxury
+                      : styles.badgeBottomwear;
+
+                  const isMTO = p.fulfilment ? p.fulfilment === 'made_to_order' : Boolean(p.isMadeToOrder);
+                  const isINR = (p.currency || '').toUpperCase() === 'INR';
+                  const formattedPrice = isINR
+                    ? `₹${Number(p.price).toLocaleString('en-IN')}`
+                    : `$${Number(p.price).toFixed(2)}`;
 
                   return (
                     <tr key={p.id}>
@@ -544,17 +612,37 @@ export default function AdminDashboardClient({ initialProducts, username }: Admi
                         </span>
                       </td>
                       <td>
-                        <span>${p.price}</span>
+                        <span style={{ fontWeight: 700 }}>{formattedPrice}</span>
                         {p.isDemoPrice && <span className={styles.demoPriceTag}>(Demo)</span>}
                       </td>
                       <td>
-                        <div>{p.variants.length} colour(s)</div>
-                        <div style={{ fontSize: '12px', color: '#777', fontWeight: 400 }}>
-                          {totalStock} units available
-                        </div>
+                        {isMTO ? (
+                          <div>
+                            <div>{p.variants?.length ? `${p.variants.length} colour(s)` : 'Bespoke'}</div>
+                            <div style={{ fontSize: '12px', color: '#8b5e34', fontWeight: 700 }}>
+                              Made to Order
+                            </div>
+                          </div>
+                        ) : (
+                          <div>
+                            <div>{p.variants.length} colour(s)</div>
+                            <div style={{ fontSize: '12px', color: '#777', fontWeight: 400 }}>
+                              {totalStock} units available
+                            </div>
+                          </div>
+                        )}
                       </td>
                       <td>
                         <div className={styles.actionsCell}>
+                          <a
+                            href={`/products/${p.slug}?preview=true`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.previewBtn}
+                            title="Preview Garment"
+                          >
+                            Preview
+                          </a>
                           <button
                             onClick={() => handleEdit(p)}
                             className={styles.editBtn}
@@ -652,6 +740,26 @@ export default function AdminDashboardClient({ initialProducts, username }: Admi
                       <option value="basics">Basics</option>
                       <option value="formal">Formal</option>
                       <option value="luxury">Luxury</option>
+                      <option value="bottomwear">Bottomwear</option>
+                    </select>
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label className={styles.formLabel}>Fulfilment *</label>
+                    <select
+                      className={styles.formSelect}
+                      value={editingProduct.fulfilment || (editingProduct.isMadeToOrder ? 'made_to_order' : 'stocked')}
+                      onChange={(e) => {
+                        const val = e.target.value as 'stocked' | 'made_to_order';
+                        setEditingProduct({
+                          ...editingProduct,
+                          fulfilment: val,
+                          isMadeToOrder: val === 'made_to_order',
+                        });
+                      }}
+                    >
+                      <option value="stocked">Stocked (Standard stock counts)</option>
+                      <option value="made_to_order">Made to Order (Bespoke sizing, no stock inventory)</option>
                     </select>
                   </div>
 
@@ -674,7 +782,21 @@ export default function AdminDashboardClient({ initialProducts, username }: Admi
                   </div>
 
                   <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Price (USD) *</label>
+                    <label className={styles.formLabel}>Currency *</label>
+                    <select
+                      className={styles.formSelect}
+                      value={editingProduct.currency || 'INR'}
+                      onChange={(e) =>
+                        setEditingProduct({ ...editingProduct, currency: e.target.value })
+                      }
+                    >
+                      <option value="INR">INR (₹)</option>
+                      <option value="USD">USD ($)</option>
+                    </select>
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label className={styles.formLabel}>Price *</label>
                     <input
                       type="number"
                       required
@@ -685,6 +807,32 @@ export default function AdminDashboardClient({ initialProducts, username }: Admi
                       onChange={(e) =>
                         setEditingProduct({ ...editingProduct, price: Number(e.target.value) })
                       }
+                    />
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label className={styles.formLabel}>Production Lead Time (Made to Order)</label>
+                    <input
+                      type="text"
+                      className={styles.formInput}
+                      value={editingProduct.productionTime || ''}
+                      onChange={(e) =>
+                        setEditingProduct({ ...editingProduct, productionTime: e.target.value })
+                      }
+                      placeholder="e.g. 7-10 business days"
+                    />
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label className={styles.formLabel}>Care Instructions (Made to Order)</label>
+                    <input
+                      type="text"
+                      className={styles.formInput}
+                      value={editingProduct.careInstructions || ''}
+                      onChange={(e) =>
+                        setEditingProduct({ ...editingProduct, careInstructions: e.target.value })
+                      }
+                      placeholder="e.g. Hand wash cold, dry flat"
                     />
                   </div>
 
@@ -714,6 +862,98 @@ export default function AdminDashboardClient({ initialProducts, username }: Admi
                       }
                       placeholder="Crafted with bespoke proportions, fine drapery, and artisanal finishing..."
                     />
+                  </div>
+
+                  <div className={`${styles.formGroup} ${styles.fullCol}`}>
+                    <label className={styles.formLabel}>Atelier Reference Notes (Internal Specifications & Sizing Notes)</label>
+                    <textarea
+                      className={styles.formTextarea}
+                      value={editingProduct.referenceNote || ''}
+                      onChange={(e) =>
+                        setEditingProduct({ ...editingProduct, referenceNote: e.target.value })
+                      }
+                      placeholder="Internal atelier reference specifications, sizing guidance, or measurement notes..."
+                    />
+                  </div>
+                </div>
+
+                {/* Required Client Measurements Manager */}
+                <div className={styles.measurementsSection}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                    <div>
+                      <div className={styles.sectionHeading} style={{ margin: 0 }}>
+                        Required Client Measurements (Bespoke Sizing)
+                      </div>
+                      <span style={{ fontSize: '12px', color: '#666', fontWeight: 400 }}>
+                        Specify the body measurements required from the client when commissioning this garment.
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className={styles.measurementTagList}>
+                    {(editingProduct.measurements || []).length === 0 ? (
+                      <span style={{ fontSize: '13px', color: '#888', fontStyle: 'italic', fontWeight: 400 }}>
+                        No required measurements added yet. Use quick presets below or add custom measurements.
+                      </span>
+                    ) : (
+                      (editingProduct.measurements || []).map((m, idx) => (
+                        <div key={`${m}-${idx}`} className={styles.measurementTag}>
+                          <span>{m}</span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveMeasurement(idx)}
+                            className={styles.removeTagBtn}
+                            title={`Remove ${m}`}
+                            aria-label={`Remove ${m}`}
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '12px' }}>
+                    <input
+                      type="text"
+                      className={styles.formInput}
+                      style={{ maxWidth: '280px', padding: '6px 12px', fontSize: '13px' }}
+                      value={newMeasurementInput}
+                      onChange={(e) => setNewMeasurementInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleAddMeasurement();
+                        }
+                      }}
+                      placeholder="e.g. Inseam, Waist, Chest"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleAddMeasurement()}
+                      className={styles.uploadLabelBtn}
+                      style={{ padding: '6px 14px', fontSize: '12px' }}
+                    >
+                      + Add Measurement
+                    </button>
+                  </div>
+
+                  <div style={{ marginTop: '12px' }}>
+                    <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#777', fontWeight: 700 }}>
+                      Quick Presets:
+                    </span>
+                    <div className={styles.measurementPresets}>
+                      {['Chest / Bust', 'Waist', 'Hips', 'Shoulder Width', 'Inseam', 'Garment Length', 'Height'].map((preset) => (
+                        <button
+                          key={preset}
+                          type="button"
+                          onClick={() => handleAddMeasurement(preset)}
+                          className={styles.presetBtn}
+                        >
+                          + {preset}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
@@ -921,73 +1161,85 @@ export default function AdminDashboardClient({ initialProducts, username }: Admi
                       {/* Sizes for Variant */}
                       <div className={styles.sizesListWrap}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <span className={styles.formLabel}>Sizes & Stock Quantities</span>
-                          <button
-                            type="button"
-                            onClick={() => handleAddSize(vIdx)}
-                            className={styles.uploadLabelBtn}
-                            style={{ padding: '4px 10px', fontSize: '11px' }}
-                          >
-                            + Add Size
-                          </button>
-                        </div>
-
-                        {variant.sizes.map((s, sIdx) => (
-                          <div key={`size-${vIdx}-${sIdx}`} className={styles.sizeRow}>
-                            <input
-                              type="text"
-                              className={styles.sizeInput}
-                              value={s.size}
-                              onChange={(e) => {
-                                const updated = [...(editingProduct.variants || [])];
-                                updated[vIdx].sizes[sIdx].size = e.target.value;
-                                setEditingProduct({ ...editingProduct, variants: updated });
-                              }}
-                              placeholder="Size"
-                            />
-
-                            <label className={styles.checkboxRow} style={{ minWidth: '110px' }}>
-                              <input
-                                type="checkbox"
-                                className={styles.checkboxInput}
-                                checked={s.available}
-                                onChange={(e) => {
-                                  const updated = [...(editingProduct.variants || [])];
-                                  updated[vIdx].sizes[sIdx].available = e.target.checked;
-                                  setEditingProduct({ ...editingProduct, variants: updated });
-                                }}
-                              />
-                              <span style={{ fontSize: '12px', fontWeight: 700 }}>Available</span>
-                            </label>
-
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                              <span style={{ fontSize: '12px', color: '#666', fontWeight: 700 }}>
-                                Stock:
-                              </span>
-                              <input
-                                type="number"
-                                min="0"
-                                className={styles.stockInput}
-                                value={s.stock ?? 0}
-                                onChange={(e) => {
-                                  const updated = [...(editingProduct.variants || [])];
-                                  updated[vIdx].sizes[sIdx].stock = Number(e.target.value);
-                                  setEditingProduct({ ...editingProduct, variants: updated });
-                                }}
-                              />
-                            </div>
-
+                          <span className={styles.formLabel}>
+                            {(editingProduct.fulfilment === 'made_to_order' || editingProduct.isMadeToOrder)
+                              ? 'Sizing & Specifications (Made to Order — Bespoke Client Measurements)'
+                              : 'Sizes & Stock Quantities'}
+                          </span>
+                          {!(editingProduct.fulfilment === 'made_to_order' || editingProduct.isMadeToOrder) && (
                             <button
                               type="button"
-                              onClick={() => handleRemoveSize(vIdx, sIdx)}
-                              className={styles.previewMiniBtn}
-                              style={{ color: '#d10f18', marginLeft: 'auto' }}
-                              title="Remove size"
+                              onClick={() => handleAddSize(vIdx)}
+                              className={styles.uploadLabelBtn}
+                              style={{ padding: '4px 10px', fontSize: '11px' }}
                             >
-                              Remove Size
+                              + Add Size
                             </button>
+                          )}
+                        </div>
+
+                        {(editingProduct.fulfilment === 'made_to_order' || editingProduct.isMadeToOrder) ? (
+                          <div style={{ padding: '10px 14px', background: '#fcf8f2', border: '1px solid #ebd9c8', borderRadius: '4px', fontSize: '12px', color: '#8b5e34', fontWeight: 700, margin: '8px 0' }}>
+                            Made to Order: Sizing is commissioned on demand according to bespoke client measurements. No artificial stock inventory counts are tracked.
                           </div>
-                        ))}
+                        ) : (
+                          variant.sizes.map((s, sIdx) => (
+                            <div key={`size-${vIdx}-${sIdx}`} className={styles.sizeRow}>
+                              <input
+                                type="text"
+                                className={styles.sizeInput}
+                                value={s.size}
+                                onChange={(e) => {
+                                  const updated = [...(editingProduct.variants || [])];
+                                  updated[vIdx].sizes[sIdx].size = e.target.value;
+                                  setEditingProduct({ ...editingProduct, variants: updated });
+                                }}
+                                placeholder="Size"
+                              />
+
+                              <label className={styles.checkboxRow} style={{ minWidth: '110px' }}>
+                                <input
+                                  type="checkbox"
+                                  className={styles.checkboxInput}
+                                  checked={s.available}
+                                  onChange={(e) => {
+                                    const updated = [...(editingProduct.variants || [])];
+                                    updated[vIdx].sizes[sIdx].available = e.target.checked;
+                                    setEditingProduct({ ...editingProduct, variants: updated });
+                                  }}
+                                />
+                                <span style={{ fontSize: '12px', fontWeight: 700 }}>Available</span>
+                              </label>
+
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <span style={{ fontSize: '12px', color: '#666', fontWeight: 700 }}>
+                                  Stock:
+                                </span>
+                                <input
+                                  type="number"
+                                  min="0"
+                                  className={styles.stockInput}
+                                  value={s.stock ?? 0}
+                                  onChange={(e) => {
+                                    const updated = [...(editingProduct.variants || [])];
+                                    updated[vIdx].sizes[sIdx].stock = Number(e.target.value);
+                                    setEditingProduct({ ...editingProduct, variants: updated });
+                                  }}
+                                />
+                              </div>
+
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveSize(vIdx, sIdx)}
+                                className={styles.previewMiniBtn}
+                                style={{ color: '#d10f18', marginLeft: 'auto' }}
+                                title="Remove size"
+                              >
+                                Remove Size
+                              </button>
+                            </div>
+                          ))
+                        )}
                       </div>
                     </div>
                   ))}

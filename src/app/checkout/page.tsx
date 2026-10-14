@@ -23,9 +23,14 @@ const FIT_OPTIONS = [
 ];
 
 export default function CheckoutPage() {
-  const { items, totalQuantity, subtotal, isMounted, getProduct, revalidateCart } = useCart();
+  const { items, totalQuantity, subtotal, isMounted, getProduct, revalidateCart, formattedSubtotals, formattedSubtotalString, isMixedCart } = useCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionAlert, setSubmissionAlert] = useState<string | null>(null);
+
+  const hasAnyDemo = items.some((item) => {
+    const product = getProduct(item.productId) || catalog.find((p) => p.id === item.productId);
+    return (product as any)?.isDemoPrice !== false;
+  });
 
   // Form State - strictly in React state, NOT stored in localStorage per instructions
   const [formData, setFormData] = useState({
@@ -62,10 +67,13 @@ export default function CheckoutPage() {
       const next: Record<string, ItemPreference> = { ...prev };
       items.forEach((item) => {
         if (!next[item.id]) {
+          const defaultNotes = item.customMeasurements
+            ? `Bespoke measurements: Waist ${item.customMeasurements.waist} ${item.customMeasurements.unit}, Garment Outseam ${item.customMeasurements.outseam} ${item.customMeasurements.unit}`
+            : '';
           next[item.id] = {
             requestedSize: item.size,
-            fitPreference: 'Regular / Standard Fit',
-            itemNotes: '',
+            fitPreference: item.customMeasurements ? 'Custom Fitted to Measurements' : 'Regular / Standard Fit',
+            itemNotes: defaultNotes,
           };
         }
       });
@@ -199,13 +207,22 @@ export default function CheckoutPage() {
         itemNotes: '',
       };
       const productName = product ? product.name : item.productId;
+      const isMTO = (product as any)?.fulfilment ? (product as any).fulfilment === 'made_to_order' : Boolean((product as any)?.isMadeToOrder);
       const isDemo = (product as any)?.isDemoPrice !== undefined ? Boolean((product as any).isDemoPrice) : true;
-      const unitPrice = product ? `$${product.price.toFixed(2)} USD${isDemo ? ' (Demo)' : ''}` : 'N/A';
+      const currency = (product as any)?.currency || 'USD';
+      const formattedUnitPrice = currency === 'INR'
+        ? `₹${product ? product.price.toLocaleString('en-IN') : '0'} INR`
+        : `$${product ? product.price.toFixed(2) : '0.00'} USD`;
+      const unitPrice = product ? `${formattedUnitPrice}${isDemo ? ' (Demo)' : ''}` : 'N/A';
 
       lines.push(`${index + 1}. *${productName}*`);
+      lines.push(`   • Fulfilment: ${isMTO ? 'Made to Order (Bespoke)' : 'Stocked'}`);
       lines.push(`   • Colour: ${item.variantName}`);
       lines.push(`   • Requested Size: ${pref.requestedSize}`);
       lines.push(`   • Fit Preference: ${pref.fitPreference}`);
+      if (item.customMeasurements) {
+        lines.push(`   • Custom Measurements: Waist ${item.customMeasurements.waist} ${item.customMeasurements.unit}, Garment Outseam ${item.customMeasurements.outseam} ${item.customMeasurements.unit}`);
+      }
       lines.push(`   • Quantity: ${item.quantity}`);
       lines.push(`   • Est. Unit Price: ${unitPrice}`);
       if (pref.itemNotes.trim()) {
@@ -214,9 +231,25 @@ export default function CheckoutPage() {
       lines.push('');
     });
 
-    lines.push('*ESTIMATED TOTAL (DEMO PRICING)*');
-    lines.push(`$${subtotal.toFixed(2)} USD`);
-    lines.push('_Notice: Demo estimate only. Final bespoke pricing, fabric choices, and delivery schedule will be confirmed directly with DOWNFALL._');
+    const hasAnyDemo = items.some((item) => {
+      const product = getProduct(item.productId) || catalog.find((p) => p.id === item.productId);
+      return (product as any)?.isDemoPrice !== false;
+    });
+    lines.push(hasAnyDemo ? '*ESTIMATED TOTAL (DEMO PRICING)*' : '*ESTIMATED TOTAL*');
+    if (isMixedCart) {
+      formattedSubtotals.forEach((fs) => {
+        lines.push(`• ${fs.currency} Subtotal: ${fs.formatted}`);
+      });
+      lines.push(`• Combined Order: ${formattedSubtotalString}`);
+      lines.push('_Notice: Mixed currency bag. Garments are priced and invoiced in their respective catalog currencies._');
+    } else {
+      lines.push(formattedSubtotalString);
+    }
+    if (hasAnyDemo) {
+      lines.push('_Notice: Demo estimate only. Final bespoke pricing, fabric choices, and delivery schedule will be confirmed directly with DOWNFALL._');
+    } else {
+      lines.push('_Notice: Confirmed catalog pricing. Final bespoke customisation, measurements, and delivery schedule will be confirmed directly with DOWNFALL._');
+    }
     lines.push('');
 
     // Check if any measurements were provided
@@ -258,9 +291,27 @@ export default function CheckoutPage() {
       return;
     }
 
-    // Pre-submission live catalog revalidation
+    // Pre-submission server-side enquiry validation & live catalog revalidation
     setIsSubmitting(true);
     try {
+      const validateRes = await fetch('/api/enquiry/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items }),
+      });
+
+      if (!validateRes.ok) {
+        const validateData = await validateRes.json();
+        const reasons =
+          validateData.rejectedItems?.map((r: any) => r.reason).join(' ') ||
+          validateData.error ||
+          'Unpublished products cannot be ordered.';
+        await revalidateCart();
+        setSubmissionAlert(`Enquiry validation failed: ${reasons}`);
+        setIsSubmitting(false);
+        return;
+      }
+
       const res = await fetch('/api/catalog');
       if (res.ok) {
         const data = await res.json();
@@ -286,7 +337,15 @@ export default function CheckoutPage() {
           }
 
           const sizeInfo = variant.sizes.find((s: any) => s.size === item.size);
-          if (!sizeInfo || !sizeInfo.available || (sizeInfo.stock !== undefined && sizeInfo.stock <= 0)) {
+          const isItemMTO = (product as any)?.fulfilment ? (product as any).fulfilment === 'made_to_order' : Boolean((product as any)?.isMadeToOrder);
+          if (!sizeInfo || !sizeInfo.available) {
+            hasAvailabilityIssue = true;
+            issues.push(`Size "${item.size}" of "${product.name}" is no longer available.`);
+            continue;
+          }
+
+          // Only stocked products enforce inventory count <= 0 checks
+          if (!isItemMTO && sizeInfo.stock !== undefined && sizeInfo.stock <= 0) {
             hasAvailabilityIssue = true;
             issues.push(`Size "${item.size}" of "${product.name}" is out of stock.`);
             continue;
@@ -589,6 +648,11 @@ export default function CheckoutPage() {
                             <p className={styles.itemHeaderMeta}>
                               Colour: {item.variantName} &nbsp;|&nbsp; Base Size: {item.size} &nbsp;|&nbsp; Qty: {item.quantity}
                             </p>
+                            {item.customMeasurements && (
+                              <p style={{ fontSize: '12px', color: '#8b5e34', margin: '4px 0 0 0', fontWeight: 700 }}>
+                                Bespoke Measurements: Waist {item.customMeasurements.waist} {item.customMeasurements.unit}, Garment Outseam {item.customMeasurements.outseam} {item.customMeasurements.unit}
+                              </p>
+                            )}
                           </div>
                         </div>
 
@@ -858,6 +922,11 @@ export default function CheckoutPage() {
                   const variant = product?.variants.find((v) => v.name === item.variantName);
                   const pref = itemPreferences[item.id];
                   const isDemo = (product as any)?.isDemoPrice !== undefined ? Boolean((product as any).isDemoPrice) : true;
+                  const itemCurrency = (product as any)?.currency || 'USD';
+                  const itemTotal = (product?.price || 0) * item.quantity;
+                  const itemTotalFormatted = itemCurrency === 'INR'
+                    ? `₹${itemTotal.toLocaleString('en-IN')} INR`
+                    : `$${itemTotal.toFixed(2)} USD`;
 
                   return (
                     <div key={item.id} className={styles.summaryItem}>
@@ -877,11 +946,16 @@ export default function CheckoutPage() {
                         <p className={styles.summaryItemMeta}>
                           Colour: {item.variantName} &nbsp;|&nbsp; Size: {pref?.requestedSize || item.size}
                         </p>
+                        {item.customMeasurements && (
+                          <p className={styles.summaryItemMeta} style={{ color: '#8b5e34' }}>
+                            Waist: {item.customMeasurements.waist} {item.customMeasurements.unit} | Outseam: {item.customMeasurements.outseam} {item.customMeasurements.unit}
+                          </p>
+                        )}
                         <p className={styles.summaryItemMeta}>
                           Quantity: {item.quantity}
                         </p>
                         <p className={styles.summaryItemPrice}>
-                          ${((product?.price || 0) * item.quantity).toFixed(2)} USD
+                          {itemTotalFormatted}
                           {isDemo && <span className={styles.demoTag}> (Demo)</span>}
                         </p>
                       </div>
@@ -891,24 +965,50 @@ export default function CheckoutPage() {
               </div>
 
               <div className={styles.summaryTotals}>
-                <div className={styles.summaryRow}>
-                  <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)} USD</span>
-                </div>
-                <div className={styles.summaryRow}>
-                  <span>Delivery Consultation</span>
-                  <span>Coordinated via WhatsApp</span>
-                </div>
-                <div className={styles.summaryRowTotal}>
-                  <span>Estimated Total</span>
-                  <span>${subtotal.toFixed(2)} USD</span>
-                </div>
+                {isMixedCart ? (
+                  <>
+                    <p style={{ fontSize: '12px', color: '#8b5e34', margin: '0 0 10px 0', fontWeight: 700 }}>
+                      Mixed Currency Order: Items are invoiced in their respective catalog currencies.
+                    </p>
+                    {formattedSubtotals.map((fs) => (
+                      <div key={fs.currency} className={styles.summaryRow}>
+                        <span>Subtotal ({fs.currency})</span>
+                        <span>{fs.formatted}</span>
+                      </div>
+                    ))}
+                    <div className={styles.summaryRow}>
+                      <span>Delivery Consultation</span>
+                      <span>Coordinated via WhatsApp</span>
+                    </div>
+                    <div className={styles.summaryRowTotal}>
+                      <span>Estimated Total</span>
+                      <span style={{ fontSize: '13px', textAlign: 'right' }}>{formattedSubtotalString}</span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className={styles.summaryRow}>
+                      <span>Subtotal</span>
+                      <span>{formattedSubtotalString}</span>
+                    </div>
+                    <div className={styles.summaryRow}>
+                      <span>Delivery Consultation</span>
+                      <span>Coordinated via WhatsApp</span>
+                    </div>
+                    <div className={styles.summaryRowTotal}>
+                      <span>Estimated Total</span>
+                      <span>{formattedSubtotalString}</span>
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className={styles.demoDisclaimer}>
-                <p className={styles.demoDisclaimerHeading}>Demo Price Label</p>
+                <p className={styles.demoDisclaimerHeading}>{hasAnyDemo ? 'Demo Price Label' : 'Order Information'}</p>
                 <p>
-                  Prices shown are for reference and demo purposes. This enquiry is not a paid or confirmed order. Our team will verify fabric selections, measurements, and production details before confirming your order.
+                  {hasAnyDemo
+                    ? 'Prices shown are for reference and demo purposes. This enquiry is not a paid or confirmed order. Our team will verify fabric selections, measurements, and production details before confirming your order.'
+                    : 'This enquiry is not a paid or finalized checkout. Our team will verify custom measurements, tailoring specifications, and delivery schedule before confirming your order.'}
                 </p>
               </div>
             </aside>

@@ -1,39 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 import { getSupabaseAdminClient, isSupabaseConfigured } from '@/lib/supabase/admin';
+import {
+  Product,
+  ProductVariant,
+  ProductCategory,
+  ProductStatus,
+  ProductFulfilment,
+  validateProductPublishability,
+} from './catalog-types';
 
-export type ProductCategory = 'basics' | 'formal' | 'luxury';
-export type ProductStatus = 'published' | 'draft' | 'archived';
-
-export interface ProductSizeOption {
-  size: string;
-  available: boolean;
-  stock?: number;
-}
-
-export interface ProductVariant {
-  name: string;
-  hex: string;
-  image: string;
-  sizes: ProductSizeOption[];
-}
-
-export interface Product {
-  id: string;
-  slug: string;
-  name: string;
-  description: string;
-  price: number;
-  currency: string;
-  category: ProductCategory;
-  status: ProductStatus;
-  isDemoPrice: boolean;
-  images?: string[];
-  variants: ProductVariant[];
-  version?: number;
-  createdAt?: string;
-  updatedAt?: string;
-}
+export * from './catalog-types';
 
 export class ConcurrencyConflictError extends Error {
   constructor(message = 'Conflict: This garment has been modified by another concurrent session. Please refresh to load the latest changes.') {
@@ -102,7 +79,8 @@ export function withCatalogLock<T>(action: () => T): T {
   }
 }
 
-function mapDbRowToProduct(row: any): Product {
+export function mapDbRowToProduct(row: any): Product {
+  const fulfilment: ProductFulfilment = (row.fulfilment as ProductFulfilment) || (row.is_made_to_order ? 'made_to_order' : 'stocked');
   return {
     id: row.id,
     slug: row.slug,
@@ -113,15 +91,23 @@ function mapDbRowToProduct(row: any): Product {
     category: row.category as ProductCategory,
     status: row.status as ProductStatus,
     isDemoPrice: row.is_demo_price !== undefined ? Boolean(row.is_demo_price) : true,
+    fulfilment,
+    isMadeToOrder: fulfilment === 'made_to_order',
     images: Array.isArray(row.images) ? row.images : [],
     variants: Array.isArray(row.variants) ? row.variants : [],
+    measurements: Array.isArray(row.measurements) ? row.measurements : [],
+    productionTime: row.production_time || '',
+    careInstructions: row.care_instructions || '',
+    referenceNote: row.reference_note || undefined,
+    imageCorrectionRequired: row.image_correction_required !== undefined ? Boolean(row.image_correction_required) : undefined,
+    imageCorrectionNote: row.image_correction_note || undefined,
     version: row.version || 1,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
 }
 
-function mapProductToDbRow(p: Partial<Product>): any {
+export function mapProductToDbRow(p: Partial<Product>): any {
   const row: any = {};
   if (p.id !== undefined) row.id = p.id;
   if (p.slug !== undefined) row.slug = p.slug;
@@ -132,8 +118,21 @@ function mapProductToDbRow(p: Partial<Product>): any {
   if (p.category !== undefined) row.category = p.category;
   if (p.status !== undefined) row.status = p.status;
   if (p.isDemoPrice !== undefined) row.is_demo_price = Boolean(p.isDemoPrice);
+  if (p.fulfilment !== undefined) {
+    row.fulfilment = p.fulfilment;
+    row.is_made_to_order = p.fulfilment === 'made_to_order';
+  } else if (p.isMadeToOrder !== undefined) {
+    row.fulfilment = p.isMadeToOrder ? 'made_to_order' : 'stocked';
+    row.is_made_to_order = Boolean(p.isMadeToOrder);
+  }
   if (p.images !== undefined) row.images = p.images;
   if (p.variants !== undefined) row.variants = p.variants;
+  if (p.measurements !== undefined) row.measurements = p.measurements;
+  if (p.productionTime !== undefined) row.production_time = p.productionTime;
+  if (p.careInstructions !== undefined) row.care_instructions = p.careInstructions;
+  if (p.referenceNote !== undefined) row.reference_note = p.referenceNote;
+  if (p.imageCorrectionRequired !== undefined) row.image_correction_required = Boolean(p.imageCorrectionRequired);
+  if (p.imageCorrectionNote !== undefined) row.image_correction_note = p.imageCorrectionNote;
   if (p.version !== undefined) row.version = p.version;
   if (p.createdAt !== undefined) row.created_at = p.createdAt;
   if (p.updatedAt !== undefined) row.updated_at = p.updatedAt;
@@ -267,6 +266,23 @@ export async function saveProduct(
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 
+  // Publication gate: block publishing incomplete products while allowing drafts
+  if (input.status === 'published') {
+    const publishCheck = validateProductPublishability(input);
+    if (!publishCheck.canPublish) {
+      throw new Error(
+        `Cannot publish product: missing required selling information (${publishCheck.missingFields.join(', ')}). Incomplete garments can only be saved as drafts.`
+      );
+    }
+  }
+
+  const authoritativeFulfilment: ProductFulfilment = input.fulfilment
+    ? input.fulfilment
+    : input.isMadeToOrder
+    ? 'made_to_order'
+    : 'stocked';
+  const isMTO = authoritativeFulfilment === 'made_to_order';
+
   if (isSupabaseConfigured()) {
     const supabase = getSupabaseAdminClient();
     if (supabase) {
@@ -293,6 +309,8 @@ export async function saveProduct(
 
         const dbPayload = mapProductToDbRow({
           ...input,
+          fulfilment: authoritativeFulfilment,
+          isMadeToOrder: isMTO,
           slug: baseSlug,
           updatedAt: now,
         });
@@ -342,6 +360,8 @@ export async function saveProduct(
         const nextVersion = currentVer + 1;
         const updatePayload = mapProductToDbRow({
           ...input,
+          fulfilment: input.fulfilment || (isMTO ? 'made_to_order' : 'stocked'),
+          isMadeToOrder: isMTO,
           slug: baseSlug || existing.slug,
           version: nextVersion,
           updatedAt: now,
@@ -375,12 +395,16 @@ export async function saveProduct(
           price: Number(input.price) || 0,
           currency: input.currency || 'USD',
           category: input.category || 'basics',
-          status: input.status || 'published',
+          status: input.status || 'draft',
           isDemoPrice: input.isDemoPrice !== undefined ? Boolean(input.isDemoPrice) : true,
+          fulfilment: authoritativeFulfilment,
+          isMadeToOrder: isMTO,
           images: input.images || [],
           variants:
-            input.variants && input.variants.length > 0
+            input.variants !== undefined
               ? input.variants
+              : isMTO
+              ? []
               : [
                   {
                     name: 'Standard',
@@ -393,6 +417,9 @@ export async function saveProduct(
                     ],
                   },
                 ],
+          measurements: input.measurements || [],
+          productionTime: input.productionTime || '',
+          careInstructions: input.careInstructions || '',
           version: 1,
           createdAt: now,
           updatedAt: now,
@@ -440,6 +467,8 @@ export async function saveProduct(
       product = {
         ...existing,
         ...input,
+        fulfilment: authoritativeFulfilment,
+        isMadeToOrder: isMTO,
         slug: baseSlug || existing.slug,
         version: nextVersion,
         updatedAt: now,
@@ -463,12 +492,16 @@ export async function saveProduct(
         price: Number(input.price) || 0,
         currency: input.currency || 'USD',
         category: input.category || 'basics',
-        status: input.status || 'published',
+        status: input.status || 'draft',
         isDemoPrice: input.isDemoPrice !== undefined ? Boolean(input.isDemoPrice) : true,
+        fulfilment: authoritativeFulfilment,
+        isMadeToOrder: isMTO,
         images: input.images || [],
         variants:
-          input.variants && input.variants.length > 0
+          input.variants !== undefined
             ? input.variants
+            : isMTO
+            ? []
             : [
                 {
                   name: 'Standard',
@@ -481,6 +514,9 @@ export async function saveProduct(
                   ],
                 },
               ],
+        measurements: input.measurements || [],
+        productionTime: input.productionTime || '',
+        careInstructions: input.careInstructions || '',
         version: 1,
         createdAt: now,
         updatedAt: now,
@@ -522,8 +558,21 @@ export async function deleteProduct(id: string): Promise<boolean> {
 
 /**
  * Sets product status (published, draft, archived).
+ * Blocks publishing if product selling details are incomplete.
  */
 export async function setProductStatus(id: string, status: ProductStatus): Promise<Product | undefined> {
+  // If attempting to publish, ensure the garment has all required selling information
+  if (status === 'published') {
+    const existing = await getProductById(id);
+    if (!existing) return undefined;
+    const publishCheck = validateProductPublishability({ ...existing, status });
+    if (!publishCheck.canPublish) {
+      throw new Error(
+        `Cannot publish product "${existing.name}": missing required selling information (${publishCheck.missingFields.join(', ')}). Incomplete garments must remain drafts.`
+      );
+    }
+  }
+
   if (isSupabaseConfigured()) {
     const supabase = getSupabaseAdminClient();
     if (supabase) {

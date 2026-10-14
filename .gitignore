@@ -57,6 +57,8 @@ next-env.d.ts
 /src/data/backups/
 /src/data/*.backup.json
 /src/data/migration-manifest.json
+/src/data/draft-images-manifest.json
 *.webm
 *.webp
+/archive/
 
