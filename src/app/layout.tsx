@@ -1,7 +1,21 @@
 import type { Metadata } from "next";
-import { Playfair_Display } from "next/font/google";
+import { Inter, Oswald, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Footer from "./Footer";
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["normal"],
+});
+
+const oswald = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+  weight: ["700"],
+  style: ["normal"],
+});
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -24,7 +38,7 @@ import MenuDrawer from "./MenuDrawer";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={playfair.variable}>
+    <html lang="en" className={`${inter.variable} ${oswald.variable} ${playfair.variable}`}>
       <body>
         <CartProvider>
           <MenuProvider>

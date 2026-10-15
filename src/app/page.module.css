@@ -127,18 +127,12 @@
 }
 .scene > * {
   letter-spacing: 0.1em;
- font-weight: 700;
+  font-weight: 400;
 }
 
 .tagline, .categoryLabel, .bottomStrapline {
-
-
- font-weight: 700;
+  font-weight: 400;
 }
-
-
-
-
 
 /* Typography Group */
 .typographyGroup {
@@ -154,12 +148,10 @@
   margin-top: 12px;
 }
 
-
-
 /* Main Titles */
 .mainTitle {
-
-  font-style: italic;
+  font-family: var(--font-oswald), sans-serif;
+  font-style: normal;
   font-size: 5.5vw;
   font-weight: 700;
   letter-spacing: 0.05em;

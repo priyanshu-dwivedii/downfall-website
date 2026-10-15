@@ -33,7 +33,7 @@
   background-color: #111;
   color: white;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.1em;
   padding: 4px 8px;
   border-radius: 4px;
@@ -46,7 +46,7 @@
   background-color: #C91515;
   color: white;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.1em;
   padding: 4px 8px;
   border-radius: 4px;
@@ -66,10 +66,12 @@
   gap: 16px;
 }
 
-.productName { font-style: normal !important; font-weight: 700 !important;
+.productName {
+  font-family: var(--font-oswald), sans-serif;
+  font-style: normal !important;
+  font-weight: 700 !important;
   font-size: 14px;
   letter-spacing: 0.05em;
- font-weight: 700;
   color: #111;
   margin: 0 0 4px 0;
   text-transform: uppercase;
@@ -86,7 +88,7 @@
 .productPrice {
   font-size: 14px;
   color: #111;
- font-weight: 700;
+  font-weight: 400;
   margin: 0;
 }
 

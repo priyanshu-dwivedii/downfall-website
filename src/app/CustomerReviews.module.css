@@ -42,8 +42,8 @@
 }
 
 .heading {
-  font-family: var(--font-playfair), serif;
-  font-style: italic;
+  font-family: var(--font-oswald), sans-serif;
+  font-style: normal;
   font-weight: 700;
   font-size: clamp(36px, 5vw, 56px);
   margin: 0 0 16px 0;
@@ -80,13 +80,13 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 24px;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .reviewText {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-inter), sans-serif;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
   font-size: 20px;
   line-height: 1.6;
   color: #111111;
@@ -95,9 +95,9 @@
 }
 
 .reviewerName {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-inter), sans-serif;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
   font-size: 15px;
   color: #555555;
   margin: 0;

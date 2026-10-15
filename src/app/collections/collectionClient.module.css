@@ -27,7 +27,7 @@
 }
 
 .collectionTitle {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-oswald), sans-serif;
   font-size: 40px;
   font-weight: 700;
   font-style: normal;
@@ -38,7 +38,7 @@
 }
 
 .collectionDesc {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-inter), sans-serif;
   font-weight: 400;
   font-style: normal;
   font-size: 15px;
@@ -73,8 +73,8 @@
   border-radius: 9999px;
   border: 1px solid #000000;
   background-color: var(--bg-offwhite, #faf9f6);
-  font-family: var(--font-playfair), serif;
-  font-weight: 700;
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 400;
   font-style: normal;
   font-size: 13px;
   letter-spacing: 0.06em;
@@ -112,8 +112,8 @@
 }
 
 .sortLabel {
-  font-family: var(--font-playfair), serif;
-  font-weight: 700;
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 400;
   font-style: normal;
   font-size: 12px;
   text-transform: uppercase;
@@ -134,8 +134,8 @@
   border-radius: 8px;
   border: 1px solid #ddd;
   background-color: white;
-  font-family: var(--font-playfair), serif;
-  font-weight: 700;
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 400;
   font-style: normal;
   font-size: 14px;
   color: #111;
@@ -224,9 +224,9 @@
   .pill {
     height: 36px;
     padding: 0 16px;
-    font-family: var(--font-playfair), serif;
+    font-family: var(--font-inter), sans-serif;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 400;
     font-style: normal;
     letter-spacing: 0.05em;
   }

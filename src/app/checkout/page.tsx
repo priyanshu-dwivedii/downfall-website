@@ -649,7 +649,7 @@ export default function CheckoutPage() {
                               Colour: {item.variantName} &nbsp;|&nbsp; Base Size: {item.size} &nbsp;|&nbsp; Qty: {item.quantity}
                             </p>
                             {item.customMeasurements && (
-                              <p style={{ fontSize: '12px', color: '#8b5e34', margin: '4px 0 0 0', fontWeight: 700 }}>
+                              <p style={{ fontSize: '12px', color: '#8b5e34', margin: '4px 0 0 0', fontWeight: 400 }}>
                                 Bespoke Measurements: Waist {item.customMeasurements.waist} {item.customMeasurements.unit}, Garment Outseam {item.customMeasurements.outseam} {item.customMeasurements.unit}
                               </p>
                             )}
@@ -967,7 +967,7 @@ export default function CheckoutPage() {
               <div className={styles.summaryTotals}>
                 {isMixedCart ? (
                   <>
-                    <p style={{ fontSize: '12px', color: '#8b5e34', margin: '0 0 10px 0', fontWeight: 700 }}>
+                    <p style={{ fontSize: '12px', color: '#8b5e34', margin: '0 0 10px 0', fontWeight: 400 }}>
                       Mixed Currency Order: Items are invoiced in their respective catalog currencies.
                     </p>
                     {formattedSubtotals.map((fs) => (

@@ -43,6 +43,7 @@
 }
 
 .cardHeading {
+  font-family: var(--font-oswald), sans-serif;
   font-size: 32px;
   font-weight: 700 !important;
   font-style: normal !important;
@@ -57,14 +58,14 @@
   text-transform: uppercase;
   margin: 0;
   text-align: left;
-  font-weight: 700 !important;
+  font-weight: 400 !important;
   font-style: normal !important;
 }
 
 .exploreBtn {
   font-size: 12px;
   letter-spacing: 0.1em;
-  font-weight: 700 !important;
+  font-weight: 400 !important;
   font-style: normal !important;
   border: 1px solid #FFFFFF;
   padding: 12px 24px;

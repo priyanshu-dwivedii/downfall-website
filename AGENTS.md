@@ -9,8 +9,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 <!-- END:nextjs-agent-rules -->
 
 # DOWNFALL Typography System
-Follow these strict typography rules across all components:
-- **Headings**: Playfair Display Bold Italic (font-weight: 700, font-style: italic).
-- **Subheadings and supporting subtitles**: Playfair Display Regular (font-weight: 400, font-style: normal).
-- **All other text**: Playfair Display Bold (font-weight: 700, font-style: normal). This includes paragraphs, navigation, buttons, prices, labels, breadcrumbs, disclaimers, and form controls.
-- **NEVER** use Montserrat, system-ui, Arial, Helvetica, or sans-serif. Always rely on the global Playfair Display setup in globals.css.
+Follow these strict typography rules across all storefront components:
+- **Headings**: Oswald Bold (font-weight: 700, font-style: normal).
+- **All normal storefront text**: Inter Regular (font-weight: 400, font-style: normal). This applies to body copy, descriptions, supporting text, navigation links, button labels, pills, prices, badges, product metadata, form labels/inputs/placeholders, review text, cloud badge text, footer links, and disclaimers.
+- **Admin Dashboard**: Retains the existing system unchanged.
+- Animated text spans must inherit parent font and weight without overriding.

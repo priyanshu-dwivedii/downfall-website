@@ -118,7 +118,7 @@ export default function CartPage() {
             
             {isMixedCart ? (
               <>
-                <p style={{ fontSize: '12px', color: '#8b5e34', margin: '0 0 12px 0', fontWeight: 700 }}>
+                <p style={{ fontSize: '12px', color: '#8b5e34', margin: '0 0 12px 0', fontWeight: 400 }}>
                   Notice: Your bag contains garments priced in different currencies (INR and USD). Subtotals are calculated and displayed separately.
                 </p>
                 {formattedSubtotals.map((fs) => (

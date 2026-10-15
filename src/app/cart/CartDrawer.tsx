@@ -152,7 +152,7 @@ export default function CartDrawer() {
                       </div>
                       <p className={styles.itemVariant}>{item.variantName} / {item.size}</p>
                       {item.customMeasurements && (
-                        <p style={{ fontSize: '11px', color: '#555555', marginTop: '2px', fontWeight: 700 }}>
+                        <p style={{ fontSize: '11px', color: '#555555', marginTop: '2px', fontWeight: 400 }}>
                           Waist: {item.customMeasurements.waist} {item.customMeasurements.unit} &bull; Outseam: {item.customMeasurements.outseam} {item.customMeasurements.unit}
                         </p>
                       )}
@@ -196,7 +196,7 @@ export default function CartDrawer() {
             <div className={styles.footer}>
               {isMixedCart ? (
                 <div style={{ marginBottom: '14px' }}>
-                  <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#777', marginBottom: '6px', fontWeight: 700 }}>
+                  <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#777', marginBottom: '6px', fontWeight: 400 }}>
                     Mixed Currency Bag
                   </div>
                   {formattedSubtotals.map((fs) => (

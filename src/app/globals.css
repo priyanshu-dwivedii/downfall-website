@@ -29,21 +29,36 @@ body {
   flex-direction: column;
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-playfair), serif;
-  font-weight: 700;
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 400;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6, .heading {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-oswald), sans-serif;
   font-weight: 700;
-  font-style: italic;
+  font-style: normal;
 }
 
-input, button, textarea, select, a, p, span, div {
-  font-family: var(--font-playfair), serif;
+span, strong, em, b, i {
+  font-family: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+}
+
+input, button, textarea, select, a, p, div {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Ensure animated heading spans and any children inside headings inherit Oswald Bold */
+h1 *, h2 *, h3 *, h4 *, h5 *, h6 *, .heading * {
+  font-family: inherit;
+  font-weight: inherit;
+  font-style: inherit;
 }
 
 * {

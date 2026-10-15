@@ -370,7 +370,7 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
                   fontSize: '12px',
                   color: '#ad6800',
                   lineHeight: 1.5,
-                  fontWeight: 700,
+                  fontWeight: 400,
                 }}
                 role="alert"
                 aria-label="Image correction flag"
@@ -462,7 +462,7 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
                   backgroundColor: '#ffffff',
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                    <span style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                    <span style={{ fontSize: '13px', fontWeight: 400, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                       CUSTOM MEASUREMENTS
                     </span>
                     <div style={{ display: 'inline-flex', border: '1px solid #111111' }}>
@@ -472,7 +472,7 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
                         style={{
                           padding: '4px 10px',
                           fontSize: '11px',
-                          fontWeight: 700,
+                          fontWeight: 400,
                           backgroundColor: customUnit === 'in' ? '#111111' : '#ffffff',
                           color: customUnit === 'in' ? '#ffffff' : '#111111',
                           border: 'none',
@@ -488,7 +488,7 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
                         style={{
                           padding: '4px 10px',
                           fontSize: '11px',
-                          fontWeight: 700,
+                          fontWeight: 400,
                           backgroundColor: customUnit === 'cm' ? '#111111' : '#ffffff',
                           color: customUnit === 'cm' ? '#ffffff' : '#111111',
                           border: 'none',
@@ -503,7 +503,7 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
 
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     <div>
-                      <label htmlFor="waist-circ-input" style={{ display: 'block', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '6px' }}>
+                      <label htmlFor="waist-circ-input" style={{ display: 'block', fontSize: '11px', fontWeight: 400, textTransform: 'uppercase', marginBottom: '6px' }}>
                         Waist circumference ({customUnit}) *
                       </label>
                       <input
@@ -519,7 +519,7 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
                           width: '100%',
                           padding: '8px 10px',
                           fontSize: '13px',
-                          fontWeight: 700,
+                          fontWeight: 400,
                           border: measurementError && !waistMeasurement.trim() ? '1px solid #c00' : '1px solid #111111',
                           backgroundColor: '#fafafa',
                           boxSizing: 'border-box',
@@ -528,7 +528,7 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
                       />
                     </div>
                     <div>
-                      <label htmlFor="outseam-input" style={{ display: 'block', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '6px' }}>
+                      <label htmlFor="outseam-input" style={{ display: 'block', fontSize: '11px', fontWeight: 400, textTransform: 'uppercase', marginBottom: '6px' }}>
                         Requested garment outseam ({customUnit}) *
                       </label>
                       <input
@@ -544,7 +544,7 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
                           width: '100%',
                           padding: '8px 10px',
                           fontSize: '13px',
-                          fontWeight: 700,
+                          fontWeight: 400,
                           border: measurementError && !outseamMeasurement.trim() ? '1px solid #c00' : '1px solid #111111',
                           backgroundColor: '#fafafa',
                           boxSizing: 'border-box',
@@ -569,7 +569,7 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
                   )}
 
                   {measurementError && (
-                    <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#c00000', fontWeight: 700 }} role="alert">
+                    <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#c00000', fontWeight: 400 }} role="alert">
                       {measurementError}
                     </p>
                   )}

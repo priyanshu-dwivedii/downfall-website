@@ -35,6 +35,9 @@
 }
 
 .heading {
+  font-family: var(--font-oswald), sans-serif;
+  font-weight: 700;
+  font-style: normal;
   font-size: clamp(40px, 5.5vw, 62px);
   color: #111111;
   margin: 0 0 24px 0;
@@ -185,7 +188,8 @@
   position: relative;
   z-index: 1;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 400;
+  font-style: normal;
   color: #111111;
   padding: 0 24px;
   line-height: 1.2;

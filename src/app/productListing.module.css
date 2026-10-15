@@ -16,10 +16,10 @@
 }
 
 .heading {
-
+  font-family: var(--font-oswald), sans-serif;
   font-size: 48px;
   font-weight: 700;
-  font-style: italic;
+  font-style: normal;
   letter-spacing: normal;
   margin: 0;
 }

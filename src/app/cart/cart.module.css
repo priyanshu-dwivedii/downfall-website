@@ -18,8 +18,10 @@
 }
 
 .title {
-
+  font-family: var(--font-oswald), sans-serif;
   font-size: 32px;
+  font-weight: 700;
+  font-style: normal;
   letter-spacing: 0.05em;
   margin-bottom: 32px;
   text-transform: uppercase;
@@ -39,7 +41,7 @@
   padding: 16px 32px;
 
   font-size: 13px;
- font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
@@ -104,8 +106,10 @@
   gap: 16px;
 }
 
-.itemName { font-style: normal !important; font-weight: 700 !important;
-
+.itemName {
+  font-family: var(--font-inter), sans-serif;
+  font-style: normal !important;
+  font-weight: 400 !important;
   font-size: 18px;
   color: #111;
   text-decoration: none;
@@ -218,8 +222,10 @@
 }
 
 .summaryTitle {
-
+  font-family: var(--font-oswald), sans-serif;
   font-size: 18px;
+  font-weight: 700;
+  font-style: normal;
   letter-spacing: 0.05em;
   margin: 0 0 24px 0;
   text-transform: uppercase;
@@ -241,7 +247,7 @@
   justify-content: space-between;
 
   font-size: 16px;
- font-weight: 700;
+  font-weight: 400;
   color: #111;
   margin: 24px 0;
   padding-top: 24px;
@@ -256,7 +262,7 @@
   border: 1px solid #111;
   padding: 16px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.1em;
   text-align: center;
   text-decoration: none;
@@ -314,7 +320,10 @@
     gap: 16px;
   }
   
-  .itemName { font-style: normal !important; font-weight: 700 !important;
+  .itemName {
+    font-family: var(--font-inter), sans-serif;
+    font-style: normal !important;
+    font-weight: 400 !important;
     font-size: 16px;
   }
   
