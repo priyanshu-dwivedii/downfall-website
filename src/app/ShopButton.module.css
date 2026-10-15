@@ -51,16 +51,18 @@
   border-color: #ffffff;
 }
 
-/* Hover/Focus swap animation */
+/* Hover/Focus/Active swap animation */
 .ctaGroup:hover .textPill,
-.ctaGroup:focus-visible .textPill {
+.ctaGroup:focus-visible .textPill,
+.ctaGroup:active .textPill {
   transform: translateX(68px); /* 56px + 12px gap */
 }
 
 .ctaGroup:hover .iconCircle,
-.ctaGroup:focus-visible .iconCircle {
+.ctaGroup:focus-visible .iconCircle,
+.ctaGroup:active .iconCircle {
   /* Move left by textPill width + 12px gap */
-  transform: translateX(calc((var(--pill-width) + 12px) * -1));
+  transform: translateX(calc((var(--pill-width, 240px) + 12px) * -1));
 }
 
 .textPill {
@@ -74,11 +76,14 @@
   background-color: #f8f8f8;
   border: 1px solid #000000;
 
+  font-family: var(--font-playfair), serif;
   font-size: 15px;
   font-weight: 700;
+  font-style: normal;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   white-space: nowrap;
+  box-sizing: border-box;
   transition: background-color 0.25s ease-in-out, transform 0.35s ease-in-out;
 }
 
@@ -92,27 +97,64 @@
   border-radius: 50%;
   background-color: #f8f8f8;
   border: 1px solid #000000;
+  box-sizing: border-box;
   transition: background-color 0.25s ease-in-out, transform 0.35s ease-in-out, color 0.25s ease-in-out, border-color 0.25s ease-in-out;
 }
 
-@media (max-width: 480px) {
-  .textPill {
-    padding: 0 24px;
-    font-size: 13px;
-    letter-spacing: 0.05em;
-  }
+.iconCircle svg {
+  display: block;
+  width: 24px;
+  height: 24px;
 }
 
-@media (max-width: 360px) {
+/* Compact pill CTA styling for mobile up to 768px */
+@media (max-width: 768px) {
+  .ctaGroup {
+    gap: 8px;
+  }
+
+  /* Recalculate swap distances for mobile: 44px arrow circle + 8px gap = 52px */
+  .ctaGroup:hover .textPill,
+  .ctaGroup:focus-visible .textPill,
+  .ctaGroup:active .textPill {
+    transform: translateX(52px);
+  }
+
+  .ctaGroup:hover .iconCircle,
+  .ctaGroup:focus-visible .iconCircle,
+  .ctaGroup:active .iconCircle {
+    /* Move left by textPill width + 8px gap */
+    transform: translateX(calc((var(--pill-width, 190px) + 8px) * -1));
+  }
+
   .textPill {
-    padding: 0 16px;
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 22px;
     font-size: 12px;
+    font-weight: 700;
+    font-style: normal;
     letter-spacing: 0.05em;
+    width: auto;
+    max-width: calc(100vw - 44px - 8px - 32px);
+  }
+
+  .iconCircle {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .iconCircle svg {
+    width: 18px;
+    height: 18px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .textPill, .iconCircle {
     transition: none;
+    transform: none !important;
   }
 }

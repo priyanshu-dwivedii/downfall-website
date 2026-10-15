@@ -30,7 +30,7 @@ export default function ShopButton({ text = "SHOP THE COLLECTION", href = "/coll
       <Link 
         href={href} 
         className={styles.ctaGroup}
-        style={{ '--pill-width': `${pillWidth}px` } as React.CSSProperties}
+        style={pillWidth > 0 ? ({ '--pill-width': `${pillWidth}px` } as React.CSSProperties) : undefined}
       >
         <div className={styles.textPill} ref={pillRef}>
           {text}
