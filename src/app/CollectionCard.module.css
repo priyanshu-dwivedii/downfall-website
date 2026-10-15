@@ -43,7 +43,7 @@
 }
 
 .cardHeading {
-  font-family: var(--font-oswald), sans-serif;
+  font-family: var(--font-playfair), serif;
   font-size: 32px;
   font-weight: 700 !important;
   font-style: normal !important;

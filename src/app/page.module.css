@@ -130,7 +130,7 @@
   font-weight: 400;
 }
 
-.tagline, .categoryLabel, .bottomStrapline {
+.categoryLabel, .bottomStrapline {
   font-weight: 400;
 }
 
@@ -149,18 +149,29 @@
 }
 
 /* Main Titles */
-.mainTitle {
-  font-family: var(--font-oswald), sans-serif;
-  font-style: normal;
-  font-size: 5.5vw;
+.mainTitle,
+.mainTitle * {
+  font-family: var(--font-playfair), serif;
+  font-style: italic;
   font-weight: 700;
+}
+
+.mainTitle {
+  font-size: 5.5vw;
   letter-spacing: 0.05em;
   margin: 0 0 24px 0;
   line-height: 1;
   white-space: nowrap;
 }
 
-.tagline { font-weight: 400; font-style: normal;
+.tagline,
+.tagline * {
+  font-family: var(--font-playfair), serif;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.tagline {
   font-size: 1.2vw;
   letter-spacing: 0.25em;
   margin: 0;
@@ -269,7 +280,7 @@
   
   .typographyGroup { top: 2%; margin-top: 20px; } /* Shifted upward approx 70px overall compared to 6% on 768px height */
   .mainTitle { margin-bottom: 32px; font-size: 82px; line-height: 1; }
-  .tagline { font-weight: 400; font-style: normal; font-size: 17px; line-height: 1; margin: 0; }
+  .tagline { font-size: 17px; line-height: 1; margin: 0; }
   
   /* Figures placed relative to the new floor height */
   /* Width restored to ~18% so container width no longer drastically constrains the height */
@@ -286,7 +297,7 @@
 
 @media (min-width: 1440px) {
   .categoryLabel, .bottomStrapline { font-size: 14px; }
-  .tagline { font-weight: 400; font-style: normal; font-size: 17px; }
+  .tagline { font-size: 17px; }
   .mainTitle { font-size: 82px; }
 }
 
@@ -294,7 +305,7 @@
   /* Ensure readability on smaller widths using clamp for lower bounds */
 
   .mainTitle { font-size: clamp(28px, 6.5vw, 54px); }
-  .tagline { font-weight: 400; font-style: normal; font-size: clamp(10px, 1.8vw, 16px); }
+  .tagline { font-size: clamp(10px, 1.8vw, 16px); }
   
   /* 
    * STRICT COMPOSITION (current)
@@ -311,7 +322,7 @@
 @media (max-width: 480px) {
 
   .mainTitle { font-size: clamp(28px, 8.5vw, 54px); }
-  .tagline { font-weight: 400; font-style: normal; font-size: clamp(10px, 2.5vw, 16px); }
+  .tagline { font-size: clamp(10px, 2.5vw, 16px); }
   
   /* 
    * STRICT COMPOSITION (current)
@@ -329,7 +340,7 @@
   
   .bottomStrapline { font-size: clamp(9px, 2vw, 14px); letter-spacing: 0.2em; }
 
-  .tagline { font-weight: 400; font-style: normal; letter-spacing: 0.2em; }
+  .tagline { letter-spacing: 0.2em; }
 }
 
 /* Mobile Hero Flow Layout */

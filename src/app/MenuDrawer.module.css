@@ -22,10 +22,11 @@
   background: none;
   border: none;
   color: #ffffff;
-  font-family: inherit;
+  font-family: var(--font-playfair), serif;
+  font-style: normal;
   font-size: 14px;
   letter-spacing: 0.1em;
-  font-weight: 400;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -58,9 +59,9 @@
 }
 
 .navLink {
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-playfair), serif;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   font-size: clamp(32px, 4.8vw, 51px);
   color: #ffffff;
   text-decoration: none;

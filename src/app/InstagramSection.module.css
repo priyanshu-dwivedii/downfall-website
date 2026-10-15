@@ -19,10 +19,10 @@
 }
 
 .sectionHeading {
-  font-family: var(--font-oswald), sans-serif;
+  font-family: var(--font-playfair), serif;
   font-size: 48px;
   font-weight: 700;
-  font-style: normal;
+  font-style: italic;
   letter-spacing: normal;
   margin: 0 0 8px 0;
 }
