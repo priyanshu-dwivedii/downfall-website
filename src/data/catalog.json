@@ -403,7 +403,7 @@
     "id": "draft_cocoa_skater_denim",
     "slug": "90s-retro-cocoa-skater-denim",
     "name": "90s Retro Cocoa Skater Denim",
-    "description": "Overview:\n1990s retro cocoa denim jeans featuring a high rise and a relaxed wide-leg fit.\n\nKey Features:\n• Fabric: Lightweight 10oz denim\n• Fit: Relaxed wide-leg fit\n• Rise: High rise\n• Customisation: Bespoke waist and length customisation\n\nSize & Fit Information:\n• Model Height: 6'4\"\n• Reference Garment Outseam: 47 inches\n• Fit Note: The 6'4\" model height and 47-inch outseam reflect reference garment specifications and are not universal sizing defaults. Bespoke waist and length customisation is supported.",
+    "description": "Product Overview\n• Design: Inspired by the easy proportions of retro denim, featuring a classic cocoa brown finish.\n• Rise: High-rise cut for a defined, comfortable waistline.\n• Color: Cocoa brown—a versatile, effortless brown shade.\n\n🧵 Bespoke Material & Fit\n• Fabric: Premium cotton denim Lycra blend offering the perfect mix of structure and comfort.\n• Fit: Fully bespoke and customizable—designed exclusively for you.\n• Sizing: Tailored to your exact preferences, custom waist circumference, and garment outseam measurements.",
     "price": 1649,
     "currency": "INR",
     "category": "bottomwear",
@@ -438,13 +438,13 @@
     "productionTime": "",
     "careInstructions": "",
     "referenceNote": "47 inches outseam is a reference garment specification modeled at 6'4\", not a default. Please specify your desired garment outseam. Customer values remain blank by default.",
-    "version": 1
+    "version": 4
   },
   {
     "id": "draft_indigo_drape_jeans",
     "slug": "classic-indigo-drape-jeans",
     "name": "Classic Indigo Drape Jeans",
-    "description": "Overview:\nUpgrade your daily rotation with a classic indigo finish and a relaxed, wide-leg silhouette. Inspired by the easy proportions of retro denim, these jeans bring a flowing drape and understated character to everyday dressing.\n\nKey Features:\n• Classic Indigo Colour: A versatile blue shade that pairs effortlessly with everyday essentials.\n• Relaxed Wide-Leg Silhouette: A generous cut for an easy, laid-back look.\n• High-Rise Cut: A defined waist balanced by a loose leg profile.\n• Bespoke Fit: Made to order with custom waist and garment-length measurements.\n\nSize & Fit:\n• Fit: Relaxed, wide-leg fit\n• Rise: High rise\n• Colour: Indigo\n• Sizing: Custom waist circumference and garment outseam\n• Fulfilment: Made to order",
+    "description": "Product Overview\n• Design: Inspired by the easy proportions of retro denim, featuring a classic indigo finish.\n• Rise: High-rise cut for a defined, comfortable waistline.\n• Color: Classic Indigo—a versatile, effortless blue shade.\n\n🧵 Bespoke Material & Fit\n• Fabric: Premium cotton denim Lycra blend offering the perfect mix of structure and comfort.\n• Fit: Fully bespoke and customizable—designed exclusively for you.\n• Sizing: Tailored to your exact preferences, custom waist circumference, and garment outseam measurements.",
     "price": 1799,
     "currency": "INR",
     "category": "bottomwear",
@@ -479,7 +479,7 @@
     "productionTime": "",
     "careInstructions": "",
     "referenceNote": "Please specify your desired garment outseam and waist circumference. Customer values remain blank by default.",
-    "version": 1
+    "version": 4
   },
   {
     "id": "draft_beige_wide_leg_joggers",

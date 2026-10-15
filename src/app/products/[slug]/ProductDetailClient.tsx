@@ -15,6 +15,93 @@ interface Props {
   relatedProducts?: Product[];
 }
 
+function ProductDescriptionRenderer({ description }: { description?: string }) {
+  if (!description) return null;
+
+  const lines = description.split('\n');
+  const elements: React.ReactNode[] = [];
+  let currentList: React.ReactNode[] = [];
+  let keyIndex = 0;
+
+  const flushList = () => {
+    if (currentList.length > 0) {
+      elements.push(
+        <ul key={`ul-${keyIndex++}`} className={styles.descriptionList}>
+          {currentList}
+        </ul>
+      );
+      currentList = [];
+    }
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    const rawLine = lines[i];
+    const line = rawLine.trim();
+
+    if (!line) {
+      flushList();
+      continue;
+    }
+
+    if (line.startsWith('• ') || line.startsWith('- ') || line.startsWith('* ')) {
+      const content = line.replace(/^[•\-*]\s*/, '').trim();
+      const colonIndex = content.indexOf(':');
+
+      if (colonIndex !== -1) {
+        const label = content.slice(0, colonIndex + 1).trim();
+        const text = content.slice(colonIndex + 1).trim();
+        currentList.push(
+          <li key={`li-${keyIndex++}`} className={styles.descriptionItem}>
+            <span className={styles.descriptionBullet} aria-hidden="true">•</span>
+            <span className={styles.descriptionItemContent}>
+              <strong className={styles.descriptionLabel}>{label}</strong>
+              {text ? <span className={styles.descriptionText}> {text}</span> : null}
+            </span>
+          </li>
+        );
+      } else {
+        currentList.push(
+          <li key={`li-${keyIndex++}`} className={styles.descriptionItem}>
+            <span className={styles.descriptionBullet} aria-hidden="true">•</span>
+            <span className={styles.descriptionItemContent}>
+              <span className={styles.descriptionText}>{content}</span>
+            </span>
+          </li>
+        );
+      }
+    } else {
+      flushList();
+
+      const isHeading =
+        line === 'Product Overview' ||
+        line.startsWith('🧵') ||
+        line === 'Overview:' ||
+        line === 'Key Features:' ||
+        line === 'Size & Fit:' ||
+        line === 'Size & Fit Information:' ||
+        (line.length < 50 && (line.endsWith(':') || !line.endsWith('.')));
+
+      if (isHeading) {
+        elements.push(
+          <h3 key={`h-${keyIndex++}`} className={styles.descriptionSectionHeading}>
+            {line}
+          </h3>
+        );
+      } else {
+        elements.push(
+          <p key={`p-${keyIndex++}`} className={styles.descriptionParagraph}>
+            {line}
+          </p>
+        );
+      }
+    }
+  }
+
+  flushList();
+
+  return <div className={styles.descriptionContainer}>{elements}</div>;
+}
+
 export default function ProductDetailClient({ product, initialColor, relatedProducts: propRelated }: Props) {
   const { items, addToCart, totalQuantity, isMounted, openCart } = useCart();
   const { isMenuOpen, openMenu, closeMenu } = useMenu();
@@ -393,7 +480,9 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
               )}
             </p>
             
-            <p className={styles.productDescription}>{product.description}</p>
+            <div className={styles.productDescription}>
+              <ProductDescriptionRenderer description={product.description} />
+            </div>
 
             <div className={styles.selectionGroup}>
               <h2 className={styles.selectionLabel}>
@@ -681,7 +770,7 @@ export default function ProductDetailClient({ product, initialColor, relatedProd
                 </button>
                 {openAccordion === 'description' && (
                   <div className={styles.accordionContent}>
-                    <p>{product.description}</p>
+                    <ProductDescriptionRenderer description={product.description} />
                   </div>
                 )}
               </div>

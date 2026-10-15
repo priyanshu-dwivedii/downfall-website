@@ -361,7 +361,92 @@
   font-size: 14px;
   line-height: 1.6;
   color: #444444;
-  margin: 0 0 40px 0;
+  margin: 0 0 32px 0;
+}
+
+/* Structured Product Description Styles */
+.descriptionContainer {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #444444;
+}
+
+.descriptionSectionHeading {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 14px;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  color: #111111;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+
+.descriptionSectionHeading:first-child {
+  margin-top: 0;
+}
+
+.descriptionList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+}
+
+.descriptionList:last-child {
+  margin-bottom: 0;
+}
+
+.descriptionItem {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #444444;
+}
+
+.descriptionItem:last-child {
+  margin-bottom: 0;
+}
+
+.descriptionBullet {
+  margin-right: 8px;
+  user-select: none;
+  color: #111111;
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  flex-shrink: 0;
+}
+
+.descriptionItemContent {
+  flex: 1;
+}
+
+.descriptionLabel {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  color: #111111;
+}
+
+.descriptionText {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  color: #444444;
+}
+
+.descriptionParagraph {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #444444;
+  margin-bottom: 12px;
 }
 
 /* Selection Groups */
